@@ -1,0 +1,4 @@
+
+* NCL-MODE for Ncar Command Language
+  This is downloaded from
+  http://www.ncl.ucar.edu/Applications/Files/ncl.el. 
