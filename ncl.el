@@ -70,12 +70,12 @@
 
 ;; 2) in your .emacs or .xemacs/custom.el file, add and properly modify //
 ;; the following (without the comments):
-  ;(setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
-  ;(autoload 'ncl-mode "LOCATION/ncl.el")
-  ;(add-hook 'ncl-mode-hook
-  ;      (lambda ()
-  ;       )
-  ;   )
+;; (setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
+;; (autoload 'ncl-mode "LOCATION/ncl.el")
+;; (add-hook 'ncl-mode-hook
+;;      (lambda ()
+;;       )
+;;   )
 
 ;; 3) setup display colors for font-lock.  You may also want to set default
 ;; foreground and background colors.  Colors can be Xwindows names or #rrggbb.
@@ -101,19 +101,19 @@
   "*List of functions to call when entering ncl mode.")
 
 (defvar ncl-font-lock-keywords
-   '(
+  '(
 
 
     ;; comments. the period (.) means a ; and any character after it except a
     ;; newline while the asterisk (*) means repeated all occurrences.
 
-    ; this is only for XEmacs!
+    ;; this is only for XEmacs!
     ("\\(;.*\\)" 1 font-lock-comment-face)
 
 
     ;; strings.  .*? means the shortest possible group of characters within
     ;; the quotes (only on one line)
-    ;("\\(\".*?\"\\)" 1 font-lock-string-face )
+    ;; ("\\(\".*?\"\\)" 1 font-lock-string-face )
 
     ;; NCL keywords
     ("\\<\\(begin\\|break\\|byte\\|character\\|continue\\|create\\|defaultapp\\|delete\\|do\\|double\\|else\\|end\\|enumeric\\|external\\|false\\|file\\|float\\|function\\|getvalues\\|graphic\\|if\\|integer\\|load\\|local\\|logical\\|long\\|Missing\\|new\\|noparent\\|numeric\\|procedure\\|quit\\|record\\|return\\|setvalues\\|short\\|snumeric\\|string\\|then\\|true\\|undef\\|ubyte\\|uint\\|uint64\\|ulong\\|ushort\\|while\\|\\)\\>" 1 font-lock-keyword-face)
@@ -394,42 +394,42 @@ by an octal digit."
            (data (match-data))
            delim
            found)
-          (while  (< endq start)
-            ;; Find string start
-            ;; Don't find an octal constant beginning with a double quote
-            (if (re-search-forward "\"[^0-7]\\|'\\|\"$" eol 'lim)
-                ;; Find the string end. In NCL, two consecutive delimiters
-		;; after the start of a string act as an escape for the
-                ;; delimiter in the string. Two consecutive delimiters alone
-		;; (i.e., not after the start of a string) is the the
-		;; null string.
-                (progn
-                  ;; Move to position after quote
-                  (goto-char (1+ (match-beginning 0)))
-                  (setq bq (1- (point)))
-                  ;; Get the string delimiter
-                  (setq delim (char-to-string (preceding-char)))
-                  ;; Check for null string
-                  (if (looking-at delim)
-                      (progn (setq endq (point)) (forward-char 1))
-                    ;; Look for next unpaired delimiter
-                    (setq found (search-forward delim eol 'lim))
-                    (while (looking-at delim)
-                      (forward-char 1)
-                      (setq found (search-forward delim eol 'lim)))
-                    (if found
-                        (setq endq (- (point) 1))
-                      (setq endq (point)))
-                    ))
-              (progn (setq bq (point)) (setq endq (point)))))
-          (store-match-data data)
+      (while  (< endq start)
+        ;; Find string start
+        ;; Don't find an octal constant beginning with a double quote
+        (if (re-search-forward "\"[^0-7]\\|'\\|\"$" eol 'lim)
+            ;; Find the string end. In NCL, two consecutive delimiters
+            ;; after the start of a string act as an escape for the
+            ;; delimiter in the string. Two consecutive delimiters alone
+            ;; (i.e., not after the start of a string) is the the
+            ;; null string.
+            (progn
+              ;; Move to position after quote
+              (goto-char (1+ (match-beginning 0)))
+              (setq bq (1- (point)))
+              ;; Get the string delimiter
+              (setq delim (char-to-string (preceding-char)))
+              ;; Check for null string
+              (if (looking-at delim)
+                  (progn (setq endq (point)) (forward-char 1))
+                ;; Look for next unpaired delimiter
+                (setq found (search-forward delim eol 'lim))
+                (while (looking-at delim)
+                  (forward-char 1)
+                  (setq found (search-forward delim eol 'lim)))
+                (if found
+                    (setq endq (- (point) 1))
+                  (setq endq (point)))
+                ))
+          (progn (setq bq (point)) (setq endq (point)))))
+      (store-match-data data)
       ;; return string beginning position or nil
       (if (> start bq) bq))))
 
 
 (defun ncl-quoted ()
   "Returns t if point is in a comment or quoted string. nil otherwise."
-;  (or (ncl-in-comment) (ncl-in-quote)))
+  ;; (or (ncl-in-comment) (ncl-in-quote)))
   (or (ncl-in-quote)))
 
 (defun ncl-in-comment ()
@@ -481,47 +481,47 @@ whitespace. Returns 0 if the end-of-line follows the whitespace."
      ((ncl-look-at ncl-begin) 0)
      ;; calculate indent based on previous and current statements
      (t (let ((the-indent
-	      ;; calculate indent based on previous statement
-	      (save-excursion
-		(cond
-		 ;; retreive the previous statement
-		 ( (ncl-previous-statement) 0)
+               ;; calculate indent based on previous statement
+               (save-excursion
+                 (cond
+                  ;; retreive the previous statement
+                  ( (ncl-previous-statement) 0)
 
-		 ;; indent if previous statment is begin
-		 ((ncl-look-at ncl-begin t)
-		  (+ (ncl-current-statement-indent) ncl-main-block-indent))
+                  ;; indent if previous statment is begin
+                  ((ncl-look-at ncl-begin t)
+                   (+ (ncl-current-statement-indent) ncl-main-block-indent))
 
-		 ;; indent if previous statment is do
-		 ((ncl-look-at ncl-begin-do t)
-		  (+ (ncl-current-statement-indent) ncl-block-indent))
+                  ;; indent if previous statment is do
+                  ((ncl-look-at ncl-begin-do t)
+                   (+ (ncl-current-statement-indent) ncl-block-indent))
 
-		 ;; indent if previous statment is if
-		 ((ncl-look-at ncl-begin-if t)
-		  (+ (ncl-current-statement-indent) ncl-block-indent))
+                  ;; indent if previous statment is if
+                  ((ncl-look-at ncl-begin-if t)
+                   (+ (ncl-current-statement-indent) ncl-block-indent))
 
-		 ;; indent if previous statment is else
-		 ((ncl-look-at ncl-else t)
-		  (+ (ncl-current-statement-indent) ncl-block-indent))
+                  ;; indent if previous statment is else
+                  ((ncl-look-at ncl-else t)
+                   (+ (ncl-current-statement-indent) ncl-block-indent))
 
-		 ((ncl-current-statement-indent))))))
-	  ;; adjust the indentation based on the current statement
-	  (cond
-	   ;; do loop
-	   ((ncl-look-at ncl-enddo t)
-	    (+ the-indent ncl-block-end))
-	   ;; if statement
-	   ((ncl-look-at ncl-endif t)
-	    (+ the-indent ncl-block-end))
-	   ;; else statement
-	   ((ncl-look-at ncl-else t)
-	    (+ the-indent ncl-block-end))
+                  ((ncl-current-statement-indent))))))
+          ;; adjust the indentation based on the current statement
+          (cond
+           ;; do loop
+           ((ncl-look-at ncl-enddo t)
+            (+ the-indent ncl-block-end))
+           ;; if statement
+           ((ncl-look-at ncl-endif t)
+            (+ the-indent ncl-block-end))
+           ;; else statement
+           ((ncl-look-at ncl-else t)
+            (+ the-indent ncl-block-end))
 
-	   ;; End block
-	   ((ncl-look-at ncl-end t)
-	    (+ the-indent ncl-main-block-end)) ;; end gets negative indent
-	   (the-indent))
+           ;; End block
+           ((ncl-look-at ncl-end t)
+            (+ the-indent ncl-main-block-end)) ;; end gets negative indent
+           (the-indent))
 
-	  )))))
+          )))))
 
 (defun ncl-indent-to (col &optional min)
   "Indent from point with spaces until column COL. Inserts space before
@@ -544,7 +544,7 @@ point."
   (if (or (looking-at ncl-no-change-comment)
           (if ncl-begin-line-comment
               (looking-at ncl-begin-line-comment)
-              (looking-at "^\;")))
+            (looking-at "^\;")))
       (current-column)
     (if (looking-at ncl-code-comment)
         (if (save-excursion (skip-chars-backward " \t") (bolp))
@@ -585,10 +585,10 @@ point."
           ;; indent the line
           (ncl-indent-left-margin (ncl-calculate-indent)))
         ;; Adjust parallel comment
-;        (end-of-line)
-;        (if (ncl-in-comment)
-;            (indent-for-comment))
-	))
+        ;; (end-of-line)
+        ;; (if (ncl-in-comment)
+        ;;     (indent-for-comment))
+        ))
     (goto-char mloc)
     ;; Get rid of marker
     (set-marker mloc nil)
@@ -598,12 +598,12 @@ point."
 ;;; the command to comment/uncomment text
 ;;;****************************************************************************
 (defun ncl-comment-dwim (arg)
-"Comment or uncomment current line or region in a smart way.
+  "Comment or uncomment current line or region in a smart way.
 For detail, see `comment-dwim'."
-   (interactive "*P")
-   (require 'newcomment)
-   (let ((deactivate-mark nil) (comment-start ";") (comment-end ""))
-     (comment-dwim arg)))
+  (interactive "*P")
+  (require 'newcomment)
+  (let ((deactivate-mark nil) (comment-start ";") (comment-end ""))
+    (comment-dwim arg)))
 
 ;;;****************************************************************************
 ;;; define ncl mode
@@ -614,7 +614,7 @@ For detail, see `comment-dwim'."
   (kill-all-local-variables)
   (setq major-mode 'ncl-mode)
   (setq mode-name "NCL")
-  (setq comment-add 1)			;default to `;;' in comment-region
+  (setq comment-add 1)          ;default to `;;' in comment-region
 
   ;; modify the keymap
   (define-key ncl-mode-map [remap comment-dwim] 'ncl-comment-dwim)
@@ -631,40 +631,41 @@ For detail, see `comment-dwim'."
 ;;;**************************
 ;;; these ensure syntax hightlighting
 ;;;**************************
-;; font-lock setup for various emacs: XEmacs, Emacs 19.29+, Emacs <19.29.
-;; taken from html-helper-mode, adapted to ncl
-  (cond	((string-match "XEmacs\\|Lucid" (emacs-version)) ; XEmacs/Lucid
-	 (put major-mode 'font-lock-keywords-case-fold-search t)
-	 (put major-mode 'font-lock-syntactic-keywords t)
+  ;; font-lock setup for various emacs: XEmacs, Emacs 19.29+, Emacs <19.29.
+  ;; taken from html-helper-mode, adapted to ncl
+  (cond ((string-match "XEmacs\\|Lucid" (emacs-version)) ; XEmacs/Lucid
+         (put major-mode 'font-lock-keywords-case-fold-search t)
+         (put major-mode 'font-lock-syntactic-keywords t)
          (put major-mode 'font-lock-maximum-decoration 2)
-	 )
+         )
         ;; not sure if this is correct
-	;; XEmacs (19.13, at least) guesses the rest correctly.
-	;; If any older XEmacs don't, then tell me.
-	;;
-	((string-lessp "19.28.89" emacs-version) ; Emacs 19.29 and later
-	 (make-local-variable 'font-lock-defaults)
-	 (setq font-lock-defaults '(ncl-font-lock-keywords nil t)))
-	;;
-	(t ; Emacs 19.28 and older
-	 (make-local-variable 'font-lock-keywords-case-fold-search)
-	 (make-local-variable 'font-lock-keywords)
-	 ;;(make-local-variable 'font-lock-no-comments)
-	 (setq font-lock-keywords-case-fold-search t)
-	 (setq font-lock-keywords ncl-font-lock-keywords)
-	 ;;(setq font-lock-no-comments t)
+        ;; XEmacs (19.13, at least) guesses the rest correctly.
+        ;; If any older XEmacs don't, then tell me.
+        ;;
+        ((string-lessp "19.28.89" emacs-version) ; Emacs 19.29 and later
+         (make-local-variable 'font-lock-defaults)
+         (setq font-lock-defaults '(ncl-font-lock-keywords nil t)))
+        ;;
+        (t ; Emacs 19.28 and older
+         (make-local-variable 'font-lock-keywords-case-fold-search)
+         (make-local-variable 'font-lock-keywords)
+         ;;(make-local-variable 'font-lock-no-comments)
+         (setq font-lock-keywords-case-fold-search t)
+         (setq font-lock-keywords ncl-font-lock-keywords)
+         ;;(setq font-lock-no-comments t)
          ))
 
   (font-lock-mode 1)
-;  (setq font-lock-maximum-decoration t)
-;  (make-local-variable 'font-lock-defaults)
-;  (setq font-lock-defaults 'ncl-keywords)
-;  (make-local-variable 'comment-start)
-;  (setq comment-start ";")
-; turn this on if debuging this code
-   (setq debug_on_error t)
+  ;;  (setq font-lock-maximum-decoration t)
+  ;;  (make-local-variable 'font-lock-defaults)
+  ;;  (setq font-lock-defaults 'ncl-keywords)
+  ;;  (make-local-variable 'comment-start)
+  ;;  (setq comment-start ";")
+  ;; turn this on if debuging this code
+  (setq debug_on_error t)
   (set-syntax-table ncl-mode-syntax-table)
   (run-hooks 'ncl-mode-hook)
   )
 ;;;************************************************************************
-  (provide 'ncl)
+(provide 'ncl)
+;;; ncl.el ends here
