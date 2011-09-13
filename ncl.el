@@ -614,6 +614,7 @@ For detail, see `comment-dwim'."
   (kill-all-local-variables)
   (setq major-mode 'ncl-mode)
   (setq mode-name "NCL")
+  (setq comment-add 1)			;default to `;;' in comment-region
 
   ;; modify the keymap
   (define-key ncl-mode-map [remap comment-dwim] 'ncl-comment-dwim)
