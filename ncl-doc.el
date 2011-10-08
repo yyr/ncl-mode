@@ -16,6 +16,21 @@
 
 ;;; code starts here
 
+;;; requires
+(require 'ncl)                          ; to bring all the
+                                        ; function/resources names
+
+;; Variables
+
+(define-minor-mode ncl-doc
+  "Minor mode to help to read on line documentation of ncl
+  functions and resources" nil )
+
+(defvar ncl-doc-mode-hook nil
+  "hook runs after enabling the ncl-doc-mode")
+
+(defvar ncl-doc-mode-map nil)
+
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here
