@@ -3,27 +3,27 @@
 ;********************************************
 ; September 20 2011
 ; Revision 0.34
-;  - Updated to include new functions, resources, and 
+;  - Updated to include new functions, resources, and
 ;    keywords added in NCL 6.0.0
-; 
+;
 ; Revision 0.33
-; Changes to 0.32 by T. Corti, ETH Zurich and David Brown, 
+; Changes to 0.32 by T. Corti, ETH Zurich and David Brown,
 ; Changes between 0.2 and 0.3 by C. Schreck and A. Srock, University at Albany
 ; Changes between 0.1 and 0.2 Provided by Heiko Klein of Norway
 
-; August 19 2003 Sylvia Murphy 
+; August 19 2003 Sylvia Murphy
 ; National Center for Atmospheric Research
-; Does text highlighting for NCL reserved words, built-in functions, 
+; Does text highlighting for NCL reserved words, built-in functions,
 ; gsn* functions, contributed and shea-util functions, text, and comments.
 ; Does automatic indenting between begin and end statments, and within
 ; do loops and if statements.
-; 
+;
 ; Emacs has a lot more power that these functions. I do not use that
 ; functionality, so i did not spend any more time trying to add abbreviations,
 ; special keymaps etc.
 ;
 ; Updates in version 0.32
-; Added Comment Handling (M-;). 
+; Added Comment Handling (M-;).
 ;  - Insert a comment at the end of the current line
 ;  - Alternatively comment/uncomment selected region
 ; Use syntactic fontification for comments and strings
@@ -47,7 +47,7 @@
 ;
 ; KNOWN PROBLEMS in version 0.32:
 ; 1) Comment Handling does not work in xemacs
-; 2) Comments may not fontify on file open in xemacs 
+; 2) Comments may not fontify on file open in xemacs
 ;
 ; KNOWN PROBLEMS in version 0.3:
 ; 1) Comments with embedded strings don't initially fontify properly, but
@@ -63,7 +63,7 @@
 ;    a) highlights only comments and text, and only after tabs
 ;    b) indentation appears to work
 ; 2) Does not work with xemacs
-; 3) Not all NCL built-in functions are highlighted. I listed MY favorite 
+; 3) Not all NCL built-in functions are highlighted. I listed MY favorite
 ;    ones.
 ; 4) Have not demonstrated how to change the indentation value in .emacs
 ; 5) The ncl-in-comment function does not work. Its calls are commented out.
@@ -76,9 +76,9 @@
 ; 2) in your .emacs or .xemacs/custom.el file, add and properly modify //
 ; the following (without the comments):
   ;(setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
-  ;(autoload 'ncl-mode "LOCATION/ncl.el") 
+  ;(autoload 'ncl-mode "LOCATION/ncl.el")
   ;(add-hook 'ncl-mode-hook
-  ;      (lambda ()  
+  ;      (lambda ()
   ;       )
   ;   )
 
@@ -89,7 +89,7 @@
 ;         (set-face-foreground font-lock-comment-face "FireBrick")
 ;     ; highlight strings
 ;         (set-face-foreground font-lock-string-face "Salmon")
-;     ; highlight keywords, array descriptors, and tests                             
+;     ; highlight keywords, array descriptors, and tests
 ;         (set-face-foreground font-lock-keyword-face "Purple")
 ;     ; highlight built-in functions
 ;         (set-face-foreground font-lock-builtin-face "Blue")
@@ -109,13 +109,13 @@
    '(
 
 
-    ;; comments. the period (.) means a ; and any character after it except a 
+    ;; comments. the period (.) means a ; and any character after it except a
     ;; newline while the asterisk (*) means repeated all occurrences.
 
     ; this is only for XEmacs!
     ("\\(;.*\\)" 1 font-lock-comment-face)
-	
- 
+
+
     ;; strings.  .*? means the shortest possible group of characters within
     ;; the quotes (only on one line)
     ;("\\(\".*?\"\\)" 1 font-lock-string-face )
@@ -135,6 +135,7 @@
     ("\\(\\.or\\.\\)" 1 font-lock-keyword-face )
     ("\\(\\.not\\.\\)" 1 font-lock-keyword-face )
     ("\\(\\.xor\\.\\)" 1 font-lock-keyword-face )
+    ("\\(\\\\\\\)" 1 font-lock-keyword-face )
 
     ;; gsn csm plot templates and special gsn functions
     ("\\<\\(gsn_add_annotation\\|gsn_add_polygon\\|gsn_add_polyline\\|gsn_add_polymarker\\|gsn_add_text\\|gsn_attach_plots\\|gsn_blank_plot\\|gsn_draw_coordinates\\|gsn_contour\\|gsn_contour_map\\|gsn_contour_shade\\|gsn_create_labelbar\\|gsn_create_legend\\|gsn_create_text\\|gsn_csm_attach_zonal_means\\|gsn_csm_blank_plot\\|gsn_csm_contour\\|gsn_csm_contour_map\\|gsn_csm_contour_map_ce\\|gsn_csm_contour_map_overlay\\|gsn_csm_contour_map_polar\\|gsn_csm_hov\\|gsn_csm_lat_time\\|gsn_csm_map\\|gsn_csm_map_ce\\|gsn_csm_map_polar\\|gsn_csm_pres_hgt\\|gsn_csm_pres_hgt_streamline\\|gsn_csm_pres_hgt_vector\\|gsn_csm_streamline\\|gsn_csm_streamline_contour_map\\|gsn_csm_streamline_contour_map_ce\\|gsn_csm_streamline_contour_map_polar\\|gsn_csm_streamline_map\\|gsn_csm_streamline_map_ce\\|gsn_csm_streamline_map_polar\\|gsn_csm_time_lat\\|gsn_csm_vector\\|gsn_csm_vector_map\\|gsn_csm_vector_map_ce\\|gsn_csm_vector_map_polar\\|gsn_csm_vector_scalar\\|gsn_csm_vector_scalar_map\\|gsn_csm_vector_scalar_map_ce\\|gsn_csm_vector_scalar_map_polar\\|gsn_csm_x2y\\|gsn_csm_x2y2\\|gsn_csm_xy\\|gsn_csm_xy2\\|gsn_csm_xy3\\|gsn_csm_y\\|gsn_define_colormap\\|gsn_draw_colormap\\|gsn_draw_named_colors\\|gsn_histogram\\|gsn_labelbar_ndc\\|gsn_legend_ndc\\|gsn_map\\|gsn_merge_colormaps\\|gsn_open_wks\\|gsn_panel\\|gsn_polygon\\|gsn_polygon_ndc\\|gsn_polyline\\|gsn_polyline_ndc\\|gsn_polymarker\\|gsn_polymarker_ndc\\|gsn_retrieve_colormap\\|gsn_reverse_colormap\\|gsn_streamline\\|gsn_streamline_map\\|gsn_streamline_scalar\\|gsn_streamline_scalar_map\\|gsn_table\\|gsn_text\\|gsn_text_ndc\\|gsn_vector\\|gsn_vector_map\\|gsn_vector_scalar\\|gsn_vector_scalar_map\\|gsn_xy\\|gsn_y\\|hsv2rgb\\|index\\|maximize_output\\|namedcolor2rgb\\|reset_device_coordinates\\|span_named_colors\\|\\)\\>" 1 font-lock-variable-name-face)
@@ -180,8 +181,8 @@
     ("\\<\\(ListGetType\\|ListSetType\\|NhlAddAnnotation\\|NhlAddData\\|NhlAddOverlay\\|NhlAddPrimitive\\|NhlAppGetDefaultParentId\\|NhlChangeWorkstation\\|NhlClassName\\|NhlClearWorkstation\\|NhlDataPolygon\\|NhlDataPolyline\\|NhlDataPolymarker\\|NhlDataToNDC\\|NhlDestroy\\|NhlDraw\\|NhlFrame\\|NhlFreeColor\\|NhlGetBB\\|NhlGetClassResources\\|NhlGetErrorObjectId\\|NhlGetNamedColorIndex\\|NhlGetParentId\\|NhlGetParentWorkstation\\|NhlGetWorkspaceObjectId\\|NhlIsAllocatedColor\\|NhlIsApp\\|NhlIsDataComm\\|NhlIsDataItem\\|NhlIsDataSpec\\|NhlIsTransform\\|NhlIsView\\|NhlIsWorkstation\\|NhlNDCPolygon\\|NhlNDCPolyline\\|NhlNDCPolymarker\\|NhlNDCToData\\|NhlName\\|NhlNewColor\\|NhlNewDashPattern\\|NhlNewMarker\\|NhlPalGetDefined\\|NhlRemoveAnnotation\\|NhlRemoveData\\|NhlRemoveOverlay\\|NhlRemovePrimitive\\|NhlSetColor\\|NhlSetDashPattern\\|NhlSetMarker\\|NhlUpdateData\\|NhlUpdateWorkstation\\|abs\\|acos\\|addfile\\|addfiles\\|all\\|angmom_atm\\|any\\|area_conserve_remap\\|area_hi2lores\\|asciiread\\|asciiwrite\\|asin\\|atan\\|atan2\\|attsetvalues\\|avg\\|betainc\\|bin_avg\\|bin_sum\\|cancor\\|cbinread\\|cbinwrite\\|cd_calendar\\|cd_inv_calendar\\|cdfbin_p\\|cdfbin_pr\\|cdfbin_s\\|cdfbin_xn\\|cdfchi_p\\|cdfchi_x\\|cdfgam_p\\|cdfgam_x\\|cdfnor_p\\|cdfnor_x\\|cdft_p\\|cdft_t\\|ceil\\|center_finite_diff\\|center_finite_diff_n\\|cfftb\\|cfftf\\|cfftf_frq_reorder\\|charactertodouble\\|charactertofloat\\|charactertointeger\\|charactertolong\\|charactertoshort\\|charactertostring\\|chartodouble\\|chartofloat\\|chartoint\\|chartointeger\\|chartolong\\|chartoshort\\|chartostring\\|chiinv\\|clear\\|conform\\|conform_dims\\|cos\\|cosh\\|covcorm\\|craybinnumrec\\|craybinrecread\\|csa1\\|csa1d\\|csa1s\\|csa1x\\|csa1xd\\|csa1xs\\|csa2\\|csa2d\\|csa2l\\|csa2ld\\|csa2ls\\|csa2lx\\|csa2lxd\\|csa2lxs\\|csa2s\\|csa2x\\|csa2xd\\|csa2xs\\|csa3\\|csa3d\\|csa3l\\|csa3ld\\|csa3ls\\|csa3lx\\|csa3lxd\\|csa3lxs\\|csa3s\\|csa3x\\|csa3xd\\|csa3xs\\|csc2s\\|csgetp\\|css2c\\|cssetp\\|cssgrid\\|csstri\\|csvoro\\|cumsum\\|cz2ccm\\|datatondc\\|day_of_week\\|day_of_year\\|days_in_month\\|default_fillvalue\\|delete\\|destroy\\|dewtemp_trh\\|dim_avg\\|dim_avg_n\\|dim_avg_wgt\\|dim_avg_wgt_n\\|dim_cumsum\\|dim_cumsum_n\\|dim_gbits\\|dim_max\\|dim_max_n\\|dim_median\\|dim_median_n\\|dim_min\\|dim_min_n\\|dim_num\\|dim_num_n\\|dim_numrun_n\\|dim_pqsort\\|dim_pqsort_n\\|dim_product\\|dim_product_n\\|dim_rmsd\\|dim_rmsd_n\\|dim_rmvmean\\|dim_rmvmean_n\\|dim_rmvmed\\|dim_rmvmed_n\\|dim_standardize\\|dim_standardize_n\\|dim_stat4\\|dim_stat4_n\\|dim_stddev\\|dim_stddev_n\\|dim_sum\\|dim_sum_n\\|dim_sum_wgt\\|dim_sum_wgt_n\\|dim_variance\\|dim_variance_n\\|dimsizes\\|doubletobyte\\|doubletochar\\|doubletocharacter\\|doubletofloat\\|doubletoint\\|doubletointeger\\|doubletolong\\|doubletoshort\\|dpres_hybrid_ccm\\|dpres_plevel\\|draw\\|dsgetp\\|dsgrid2\\|dsgrid2d\\|dsgrid2s\\|dsgrid3\\|dsgrid3d\\|dsgrid3s\\|dspnt2\\|dspnt2d\\|dspnt2s\\|dspnt3\\|dspnt3d\\|dspnt3s\\|dssetp\\|dtrend\\|dtrend_msg\\|dtrend_msg_n\\|dtrend_n\\|dtrend_quadratic\\|dv2uvF-1\\|dv2uvG-1\\|dv2uvf\\|dv2uvg\\|dz_height\\|echo_off\\|echo_on\\|eof2data\\|eof_varimax\\|eofcor\\|eofcor_pcmsg\\|eofcor_ts\\|eofcov\\|eofcov_pcmsg\\|eofcov_ts\\|eofunc\\|eofunc_ts\\|eofunc_varimax\\|equiv_sample_size\\|erf\\|erfc\\|esacr\\|esacv\\|esccr\\|esccv\\|escorc\\|escovc\\|exit\\|exp\\|exp_tapersh\\|exp_tapershC\\|exp_tapersh_wgts\\|ezfftb\\|ezfftf\\|f2fosh\\|f2foshv\\|f2fsh\\|f2fshv\\|f2gsh\\|f2gshv\\|fabs\\|fbindirread\\|fbindirwrite\\|fbinnumrec\\|fbinread\\|fbinrecread\\|fbinrecwrite\\|fbinwrite\\|fft2db\\|fft2df\\|fileattdef\\|filechunkdimdef\\|filedimdef\\|filevarattdef\\|filevarchunkdef\\|filevarcompressleveldef\\|filevardef\\|filevardimsizes\\|filwgts_lancos\\|filwgts_lanczos\\|filwgts_normal\\|floattobyte\\|floattochar\\|floattocharacter\\|floattoint\\|floattointeger\\|floattolong\\|floattoshort\\|floor\\|fluxEddy\\|fo2fsh\\|fo2fshv\\|fourier_info\\|frame\\|fspan\\|ftcurv\\|ftcurvd\\|ftcurvi\\|ftcurvp\\|ftcurvpi\\|ftcurvps\\|ftcurvs\\|ftest\\|ftgetp\\|ftkurv\\|ftkurvd\\|ftkurvp\\|ftkurvpd\\|ftsetp\\|ftsurf\\|g2fsh\\|g2fshv\\|g2gsh\\|g2gshv\\|gamma\\|gammainc\\|gaus\\|gaus_lobat\\|gaus_lobat_wgt\\|gc_aangle\\|gc_clkwise\\|gc_dangle\\|gc_inout\\|gc_latlon\\|gc_onarc\\|gc_pnt2gc\\|gc_qarea\\|gc_tarea\\|generate_2d_array\\|get_cpu_time\\|get_ncl_version\\|get_script_name\\|get_script_prefix_name\\|get_sphere_radius\\|getbitsone\\|getenv\\|getfiledimsizes\\|getfilevaratts\\|getfilevardims\\|getfilevardimsizes\\|getfilevarnames\\|getfilevartypes\\|getvaratts\\|getvardims\\|gradsf\\|gradsg\\|greg2jul\\|grid2triple\\|hlsrgb\\|hsvrgb\\|hydro\\|hyi2hyo\\|idsfft\\|igradsF-1\\|igradsG-1\\|igradsf\\|igradsg\\|ilapsF-1\\|ilapsG-1\\|ilapsf\\|ilapsg\\|ilapvf\\|ilapvg\\|ind\\|ind_resolve\\|int2p\\|int2p_n\\|integertobyte\\|integertochar\\|integertocharacter\\|integertoshort\\|inttobyte\\|inttochar\\|inttoshort\\|inverse_matrix\\|isatt\\|isbigendian\\|isbyte\\|ischar\\|iscoord\\|isdefined\\|isdim\\|isdimnamed\\|isdouble\\|isenumeric\\|isfile\\|isfilepresent\\|isfilevar\\|isfilevaratt\\|isfilevarcoord\\|isfilevardim\\|isfloat\\|\\)\\>" 1 font-lock-builtin-face)
 
     ("\\<\\(isfunc\\|isgraphic\\|isint\\|isint64\\|isinteger\\|isleapyear\\|islogical\\|islong\\|ismissing\\|isnan_ieee\\|isnumeric\\|ispan\\|isproc\\|isshort\\|issnumeric\\|isstring\\|isubyte\\|isuint\\|isuint64\\|isulong\\|isunlimited\\|isunsigned\\|isushort\\|isvar\\|jul2greg\\|kron_product\\|lapsF-1\\|lapsG-1\\|lapsf\\|lapsg\\|lapvf\\|lapvg\\|latlon2utm\\|lclvl\\|lderuvf\\|lderuvg\\|linint1\\|linint1_n\\|linint2\\|linint2_points\\|linmsg\\|linmsg_n\\|linrood_latwgt\\|linrood_wgt\\|list_files\\|list_filevars\\|list_hlus\\|list_procfuncs\\|list_vars\\|loadscript\\|local_max\\|local_min\\|log\\|log10\\|longtobyte\\|longtochar\\|longtocharacter\\|longtoint\\|longtointeger\\|longtoshort\\|lspoly\\|mask\\|max\\|maxind\\|min\\|minind\\|mixhum_ptd\\|mixhum_ptrh\\|mjo_cross_coh2pha\\|mjo_cross_segment\\|moc_globe_atl\\|monthday\\|natgrid\\|natgridd\\|natgrids\\|ncargpath\\|ncargversion\\|ndctodata\\|ndtooned\\|new\\|ngezlogo\\|nggcog\\|nggetp\\|nglogo\\|ngsetp\\|nice_mnmxintvl\\|nngetaspectd\\|nngetaspects\\|nngetp\\|nngetsloped\\|nngetslopes\\|nngetwts\\|nngetwtsd\\|nnpnt\\|nnpntd\\|nnpntend\\|nnpntendd\\|nnpntinit\\|nnpntinitd\\|nnpntinits\\|nnpnts\\|nnsetp\\|num\\|obj_anal_ic\\|omega_ccm\\|onedtond\\|overlay\\|paleo_outline\\|pdfxy_bin\\|poisson_grid_fill\\|pop_remap\\|prcwater_dp\\|pres2hybrid\\|pres_hybrid_ccm\\|pres_sigma\\|print\\|printFileVarSummary\\|printVarSummary\\|product\\|pslec\\|pslhor\\|pslhyp\\|qsort\\|rand\\|random_chi\\|random_gamma\\|random_normal\\|random_setallseed\\|random_uniform\\|rcm2points\\|rcm2rgrid\\|rdsstoi\\|regCoef-1\\|reg_multlin\\|regcoef\\|regline\\|relhum\\|replace_ieeenan\\|rgbhls\\|rgbhsv\\|rgbyiq\\|rgrid2rcm\\|rhomb_trunC-1\\|rhomb_trunc\\|rip_cape_2d\\|rip_cape_3d\\|round\\|rtest\\|runave\\|runave_n\\|set_default_fillvalue\\|set_sphere_radius\\|setfileoption\\|sfvp2uvf\\|sfvp2uvg\\|shaeC-1\\|shaec\\|shagC-1\\|shagc\\|shgetnp\\|shgetp\\|shgrid\\|shorttobyte\\|shorttochar\\|shorttocharacter\\|show_ascii\\|shseC-1\\|shsec\\|shsetp\\|shsgC-1\\|shsgc\\|shsgc_R42\\|sigma2hybrid\\|simpeq\\|simpne\\|sin\\|sindex_yrmo\\|sinh\\|sizeof\\|sleep\\|smth9\\|snindex_yrmo\\|solve_linsys\\|spcorr\\|specx_anal\\|specxy_anal\\|sprintf\\|sprinti\\|sqrt\\|sqsort\\|srand\\|stat2\\|stat4\\|stat_medrng\\|stat_trim\\|status_exit\\|stdatmus_p2tdz\\|stdatmus_z2tdp\\|stddev\\|str_capital\\|str_concat\\|str_fields_count\\|str_get_cols\\|str_get_dq\\|str_get_field\\|str_get_nl\\|str_index_of_substr\\|str_insert\\|str_is_blank\\|str_join\\|str_left_strip\\|str_lower\\|str_match\\|str_match_ic\\|str_match_ind\\|str_match_ind_ic\\|str_right_strip\\|str_split\\|str_split_by_length\\|str_split_csv\\|str_squeeze\\|str_strip\\|str_sub_str\\|str_switch\\|str_upper\\|stringtochar\\|stringtocharacter\\|stringtodouble\\|stringtofloat\\|stringtoint\\|stringtointeger\\|stringtolong\\|stringtoshort\\|strlen\\|student_t\\|sum\\|svd_lapack\\|svdcov\\|svdcov_sv\\|svdstd\\|svdstd_sv\\|system\\|systemfunc\\|tan\\|tanh\\|taper\\|taper_n\\|tdclrs\\|tdctri\\|tdcudp\\|tdcurv\\|tddtri\\|tdez2d\\|tdez3d\\|tdgetp\\|tdgrds\\|tdgrid\\|tdgtrs\\|tdinit\\|tditri\\|tdlbla\\|tdlblp\\|tdlbls\\|tdline\\|tdlndp\\|tdlnpa\\|tdlpdp\\|tdmtri\\|tdotri\\|tdpara\\|tdplch\\|tdprpa\\|tdprpi\\|tdprpt\\|tdsetp\\|tdsort\\|tdstri\\|tdstrs\\|tdttri\\|tobyte\\|tochar\\|todouble\\|tofloat\\|toint\\|toint64\\|tointeger\\|tolong\\|toshort\\|tosigned\\|tostring\\|toubyte\\|touint\\|touint64\\|toulong\\|tounsigned\\|toushort\\|tri_trunC-1\\|tri_trunc\\|triple2grid\\|triple2grid2d\\|trop_wmo\\|ttest\\|typeof\\|undef\\|unique_string\\|update\\|ushorttoint\\|ut_calendar\\|ut_inv_calendar\\|utm2latlon\\|uv2dvF-1\\|uv2dvG-1\\|uv2dv_cfd\\|uv2dvf\\|uv2dvg\\|uv2sfvpF-1\\|uv2sfvpG-1\\|uv2sfvpf\\|uv2sfvpg\\|uv2vrF-1\\|uv2vrG-1\\|uv2vr_cfd\\|uv2vrdvF-1\\|uv2vrdvG-1\\|uv2vrdvf\\|uv2vrdvg\\|uv2vrf\\|uv2vrg\\|v5d_close\\|v5d_create\\|v5d_setLowLev\\|v5d_setUnits\\|v5d_write\\|v5d_write_var\\|variance\\|vhaeC-1\\|vhaec\\|vhagC-1\\|vhagc\\|vhseC-1\\|vhsec\\|vhsgC-1\\|vhsgc\\|vibeta\\|vinth2p\\|vinth2p_ecmwf\\|vinth2p_ecmwf_nodes\\|vinth2p_nodes\\|vintp2p_ecmwf\\|vr2uvF-1\\|vr2uvG-1\\|vr2uvf\\|vr2uvg\\|vrdv2uvF-1\\|vrdv2uvG-1\\|vrdv2uvf\\|vrdv2uvg\\|wavelet\\|wavelet_default\\|wgt_areaave\\|wgt_areaave2\\|wgt_arearmse\\|wgt_arearmse2\\|wgt_areasum2\\|wgt_runave\\|wgt_runave_n\\|wgt_vert_avg_beta\\|wgt_volave\\|wgt_volave_ccm\\|wgt_volrmse\\|wgt_volrmse_ccm\\|where\\|wk_smooth121\\|wmbarb\\|wmbarbmap\\|wmdrft\\|wmgetp\\|wmlabs\\|wmsetp\\|wmstnm\\|wmvect\\|wmvectmap\\|wmvlbl\\|wrf_avo\\|wrf_cape_2d\\|wrf_cape_3d\\|wrf_dbz\\|wrf_eth\\|wrf_helicity\\|wrf_ij_to_ll\\|wrf_interp_1d\\|wrf_interp_2d_xy\\|wrf_interp_3d_z\\|wrf_latlon_to_ij\\|wrf_ll_to_ij\\|wrf_pvo\\|wrf_rh\\|wrf_slp\\|wrf_smooth_2d\\|wrf_td\\|wrf_tk\\|wrf_updraft_helicity\\|wrf_uvmet\\|write_matrix\\|yiqrgb\\|z2geouv\\|zonal_mpsi\\|\\)\\>" 1 font-lock-builtin-face)
-    ) 
-  "words used in ncl-mode highlighting" 
+    )
+  "words used in ncl-mode highlighting"
   )
 
 
@@ -251,7 +252,7 @@
 ;; indenting variables
 ;;****************************************************************************
 (defvar ncl-main-block-indent 2
-  "*Extra indentation for the main block of code. That is the block between 
+  "*Extra indentation for the main block of code. That is the block between
 the begin statement and the end statement.")
 
 (defvar ncl-main-block-end -2
@@ -265,27 +266,27 @@ the negative of `ncl-main-block-indent`")
   "*The offset that places the `end do` statement back to it origin.")
 
 (defconst ncl-comment-line-start-skip "^[ \t]*;"
-  "Regexp to match the start of a full-line comment. That is the 
-_beginning_ of a line containing a comment delmiter `\;' preceded 
+  "Regexp to match the start of a full-line comment. That is the
+_beginning_ of a line containing a comment delmiter `\;' preceded
 only by whitespace.")
 
-;; defconst are constants that never change 
+;; defconst are constants that never change
 ;; the \` matches only those at the beginning of the buffer and no other
-(defconst ncl-begin "\\<\\(begin\\)\\>\\|\\`" 
+(defconst ncl-begin "\\<\\(begin\\)\\>\\|\\`"
   "Regular expression to find the begin statement.")
 
 ;; the \' matches only those at the end of the buffer and no other
-(defconst ncl-end "\\<\\(^end$\\)\\>\\|\\'" 
+(defconst ncl-end "\\<\\(^end$\\)\\>\\|\\'"
   "Regular expression to find the line that indicates the end of a
 script.")
 
-(defconst ncl-begin-do "^[ /t]*do" 
+(defconst ncl-begin-do "^[ /t]*do"
   "Regular expression to find the beginning of a do loop.")
 
-(defconst ncl-else "^[ /t]*else" 
+(defconst ncl-else "^[ /t]*else"
   "Regular expression to find an else statment.")
 
-(defconst ncl-begin-if "^[ /t]*if" 
+(defconst ncl-begin-if "^[ /t]*if"
   "Regular expression to find the beginning of a if statment.")
 
 (defconst ncl-enddo "end[ ]do"
@@ -320,15 +321,15 @@ the comment is not preceded by whitespace it is unchanged.")
 ;; indenting functions
 ;;****************************************************************************
 (defun ncl-beginning-of-statement ()
-  "Move to beginning of the current statement. Skips back past statement 
-continuations. Point is placed at the beginning of the line whether or not 
+  "Move to beginning of the current statement. Skips back past statement
+continuations. Point is placed at the beginning of the line whether or not
 this is an actual statement."
   (if (save-excursion (forward-line -1) (ncl-is-continuation-line))
       (ncl-previous-statement)
     (beginning-of-line)))
 
 (defun ncl-end-of-statement ()
-  "Moves point to the end of the current NCL statement. If not in a statement 
+  "Moves point to the end of the current NCL statement. If not in a statement
 just moves to end of line. Returns position."
   (interactive)
   (while (and (ncl-is-continuation-line)
@@ -336,8 +337,8 @@ just moves to end of line. Returns position."
   (end-of-line) (point))
 
 (defun ncl-previous-statement ()
-  "Moves point to beginning of the previous statement. Returns t if the 
-current line before moving is the beginning of the first non-comment 
+  "Moves point to beginning of the previous statement. Returns t if the
+current line before moving is the beginning of the first non-comment
 statement in the file, and nil otherwise."
   (interactive)
   (let (first-statement)
@@ -345,18 +346,18 @@ statement in the file, and nil otherwise."
         ;; first line in file
         t
       ;; skip blank lines, label lines, include lines and line comments
-      (while (and 
+      (while (and
               ;; The current statement is the first statement until we
               ;; reach another statement.
               (setq first-statement
-                    (or 
+                    (or
                      (looking-at ncl-comment-line-start-skip)
                      (looking-at "[ \t]*$")
                      (looking-at (concat "[ \t]*" ncl-label "[ \t]*$"))
                      (looking-at "^@")))
               (= (forward-line -1) 0)))
       ;; skip continuation lines
-      (while (and 
+      (while (and
               (save-excursion
                 (forward-line -1)
                 (ncl-is-continuation-line))
@@ -370,12 +371,12 @@ statement in the file, and nil otherwise."
 
 (defun ncl-look-at (regexp &optional cont beg)
   "Searches current line from current point for the regular expression REGEXP.
-If optional argument CONT is non-nil, searches to the end of the current 
-statement. If optional arg BEG is non-nil, search starts from the beginning 
-of the current statement. Ignores matches that end in a comment or inside a 
-string expression. Returns point if successful, nil otherwise.  This function 
-produces unexpected results if REGEXP contains quotes or a comment delimiter. 
-The search is case insensitive.  If successful leaves point after the match, 
+If optional argument CONT is non-nil, searches to the end of the current
+statement. If optional arg BEG is non-nil, search starts from the beginning
+of the current statement. Ignores matches that end in a comment or inside a
+string expression. Returns point if successful, nil otherwise.  This function
+produces unexpected results if REGEXP contains quotes or a comment delimiter.
+The search is case insensitive.  If successful leaves point after the match,
 otherwise, does not move point."
   (let ((here (point))
         (old-syntax-table (syntax-table))
@@ -393,11 +394,11 @@ otherwise, does not move point."
     (set-syntax-table old-syntax-table)
     (if (not found) (goto-char here))
     found))
- 
+
 (defun ncl-in-quote ()
   "Returns location of the opening quote if point is in a NCL string constant,
-nil otherwise. Ignores comment delimiters on the current line. Properly 
-handles nested quotation marks and octal constants - a double quote followed 
+nil otherwise. Ignores comment delimiters on the current line. Properly
+handles nested quotation marks and octal constants - a double quote followed
 by an octal digit."
 ;;; Treat an octal inside an apostrophe to be a normal string. Treat a
 ;;; double quote followed by an octal digit to be an octal constant
@@ -417,12 +418,12 @@ by an octal digit."
             ;; Find string start
             ;; Don't find an octal constant beginning with a double quote
             (if (re-search-forward "\"[^0-7]\\|'\\|\"$" eol 'lim)
-                ;; Find the string end. In NCL, two consecutive delimiters 
-		;; after the start of a string act as an escape for the 
-                ;; delimiter in the string. Two consecutive delimiters alone 
-		;; (i.e., not after the start of a string) is the the 
+                ;; Find the string end. In NCL, two consecutive delimiters
+		;; after the start of a string act as an escape for the
+                ;; delimiter in the string. Two consecutive delimiters alone
+		;; (i.e., not after the start of a string) is the the
 		;; null string.
-                (progn 
+                (progn
                   ;; Move to position after quote
                   (goto-char (1+ (match-beginning 0)))
                   (setq bq (1- (point)))
@@ -459,7 +460,7 @@ by an octal digit."
 
 (defun ncl-goto-comment ()
   "Move to start of comment delimiter on current line. Moves to end of line if
-there is no comment delimiter. Ignores comment delimiters in strings. Returns 
+there is no comment delimiter. Ignores comment delimiters in strings. Returns
 point if comment found and nil otherwise."
   (let ((eos (progn (end-of-line) (point)))
         (data (match-data))
@@ -476,13 +477,13 @@ point if comment found and nil otherwise."
            (point)))))
 
 (defun ncl-current-statement-indent ()
-  "Return indentation of the current statement. If in a statement, moves to 
+  "Return indentation of the current statement. If in a statement, moves to
 beginning of statement before finding indent."
   (ncl-beginning-of-statement)
   (ncl-current-indent))
 
 (defun ncl-current-indent ()
-  "Return the column of the indentation of the current line.  Skips any 
+  "Return the column of the indentation of the current line.  Skips any
 whitespace. Returns 0 if the end-of-line follows the whitespace."
   (save-excursion
     (beginning-of-line)
@@ -495,7 +496,7 @@ whitespace. Returns 0 if the end-of-line follows the whitespace."
   "Return appropriate indentation for current line as NCL code."
   (save-excursion
     (beginning-of-line)
-    (cond 
+    (cond
      ;; if line is "begin" do nothing and exit
      ((ncl-look-at ncl-begin) 0)
      ;; calculate indent based on previous and current statements
@@ -509,12 +510,12 @@ whitespace. Returns 0 if the end-of-line follows the whitespace."
 		 ;; indent if previous statment is begin
 		 ((ncl-look-at ncl-begin t)
 		  (+ (ncl-current-statement-indent) ncl-main-block-indent))
-		 
-		 ;; indent if previous statment is do 
+
+		 ;; indent if previous statment is do
 		 ((ncl-look-at ncl-begin-do t)
 		  (+ (ncl-current-statement-indent) ncl-block-indent))
 
-		 ;; indent if previous statment is if 
+		 ;; indent if previous statment is if
 		 ((ncl-look-at ncl-begin-if t)
 		  (+ (ncl-current-statement-indent) ncl-block-indent))
 
@@ -543,15 +544,15 @@ whitespace. Returns 0 if the end-of-line follows the whitespace."
 	  )))))
 
 (defun ncl-indent-to (col &optional min)
-  "Indent from point with spaces until column COL. Inserts space before 
+  "Indent from point with spaces until column COL. Inserts space before
 markers at point."
   (if (not min) (setq min 0))
   (insert-before-markers
    (make-string (max min (- col (current-column))) ? )))
 
 (defun ncl-indent-left-margin (col)
-  "Indent the current line to column COL. Indents such that first 
-non-whitespace character is at column COL. Inserts spaces before markers at 
+  "Indent the current line to column COL. Indents such that first
+non-whitespace character is at column COL. Inserts spaces before markers at
 point."
   (save-excursion
     (beginning-of-line)
@@ -604,7 +605,7 @@ point."
           ;; indent the line
           (ncl-indent-left-margin (ncl-calculate-indent)))
         ;; Adjust parallel comment
-;        (end-of-line) 
+;        (end-of-line)
 ;        (if (ncl-in-comment)
 ;            (indent-for-comment))
 	))
@@ -639,7 +640,7 @@ For detail, see `comment-dwim'."
 
   (if ncl-startup-message
       (message "Emacs NCL mode version %s." ncl-mode-version)
-    ) 
+    )
 ;**************************
 ;; indentation
 ;**************************
