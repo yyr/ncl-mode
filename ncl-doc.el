@@ -1,6 +1,5 @@
 ;;; ncl-doc.el
 ;;
-;; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;;    File: ncl-doc.el
 ;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ;; Created: Saturday, September 24 2011
@@ -16,13 +15,15 @@
 
 ;;; code starts here
 
-;;; requires
-(require 'ncl)                          ; to bring all the
-                                        ; function/resources names
-;; Variables
-;; FIXME
-(defcustom ncl-doc-baseurl
-  "http://www.ncl.ucar.edu/Document/"
+(eval-when-compile
+  (require 'cl))
+
+;;=================================================================
+;; user options
+;;=================================================================
+
+(defcustom ncl-doc-url-base
+  "http://www.ncl.ucar.edu/Document"
   "Ncl documentation website base url. To construct URLs individual pages"
   :group 'ncl-doc
   :type 'string)
@@ -33,15 +34,37 @@
   :group 'ncl-doc
   :type 'string)
 
+
+;;=================================================================
+;; internal variables
+;;=================================================================
+
+(defvar ncl-doc-url-builtin-base
+  (concat ncl-doc-url-base "/" "Functions/Built-in")
+  "for eg: `ncl-doc-url-base/`Functions/Built-in/dpres_hybrid_ccm.shtml")
+
+(defvar ncl-doc-url-suffix
+  ".shtml"
+  "suffix of URLs. haven't checked if its same for all")
+
+(defvar ncl-doc-mode-map nil
+  "key bindings")
+
 (define-minor-mode ncl-doc
   "Minor mode to help to read on line documentation of ncl
-  functions and resources" nil )
+  functions and resources" nil
+  :group 'ncl-doc
+  :init-value nil
+  :keymap ncl-mode-map
+  :version 0.1)
 
 (defvar ncl-doc-mode-hook nil
   "hook runs after enabling the ncl-doc-mode")
 
-(defvar ncl-doc-mode-map nil
-  "key bindings")
+;;; keywords
+(defvar ncl-test-builtins
+  [angmom_atm test dpres_hybrid_ccm]
+  "just for test must derive from the ncl.el")
 
 ;;; functions
 (defun ncl-doc-cache-dir-create ()
@@ -50,13 +73,30 @@
   (unless (file-directory-p ncl-doc-cache-dir)
     (make-directory ncl-doc-cache-dir)))
 
+(defun ncl-doc-construct-url-for-builtin (KWORD)
+  "construct url for ncl built in function. `ncl-doc-builtin-function-base`
+is the base url"
+  (let ((kwd KWORD))
+    (message  (concat
+               ncl-doc-url-builtin-base  "/"  (format "%s" `,KWORD)
+               ncl-doc-url-suffix))))
+
+;;; construction of doc by removing header
+(defun ncl-doc-construct-url (KWORD)
+  "construct a url from the KWORD"
+  (interactive "SNCL kwd: ")
+  (let ((kwd KWORD))
+    (if (find kwd ncl-test-builtins :test 'string=)
+        (ncl-doc-construct-url-for-builtin kwd)
+      (message "Not Found"))))
+
+
 (defun ncl-doc-thing-at-point ()
   "collect the thing at point tell if its a resource"
   (interactive)
   (let ((tap (thing-at-point 'symbol)))
     (message tap)))
 
-;;; construction of doc by removing header
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here
