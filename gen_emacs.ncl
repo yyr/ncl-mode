@@ -59,7 +59,7 @@ procedure write_header(elines,lines)
 local find_line, ii, header
 begin
 ;---Get header
-  find_line = ";;;; COOKIE: STARTS HERE DO NOT DELETE"
+  find_line = ";;;; COOKIE: STARTS HERE =DO NOT DELETE="
   ii        = str_match_ind(elines,find_line)
   header    = elines(0:ii(0))
 
@@ -126,7 +126,6 @@ local i, j, k, cat_names, btmpstr, mtmpstr, etmpstr, fnames, dq, nlpr
 begin
   dq = str_get_dq()
   cat_names = get_valid_cat_names()
-  btmpstr = "    (" + dq + "\\<\\("
   nlpr = 200
   do i=0,dimsizes(cat_names(:,0))-1
     ;; cat description
@@ -142,9 +141,9 @@ begin
       do k=j,min((/j+nlpr-1,dimsizes(fnames)-1/))
         mtmpstr=mtmpstr + " " + dq + fnames(k) + dq
       end do
-        add_lines(lines,mtmpstr)
+      add_lines(lines,mtmpstr)
     end do
-    add_lines(lines,"  )")
+    add_lines(lines,"  ))")
 
 ;---Clean up
     delete(fnames)
@@ -159,22 +158,24 @@ procedure write_ncl_resources(lines)
 local i, j, btmpstr, mtmpstr, etmpstr, rnames, dq, nlpr
 begin
   dq = str_get_dq()
-  btmpstr = "    (" + dq + "\\<\\("
-  etmpstr = "\\)\\>" + dq + " 1 font-lock-constant-face)"
   rnames = get_ncl_resources()
-  print(rnames)
+;  print(rnames)
   nlpr = 200
-  add_lines(lines,";; ncl resources (the list is split in several lines to avoid too long regular expressions)")
+  add_lines(lines,";; ncl resources 200 names in each line")
+
+  ;; write defvarline
+  defstr = "(defvar ncl-resources '("
+  add_lines(lines,defstr)
+
   do i=0,dimsizes(rnames)-1,nlpr
-    mtmpstr = btmpstr
+    mtmpstr = "  "
 ;---Only do 200 names in a single line
     do j=i,min((/i+nlpr-1,dimsizes(rnames)-1/))
-      mtmpstr = mtmpstr + rnames(j) + "\\|"
+      mtmpstr = mtmpstr + " " + dq + rnames(j) + dq
     end do
-    mtmpstr = mtmpstr + etmpstr
     add_lines(lines,mtmpstr)
-    add_lines(lines,"")
   end do
+  add_lines(lines,"  ))")
 end
 
 ;----------------------------------------------------------------------
@@ -186,22 +187,15 @@ procedure write_footer(elines,lines)
 local dq, end_lines, find_line, ii, footer
 begin
   dq = str_get_dq()
-;---Get footer
-  end_lines = (/"    ) ", \
-  "  " + dq + "words used in ncl-mode highlighting" + dq, \
-  "  )", \
-  ""/)
-  add_lines(lines,end_lines)
 
-;---Read in rest of original footer and write it back out.
-  find_line = "(put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)"
+;---Get footer
+  find_line = ";;;; COOKIE: ENDS HERE =DO NOT DELETE="
   ii        = str_match_ind(elines,find_line)
   if(ismissing(ii(0))) then
     print("Couldn't find '" + find_line + "'")
     return
   end if
   footer    = elines(ii(0):)
-
   add_lines(lines,footer)
 end
 
@@ -241,11 +235,12 @@ begin
 
 ;---Reconstruct everything in-between
   write_keywords(all_lines)
-  write_operators(all_lines)
+;  write_operators(all_lines)
   write_ncl_procs_and_funcs_by_cat(all_lines)
   write_ncl_resources(all_lines)
 
   write_footer(emacs_lines,all_lines)
-
+;  print(all_lines)
   write_emacs_file(emacs_fname + ".new",all_lines)
+
 end
