@@ -14,10 +14,6 @@
 ;; ncl-doc-render => should render html doc
 
 ;;; code starts here
-
-(eval-when-compile
-  (require 'cl))
-
 ;;=================================================================
 ;; user options
 ;;=================================================================
@@ -55,8 +51,7 @@
   functions and resources" nil
   :group 'ncl-doc
   :init-value nil
-  :keymap ncl-mode-map
-  :version 0.1)
+  :keymap ncl-doc-mode-map)
 
 (defvar ncl-doc-mode-hook nil
   "hook runs after enabling the ncl-doc-mode")
@@ -87,9 +82,8 @@ is the base url"
   (interactive "SNCL kwd: ")
   (let ((kwd KWORD))
     (if (find kwd ncl-test-builtins :test 'string=)
-        (ncl-doc-construct-url-for-builtin kwd)
+        (print (stringp kwd))
       (message "Not Found"))))
-
 
 (defun ncl-doc-thing-at-point ()
   "collect the thing at point tell if its a resource"

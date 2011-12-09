@@ -7,7 +7,6 @@
 ;;; Description:
 ;; just place holder for now
 
-
 ;;=================================================================
 ;; User options
 ;;=================================================================
@@ -40,7 +39,7 @@
 
 
 (defcustom ncl-tab-mode-default nil
-  "Default tabbing/carriage control style for empty files in Ncl mode.
+  "Default tabbing/carriage control style for empty files in NCL mode.
 A non-nil value specifies tab-digit style of continuation control.
 A value of nil specifies that continuation lines are marked
 with a character in column 6."
@@ -48,13 +47,13 @@ with a character in column 6."
   :safe  'booleanp
   :group 'ncl-indent)
 
-(defcustom ncl-continuation-string "\\"
-  "Single-character string used for Ncl continuation lines.
+(defcustom ncl-continuation-string \\\\
+  "Single-character string used for NCL continuation lines.
 In fixed format continuation style, this character is inserted in
 column 6 by \\[ncl-split-line] to begin a continuation line.
 Also, if \\[ncl-indent-line] finds this at the beginning of a
 line, it will convert the line into a continuation line of the
-appropriate style.  Normally \"$\"."
+appropriate style.  Normally \\."
   :type  'string
   :safe  (lambda (value) (and (stringp value) (= (length value) 1)))
   :group 'ncl)
@@ -80,31 +79,35 @@ appropriate style.  Normally \"$\"."
   :group   'ncl)
 
 ;; User options end here.
+(easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
+  `("NCL"
+    ("Customization"
+     ,(custom-menu-create 'ncl))
 
-(defvar ncl-imenu-generic-expression
-  ;; this one directly copied form fortran-mode
-  ;; These patterns could be confused by sequence nos. in cols 72+ and
-  ;; don't allow continuations everywhere.
-  (list
-   (list
-    nil
-    ;; [This will be fooled by `end function' allowed by G77.  Also,
-    ;; it assumes sensible whitespace is employed.]
-    (concat
-     ;; leading whitespace:
-     "^\\s-+\\("
-     ;; function declaration with optional type, e.g. `real',
-     ;; `real*4', character(*), `double precision':
-     "\\(\\sw\\|\\s-\\|[*()+]\\)*"
-     "\\<function\\|subroutine\\|entry\\|block\\s-*data\\|program\\)"
-     ;; Possible statement continuation:
-     "[ \t" ncl-continuation-string "]+"
-     ;; Variable to index:
-     "\\(\\sw+\\)")
-    3)
-   ;; Un-named block data.
-   '(nil "^\\s-+\\(block\\s-*data\\)\\s-*$" 1))
-  "Value for `imenu-generic-expression' in ncl mode.")
+    "--"
+    ["Comment Region" ncl-comment-region mark-active]
+    ["Uncomment Region"
+     (ncl-comment-region (region-beginning) (region-end) 1)
+     mark-active]
+    ["Indent Region"     indent-region mark-active]
+    "--"
 
+    ["Narrow to Subprogram" narrow-to-defun t]
+    ["Widen" widen t]
+    "--"
+    ["Fill Statement/Comment" fill-paragraph t]
+
+    "--"
+    ["Toggle Auto Fill" auto-fill-mode :selected auto-fill-function
+     :style toggle
+     :help "Automatically fill text while typing in this buffer"]
+
+    ["Toggle Abbrev Mode" abbrev-mode :selected abbrev-mode
+     :style toggle :help "Expand abbreviations while typing in this buffer"]
+
+    ["Add Imenu Menu" imenu-add-menubar-index
+     :active   (not (lookup-key (current-local-map) [menu-bar index]))
+     :included (fboundp 'imenu-add-to-menubar)
+     :help "Add an index menu to the menu-bar"]))
 
 ;;; ncl-helpers.el ends here
