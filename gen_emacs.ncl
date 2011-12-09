@@ -61,7 +61,7 @@ begin
 ;---Get header
   find_line = ";;;; COOKIE: STARTS HERE DO NOT DELETE"
   ii        = str_match_ind(elines,find_line)
-  header    = elines(0:ii(0)+1)
+  header    = elines(0:ii(0))
 
   add_lines(lines,header)
 end
@@ -76,15 +76,16 @@ local key_names, ni, tmpstr
 begin
   dq = str_get_dq()
   ni = get_next_line_num(lines)
-  add_lines(lines,"  ;; NCL keywords")
+  add_lines(lines,";; NCL keywords")
+  add_lines(lines,"(defvar ncl-keywords '(")
   tmpstr = " "
   key_names = get_ncl_keywords()
   do i=0,dimsizes(key_names)-1
-    tmpstr = tmpstr + " " + dq + key_names(i) + dq +" "
+    tmpstr = tmpstr + " " + dq + key_names(i) + dq
   end do
   tmpstr = tmpstr
   add_lines(lines,tmpstr)
-  add_lines(lines,"")
+  add_lines(lines,"  ))")
 end
 
 ;----------------------------------------------------------------------

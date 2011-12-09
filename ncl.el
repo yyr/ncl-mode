@@ -106,10 +106,8 @@
   "*List of functions to call when entering ncl mode.")
 
 ;;;; COOKIE: STARTS HERE DO NOT DELETE
-(defvar ncl-keywords
-  '(
 
-    ))
+
 ;;;; COOKIE: STARTS HERE DO NOT DELETE
 
 
