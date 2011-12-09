@@ -84,9 +84,11 @@ begin
   do i=0,dimsizes(key_names)-1
     tmpstr = tmpstr + " " + dq + key_names(i) + dq
   end do
-  tmpstr = tmpstr
+  tmpstr = tmpstr + " )"
   add_lines(lines,tmpstr)
-  add_lines(lines,"    ))")
+  closer=")"
+  dstr= "  " + dq + "Reserved Keywords in ncl" + dq
+  add_lines(lines, dstr + closer)
 end
 
 ;----------------------------------------------------------------------
@@ -123,29 +125,32 @@ end
 ;----------------------------------------------------------------------
 undef("write_ncl_procs_and_funcs_by_cat")
 procedure write_ncl_procs_and_funcs_by_cat(lines)
-local i, j, k, cat_names, btmpstr, mtmpstr, etmpstr, fnames, dq, nlpr
+local i, j, k, cat_names, btmpstr, mtmpstr, dstr, closer, etmpstr, fnames, dq, nlpr
 begin
   dq = str_get_dq()
   cat_names = get_valid_cat_names()
   nlpr = 200
   do i=0,dimsizes(cat_names(:,0))-1
     ;; cat description
-    add_lines(lines,";; " + cat_names(i,1))
+    add_lines(lines,"")
     ;; write defvarline
-    defstr = "(defvar ncl-" + cat_names(i,0)
+    defstr = "(defvar ncl-key-" + cat_names(i,0)
     add_lines(lines,defstr)
     add_lines(lines,"  '(")
 
     fnames = get_ncl_procs_and_funcs_by_cat(cat_names(i,0))
     do j=0,dimsizes(fnames)-1,nlpr
-      mtmpstr = "  "
+      mtmpstr = "   "
 ;---Only do 200 names in a single line
       do k=j,min((/j+nlpr-1,dimsizes(fnames)-1/))
         mtmpstr=mtmpstr + " " + dq + fnames(k) + dq
       end do
+      mtmpstr = mtmpstr + ")"
       add_lines(lines,mtmpstr)
     end do
-    add_lines(lines,"  ))")
+    closer=")"
+    dstr= "  " + dq + cat_names(i,1)  + dq
+    add_lines(lines, dstr + closer)
 
 ;---Clean up
     delete(fnames)
@@ -157,7 +162,7 @@ end
 ;----------------------------------------------------------------------
 undef("write_ncl_resources")
 procedure write_ncl_resources(lines)
-local i, j, btmpstr, mtmpstr, etmpstr, rnames, dq, nlpr
+local i, j, btmpstr, mtmpstr, etmpstr, dstr, rnames, dq, nlpr,closer
 begin
   dq = str_get_dq()
   rnames = get_ncl_resources()
@@ -166,8 +171,9 @@ begin
   add_lines(lines,";; ncl resources 200 names in each line")
 
   ;; write defvarline
-  defstr = "(defvar ncl-resources '("
+  defstr = "(defvar ncl-resources"
   add_lines(lines,defstr)
+  add_lines(lines,"  '(")
 
   do i=0,dimsizes(rnames)-1,nlpr
     mtmpstr = "  "
@@ -175,9 +181,11 @@ begin
     do j=i,min((/i+nlpr-1,dimsizes(rnames)-1/))
       mtmpstr = mtmpstr + " " + dq + rnames(j) + dq
     end do
-    add_lines(lines,mtmpstr)
+    add_lines(lines,mtmpstr+")")
   end do
-  add_lines(lines,"  ))")
+  closer=")"
+  dstr= "  " + dq + "Ncl resources"  + dq
+  add_lines(lines, dstr + closer)
 end
 
 ;----------------------------------------------------------------------
@@ -242,7 +250,7 @@ begin
   write_ncl_resources(all_lines)
 
   write_footer(emacs_lines,all_lines)
-;  print(all_lines)
-  write_emacs_file(emacs_fname + ".new",all_lines)
+  print(all_lines)
+;  write_emacs_file(emacs_fname + ".new",all_lines)
 
 end
