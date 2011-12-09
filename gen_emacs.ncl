@@ -77,15 +77,16 @@ begin
   dq = str_get_dq()
   ni = get_next_line_num(lines)
   add_lines(lines,";; NCL keywords")
-  add_lines(lines,"(defvar ncl-keywords '(")
-  tmpstr = " "
+  add_lines(lines,"(defvar ncl-keywords")
+  add_lines(lines,"  '(")
+  tmpstr = "    "
   key_names = get_ncl_keywords()
   do i=0,dimsizes(key_names)-1
     tmpstr = tmpstr + " " + dq + key_names(i) + dq
   end do
   tmpstr = tmpstr
   add_lines(lines,tmpstr)
-  add_lines(lines,"  ))")
+  add_lines(lines,"    ))")
 end
 
 ;----------------------------------------------------------------------
@@ -131,8 +132,9 @@ begin
     ;; cat description
     add_lines(lines,";; " + cat_names(i,1))
     ;; write defvarline
-    defstr = "(defvar ncl-" + cat_names(i,0) + " '("
+    defstr = "(defvar ncl-" + cat_names(i,0)
     add_lines(lines,defstr)
+    add_lines(lines,"  '(")
 
     fnames = get_ncl_procs_and_funcs_by_cat(cat_names(i,0))
     do j=0,dimsizes(fnames)-1,nlpr
