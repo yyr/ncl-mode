@@ -84,10 +84,9 @@ begin
   do i=0,dimsizes(key_names)-1
     tmpstr = tmpstr + " " + dq + key_names(i) + dq
   end do
-  tmpstr = tmpstr + " )"
   add_lines(lines,tmpstr)
   closer=")"
-  dstr= "  " + dq + "Reserved Keywords in ncl" + dq
+  dstr= "   ) " + dq + "Reserved Keywords in ncl" + dq
   add_lines(lines, dstr + closer)
 end
 
@@ -100,6 +99,7 @@ procedure write_operators(lines)
 local op_names, ni, btmpstr, mtmpstr, etmpstr
 begin
   ni = get_next_line_num(lines)
+  add_lines(lines,"")
   add_lines(lines,";; Array definition chars and tests - couldn't get to work in list above...")
 
 ;---Get list of operators
@@ -145,11 +145,10 @@ begin
       do k=j,min((/j+nlpr-1,dimsizes(fnames)-1/))
         mtmpstr=mtmpstr + " " + dq + fnames(k) + dq
       end do
-      mtmpstr = mtmpstr + ")"
       add_lines(lines,mtmpstr)
     end do
     closer=")"
-    dstr= "  " + dq + cat_names(i,1)  + dq
+    dstr= "    ) " + dq + cat_names(i,1)  + dq
     add_lines(lines, dstr + closer)
 
 ;---Clean up
@@ -181,10 +180,10 @@ begin
     do j=i,min((/i+nlpr-1,dimsizes(rnames)-1/))
       mtmpstr = mtmpstr + " " + dq + rnames(j) + dq
     end do
-    add_lines(lines,mtmpstr+")")
+    add_lines(lines,mtmpstr)
   end do
   closer=")"
-  dstr= "  " + dq + "Ncl resources"  + dq
+  dstr= "    ) " + dq + "Ncl resources"  + dq
   add_lines(lines, dstr + closer)
 end
 
@@ -250,7 +249,7 @@ begin
   write_ncl_resources(all_lines)
 
   write_footer(emacs_lines,all_lines)
-  print(all_lines)
-;  write_emacs_file(emacs_fname + ".new",all_lines)
+;  print(all_lines)
+  write_emacs_file(emacs_fname + ".new",all_lines)
 
 end
