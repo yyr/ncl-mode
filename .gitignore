@@ -1,1 +1,4 @@
 *.elc
+*.shtml
+*.bkp
+*.new
