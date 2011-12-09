@@ -129,27 +129,22 @@ begin
   btmpstr = "    (" + dq + "\\<\\("
   nlpr = 200
   do i=0,dimsizes(cat_names(:,0))-1
-    if(cat_names(i,0).eq."builtin") then
-      etmpstr = "\\)\\>" + dq + " 1 font-lock-builtin-face)"
-    else
-      if(cat_names(i,0).eq."gsn") then
-        etmpstr = "\\)\\>" + dq + " 1 font-lock-variable-name-face)"
-      else
-        etmpstr = "\\)\\>" + dq + " 1 font-lock-function-name-face)"
-      end if
-    end if
-    fnames = get_ncl_procs_and_funcs_by_cat(cat_names(i,0))
+    ;; cat description
     add_lines(lines,";; " + cat_names(i,1))
+    ;; write defvarline
+    defstr = "(defvar ncl-" + cat_names(i,0) + " '("
+    add_lines(lines,defstr)
+
+    fnames = get_ncl_procs_and_funcs_by_cat(cat_names(i,0))
     do j=0,dimsizes(fnames)-1,nlpr
-      mtmpstr = btmpstr
+      mtmpstr = "  "
 ;---Only do 200 names in a single line
       do k=j,min((/j+nlpr-1,dimsizes(fnames)-1/))
-        mtmpstr = mtmpstr + fnames(k) + "\\|"
+        mtmpstr=mtmpstr + " " + dq + fnames(k) + dq
       end do
-      mtmpstr = mtmpstr + etmpstr
-      add_lines(lines,mtmpstr)
-      add_lines(lines,"")
+        add_lines(lines,mtmpstr)
     end do
+    add_lines(lines,"  )")
 
 ;---Clean up
     delete(fnames)
