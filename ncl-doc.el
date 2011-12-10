@@ -38,10 +38,6 @@
 ;; internal variables
 ;;=================================================================
 
-(defvar ncl-doc-url-builtin-base
-  (concat ncl-doc-url-base "/" "Functions/Built-in")
-  "for eg: `ncl-doc-url-base/`Functions/Built-in/dpres_hybrid_ccm.shtml")
-
 (defvar ncl-doc-url-suffix
   ".shtml"
   "suffix of URLs. haven't checked if its same for all")
@@ -81,15 +77,6 @@
   (unless (file-directory-p ncl-doc-cache-dir)
     (make-directory ncl-doc-cache-dir)))
 
-
-(defun ncl-doc-construct-url-for-builtin (KWORD)
-  "construct url for ncl built in function. `ncl-doc-builtin-function-base`
-is the base url"
-  (let ((kwd KWORD))
-    (message  (concat
-               ncl-doc-url-builtin-base  "/"  (format "%s" `,KWORD)
-               ncl-doc-url-suffix))))
-
 ;;; construction of doc by removing header
 (defun ncl-doc-construct-url (KWORD)
   "construct a url from the KWORD"
@@ -97,51 +84,59 @@ is the base url"
   (let ((kwd KWORD))
     (cond                               ; FIXME simplify mapcar?
      ((find (format "%s" kwd) ncl-key-builtin :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'builtin ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-contrib :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'contrib ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "builtin" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-diag :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'diag ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "diag" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-pop :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'pop ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "pop" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-shea :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'shea ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "shea" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-skewt :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'skewt ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "skewt" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-user :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'user ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "user" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-wrfarw :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'wrfarw ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "wrfarw" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-wrfcontrib :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'wrfarw ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "wrfarw" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-windrose :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'windrose ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "windrose" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
      ((find (format "%s" kwd) ncl-key-gsn :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc 'gsn ncl-doc-url-alist))
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "gsn" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
+     ((find (format "%s" kwd) ncl-key-contrib :test 'string=)
+      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "contrib" ncl-doc-url-alist))
+              kwd ncl-doc-url-suffix))
      (t
       nil))))
+
+
+(defun ncl-doc-keyword-open-in-browser (KWORD)
+  "asks for keyword and calls the opens in browser"
+  (interactive "SFuction/gsn Interface Name: ")
+  (let ((kwd KWORD))
+    (browse-url-default-browser (ncl-doc-construct-url kwd))))
+
+(ncl-doc-construct-url "stat_medrng")
 
 (defun ncl-doc-thing-at-point ()
   "collect the thing at point tell if its a resource"
