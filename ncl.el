@@ -110,6 +110,25 @@
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
 
+(defconst ncl-font-lock-keywords
+  (eval-when-compile
+    `(;;"ncl built-in functions",
+      (,(concat
+         "\\<" (regexp-opt ncl-key-builtin 'paren) "\\>") .  1)
+      ;; contrib functions
+      (,(concat
+         "\\<" (regexp-opt
+              (nconc ncl-key-contrib ncl-key-gsn ncl-key-shea ncl-key-pop
+                     ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
+                     ncl-key-wrfcontrib ncl-key-windrose
+                     ) 'paren) "\\>") .  1)
+      (,(concat
+         "\\<" (regexp-opt ncl-resources t) "\\>") . 1)))
+  "ncl font lock key words ")
+
+(put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
+
+
 ;;************************************************
 ;; some variables used in the creation of ncl-mode
 ;;************************************************
