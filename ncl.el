@@ -112,18 +112,17 @@
 
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
-(defvar ncl-key-operators
-  '("and" "eq" "eqv" "false" "ge" "gt" "le" "lt" "ne"
-    "neqv" "not" "or" "true")
-  "Operators")
-
 (defconst ncl-font-lock-keywords
   (eval-when-compile            ; for  faster loading (is it working?)
     `(;; ncl major keywords
       (,(concat
          "\\<" (regexp-opt ncl-keywords 'paren) "\\>")
        (1 font-lock-keyword-face))
-      ;;       (1 font-lock-keyword-face)
+
+      ;; operators
+      (,(concat
+         "\\(" (regexp-opt ncl-key-operators 'paren) "\\)")
+       (1 font-lock-type-face))
 
       ;;"ncl built-in functions",
       (,(concat
@@ -149,10 +148,6 @@
          "\\<" (regexp-opt ncl-resources t) "\\>")
        (1 font-lock-constant-face))
 
-      ;; operators
-      (,(concat "\\." (regexp-opt ncl-key-operators
-                                  'paren) "\\.")
-       (1 font-lock-constant-face))
       ))
   "ncl font lock key words ")
 

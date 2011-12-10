@@ -96,26 +96,32 @@ end
 ;----------------------------------------------------------------------
 undef("write_operators")
 procedure write_operators(lines)
-local op_names, ni, btmpstr, mtmpstr, etmpstr
+local op_names, ni, btmpstr, mtmpstr, etmpstr,estr
 begin
   ni = get_next_line_num(lines)
+    ;; cat description
   add_lines(lines,"")
-  add_lines(lines,";; Array definition chars and tests - couldn't get to work in list above...")
+    ;; write defvarline
+;  add_lines(lines,";; Ncl operators")
+  defstr = "(defvar ncl-key-operators"
+  add_lines(lines,defstr)
+  add_lines(lines,"  '(")
 
 ;---Get list of operators
   op_names = get_ncl_operators()
 
   dq = str_get_dq()
-  btmpstr = "    (" + dq + "\\("
-  etmpstr = "\\)" + dq + " 1 font-lock-keyword-face )"
+  mtmpstr = "  "
+;  etmpstr = "\\)" + dq + " 1 font-lock-keyword-face )"
   do i=0,dimsizes(op_names)-1
-    mtmpstr = str_sub_str(op_names(i),".","\\.")
-    mtmpstr = str_sub_str(mtmpstr,"(","\(")
-    mtmpstr = str_sub_str(mtmpstr,")","\)")
-    mtmpstr = str_sub_str(mtmpstr,"/","\/")
-    add_lines(lines,btmpstr + mtmpstr + etmpstr)
+    if ( op_names(i) .eq. "\" ) then
+      op_names(i)="\\"
+    end if
+    mtmpstr=mtmpstr + " " + dq + op_names(i) + dq
   end do
-  add_lines(lines,"")
+  add_lines(lines, mtmpstr )
+  estr="  ) "+ dq + "Ncl operators" + dq + ")"
+  add_lines(lines,estr)
 end
 
 ;----------------------------------------------------------------------
@@ -244,7 +250,7 @@ begin
 
 ;---Reconstruct everything in-between
   write_keywords(all_lines)
-;  write_operators(all_lines)
+  write_operators(all_lines)
   write_ncl_procs_and_funcs_by_cat(all_lines)
   write_ncl_resources(all_lines)
 
