@@ -105,9 +105,6 @@
 (defvar ncl-mode-hook nil
   "*List of functions to call when entering ncl mode.")
 
-(when (file-regular-p "~/.emacs.d/el-get/ncl/ncl-keys.el")
-  (load "~/.emacs.d/el-get/ncl/ncl-keys.el"))
-
 ;;;; COOKIE: STARTS HERE =DO NOT DELETE=
 ;; NCL keywords
 (defvar ncl-keywords
@@ -242,7 +239,7 @@
   "Keymap used in NCL mode.")
 (defvar ncl-startup-message t
   "*Non-nil displays a startup message when `ncl-mode' is first called.")
-(defconst ncl-mode-version "0.32")
+(defconst ncl-mode-version "v0.92")
 ;;************************************************
 ;; syntax table
 ;;************************************************

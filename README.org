@@ -1,4 +1,25 @@
 
-* NCL-MODE for Ncar Command Language
-  This is downloaded from
-  http://www.ncl.ucar.edu/Applications/Files/ncl.el. 
+* ncl-mode for Ncar Command Language(NCL)
+the original version is downloaded from the following link
+http://www.ncl.ucar.edu/Applications/Files/ncl.el.
+
+* Development:
+This repo was created to serve the el-get. Since I am using NCL I
+started modifying it.  So version was bumped up to v0.9x to separate
+from the original version. I am not maintainer of this mode. but if
+anyone finds my changes useful and find any bugs please let me know.
+TODO section has details about changes I plan to implement
+
+* TODOS
+** NCL MODE
+- [ ] make font lock work better/faster
+- [ ] easy menu
+- [ ] imenu support
+- [ ] fixing commenting system
+- [ ] fixing indentation
+
+** NCL DOC mode
+a mode to access/assist to read the online documentation from the Ncl
+website
+- [ ] call browser to look documentation of keyword
+- [ ] reading docs with in emacs
