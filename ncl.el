@@ -105,25 +105,55 @@
 (defvar ncl-mode-hook nil
   "*List of functions to call when entering ncl mode.")
 
+(when (file-regular-p "~/.emacs.d/el-get/ncl/ncl-keys.el")
+  (load "~/.emacs.d/el-get/ncl/ncl-keys.el"))
+
 ;;;; COOKIE: STARTS HERE =DO NOT DELETE=
 
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
+(defvar ncl-key-operators
+  '("and" "eq" "eqv" "false" "ge" "gt" "le" "lt" "ne"
+    "neqv" "not" "or" "true")
+  "Operators")
 
 (defconst ncl-font-lock-keywords
-  (eval-when-compile
-    `(;;"ncl built-in functions",
+  (eval-when-compile            ; for  faster loading (is it working?)
+    `(;; ncl major keywords
       (,(concat
-         "\\<" (regexp-opt ncl-key-builtin 'paren) "\\>") .  1)
+         "\\<" (regexp-opt ncl-keywords 'paren) "\\>")
+       (1 font-lock-keyword-face))
+      ;;       (1 font-lock-keyword-face)
+
+      ;;"ncl built-in functions",
+      (,(concat
+         "\\<" (regexp-opt ncl-key-builtin 'paren) "\\>")
+       (1 font-lock-builtin-face))
+
       ;; contrib functions
       (,(concat
          "\\<" (regexp-opt
-              (nconc ncl-key-contrib ncl-key-gsn ncl-key-shea ncl-key-pop
-                     ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
-                     ncl-key-wrfcontrib ncl-key-windrose
-                     ) 'paren) "\\>") .  1)
+                (nconc ncl-key-contrib ncl-key-shea ncl-key-pop
+                       ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
+                       ncl-key-wrfcontrib ncl-key-windrose
+                       ) 'paren) "\\>")
+       (1 font-lock-function-face))
+
+      ;; ncl gsn function-face
       (,(concat
-         "\\<" (regexp-opt ncl-resources t) "\\>") . 1)))
+         "\\<" (regexp-opt ncl-key-gsn 'paren) "\\>")
+       (1 font-lock-variable-name-face))
+
+      ;; ncl resources
+      (,(concat
+         "\\<" (regexp-opt ncl-resources t) "\\>")
+       (1 font-lock-constant-face))
+
+      ;; operators
+      (,(concat "\\." (regexp-opt ncl-key-operators
+                                  'paren) "\\.")
+       (1 font-lock-constant-face))
+      ))
   "ncl font lock key words ")
 
 (put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
