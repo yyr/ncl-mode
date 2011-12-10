@@ -16,40 +16,6 @@ begin
   end if
 end
 
-;----------------------------------------------------------------------
-; This procedure adds an array of strings to an existing array of
-; strings. Since this is a procedure, the array of lines to be
-; added to has to be preallocated.
-;----------------------------------------------------------------------
-undef("add_lines")
-procedure add_lines(lines,l)
-begin
-;---Error checking
-  if(all(ismissing(l))) then
-    print("add_lines: lines to add are all missing. None added.")
-    return
-  end if
-
-  nlines = dimsizes(lines)
-  nl     = dimsizes(l)
-
-  ii = ind(.not.ismissing(lines))
-  if(all(ismissing(ii))) then
-    ii(0) = -1
-    nii   = 0
-  else
-    nii = dimsizes(ii)-1
-  end if
-
-;---Make sure we can add the line(s).
-  if((ii(nii)+nl).lt.nlines) then
-    lines(ii(nii)+1:ii(nii)+nl) = l
-  else
-    print("Error: no room left to add lines to array. Quitting...")
-    exit
-  end if
-end
-
 ;---------------------------------------------------------------------
 ; Procedure: write_as_defvar
 ; Doc: frame defvar from varname, list, docstring,
@@ -67,10 +33,9 @@ begin
   add_lines(ll, fl)
   add_lines(ll,"  '(")       ;
 
-  mtmpstr = "   "
   nlpr = 200                    ; no of words per row
   do i=0,dimsizes(klist)-1,nlpr
-    mtmpstr = "  "
+    mtmpstr = "   "
 ;---Only do 200 names in a single line
     do j=i,min((/i+nlpr-1,dimsizes(klist)-1/))
       mtmpstr = mtmpstr + " " + dq + klist(j) + dq
