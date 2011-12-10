@@ -50,6 +50,42 @@ begin
   end if
 end
 
+;---------------------------------------------------------------------
+; Procedure: write_as_defvar
+; Doc: frame defvar from varname, list, docstring,
+;---------------------------------------------------------------------
+undef("write_as_defvar")
+procedure write_as_defvar(ll,klist,varname,dstr)
+local j,k,dq,fl,mtmpstr,nlpr,ev
+
+begin
+  ni = get_next_line_num(ll)
+  add_lines(ll, "")
+
+  dq = str_get_dq()
+  fl = "(defvar " + varname
+  add_lines(ll, fl)
+  add_lines(ll,"  '(")       ;
+
+  mtmpstr = "   "
+  nlpr = 200                    ; no of words per row
+  do i=0,dimsizes(klist)-1,nlpr
+    mtmpstr = "  "
+;---Only do 200 names in a single line
+    do j=i,min((/i+nlpr-1,dimsizes(klist)-1/))
+      mtmpstr = mtmpstr + " " + dq + klist(j) + dq
+;      mtmpstr = mtmpstr + " " + klist(j)
+
+    end do
+    add_lines(ll,mtmpstr)
+  end do
+  ev = "    ) " + dq + dstr + dq + ")"
+  add_lines(ll, ev)
+  add_lines(ll, "")
+
+end
+;- |write_as_defvar| ends here --
+
 ;----------------------------------------------------------------------
 ; This procedure reads in the header from the existing emacs file
 ; and adds it to the new array of lines for the new emacs file.
@@ -72,22 +108,12 @@ end
 ;----------------------------------------------------------------------
 undef("write_keywords")
 procedure write_keywords(lines)
-local key_names, ni, tmpstr
+local key_names,vname,dstring
 begin
-  dq = str_get_dq()
-  ni = get_next_line_num(lines)
-  add_lines(lines,";; NCL keywords")
-  add_lines(lines,"(defvar ncl-keywords")
-  add_lines(lines,"  '(")
-  tmpstr = "    "
+  dstring="Reserved Keywords in ncl"
+  vname="ncl-keywords"
   key_names = get_ncl_keywords()
-  do i=0,dimsizes(key_names)-1
-    tmpstr = tmpstr + " " + dq + key_names(i) + dq
-  end do
-  add_lines(lines,tmpstr)
-  closer=")"
-  dstr= "   ) " + dq + "Reserved Keywords in ncl" + dq
-  add_lines(lines, dstr + closer)
+  write_as_defvar(lines,key_names,vname,dstring)
 end
 
 ;----------------------------------------------------------------------
@@ -96,32 +122,22 @@ end
 ;----------------------------------------------------------------------
 undef("write_operators")
 procedure write_operators(lines)
-local op_names, ni, btmpstr, mtmpstr, etmpstr,estr
+local op_names, ni,dstr,vname
 begin
-  ni = get_next_line_num(lines)
-    ;; cat description
-  add_lines(lines,"")
-    ;; write defvarline
-;  add_lines(lines,";; Ncl operators")
-  defstr = "(defvar ncl-key-operators"
-  add_lines(lines,defstr)
-  add_lines(lines,"  '(")
+
+  vname = "ncl-key-operators"
+  dstr="Operators in NCL"
 
 ;---Get list of operators
   op_names = get_ncl_operators()
 
-  dq = str_get_dq()
-  mtmpstr = "  "
-;  etmpstr = "\\)" + dq + " 1 font-lock-keyword-face )"
   do i=0,dimsizes(op_names)-1
     if ( op_names(i) .eq. "\" ) then
       op_names(i)="\\"
     end if
-    mtmpstr=mtmpstr + " " + dq + op_names(i) + dq
   end do
-  add_lines(lines, mtmpstr )
-  estr="  ) "+ dq + "Ncl operators" + dq + ")"
-  add_lines(lines,estr)
+  write_as_defvar(lines,op_names,vname,dstr)
+
 end
 
 ;----------------------------------------------------------------------
@@ -137,26 +153,11 @@ begin
   cat_names = get_valid_cat_names()
   nlpr = 200
   do i=0,dimsizes(cat_names(:,0))-1
-    ;; cat description
-    add_lines(lines,"")
     ;; write defvarline
-    defstr = "(defvar ncl-key-" + cat_names(i,0)
-    add_lines(lines,defstr)
-    add_lines(lines,"  '(")
-
+    dstr=cat_names(i,1)
+    vname="ncl-key-" + cat_names(i,0)
     fnames = get_ncl_procs_and_funcs_by_cat(cat_names(i,0))
-    do j=0,dimsizes(fnames)-1,nlpr
-      mtmpstr = "   "
-;---Only do 200 names in a single line
-      do k=j,min((/j+nlpr-1,dimsizes(fnames)-1/))
-        mtmpstr=mtmpstr + " " + dq + fnames(k) + dq
-      end do
-      add_lines(lines,mtmpstr)
-    end do
-    closer=")"
-    dstr= "    ) " + dq + cat_names(i,1)  + dq
-    add_lines(lines, dstr + closer)
-
+    write_as_defvar(lines,fnames,vname,dstr)
 ;---Clean up
     delete(fnames)
   end do
@@ -167,30 +168,12 @@ end
 ;----------------------------------------------------------------------
 undef("write_ncl_resources")
 procedure write_ncl_resources(lines)
-local i, j, btmpstr, mtmpstr, etmpstr, dstr, rnames, dq, nlpr,closer
+local dstr,rnames,vname
 begin
-  dq = str_get_dq()
   rnames = get_ncl_resources()
-;  print(rnames)
-  nlpr = 200
-  add_lines(lines,";; ncl resources 200 names in each line")
-
-  ;; write defvarline
-  defstr = "(defvar ncl-resources"
-  add_lines(lines,defstr)
-  add_lines(lines,"  '(")
-
-  do i=0,dimsizes(rnames)-1,nlpr
-    mtmpstr = "  "
-;---Only do 200 names in a single line
-    do j=i,min((/i+nlpr-1,dimsizes(rnames)-1/))
-      mtmpstr = mtmpstr + " " + dq + rnames(j) + dq
-    end do
-    add_lines(lines,mtmpstr)
-  end do
-  closer=")"
-  dstr= "    ) " + dq + "Ncl resources"  + dq
-  add_lines(lines, dstr + closer)
+  dstr="Ncl resources"
+  vname="ncl-resources"
+  write_as_defvar(lines,rnames,vname,dstr)
 end
 
 ;----------------------------------------------------------------------

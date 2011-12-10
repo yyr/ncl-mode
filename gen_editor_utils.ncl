@@ -29,7 +29,8 @@
 ; time you run this script. After that, if the *.shtml files don't
 ; change on the web, then you can set this to False.
 ;----------------------------------------------------------------------
-GET_FROM_WEB = True
+;GET_FROM_WEB = True
+GET_FROM_WEB = False
 
 ;----------------------------------------------------------------------
 ; This function returns a list of valid category names we can
