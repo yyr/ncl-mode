@@ -10,11 +10,6 @@
 ;;=================================================================
 ;; User options
 ;;=================================================================
-(defgroup ncl nil
-  "major mode to edit Ncar Command Line(NCL) language "
-  :link '(custom-group-link :tag "Font Lock Faces group" font-lock-faces)
-  :group 'languages)
-
 (defgroup ncl-indent nil
   "Indentation variables in NCL mode."
   :prefix "ncl-"
@@ -70,13 +65,6 @@ appropriate style.  Normally \\."
   :safe  'stringp
   :group 'ncl-indent)
 
-(defcustom ncl-mode-hook nil
-  "Hook run when entering NCL mode."
-  :type    'hook
-  ;; Not the only safe options, but some common ones.
-  :safe    (lambda (value) (member value '((ncl-add-imenu-menu) nil)))
-  :options '(ncl-add-imenu-menu)
-  :group   'ncl)
 
 ;; User options end here.
 (easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."

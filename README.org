@@ -14,7 +14,9 @@ TODO section has details about changes I plan to implement
 ** NCL MODE
 - [ ] make font lock work better/faster
 - [ ] easy menu
-- [ ] imenu support
+- [X] imenu support
+  - imenu can directly be used by keyboard (may be with ido or directly)
+  - see function: ncl-add-imenu-menu
 - [ ] fixing commenting system
 - [ ] fixing indentation
 

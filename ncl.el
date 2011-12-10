@@ -99,11 +99,24 @@
 ;;         (set-face-foreground font-lock-function-name-face  "CadetBlue")
 ;;     ; highlight resources
 ;;         (set-face-foreground font-lock-constant-face  "ForestGreen")
+;;;
 
+;;; code starts here
+;;=================================================================
+;; user options
+;;=================================================================
+(defgroup ncl nil
+  "major mode to edit Ncar Command Line(NCL) language "
+  :link '(custom-group-link :tag "Font Lock Faces group" font-lock-faces)
+  :group 'languages)
 
-;;********************************************************************
-(defvar ncl-mode-hook nil
-  "*List of functions to call when entering ncl mode.")
+(defcustom ncl-mode-hook nil
+  "Hook run when entering NCL mode."
+  :type    'hook
+  ;; Not the only safe options, but some common ones.
+  :safe    (lambda (value) (member value '((ncl-add-imenu-menu) nil)))
+  :options '(ncl-add-imenu-menu)
+  :group   'ncl)
 
 ;;;; COOKIE: STARTS HERE =DO NOT DELETE=
 ;; NCL keywords
@@ -231,6 +244,23 @@
 
 (put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
 
+;;=================================================================
+;; imenu
+;;=================================================================
+;;; imenu support for ncl-mode
+(defcustom ncl-imenu-generic-expression
+  '(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
+    ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1))
+  "Generic expression for matching functions and procedure"
+  :type 'string
+  :group 'ncl)
+
+(defun ncl-add-imenu-menu ()
+  "Adds an \"imenu\" menu to the menubar. The look up can be customized with
+`ncl-imenu-generic-expression'"
+  (interactive)
+  (imenu-add-to-menubar "Imenu")
+  (redraw-frame (selected-frame)))
 
 ;;************************************************
 ;; some variables used in the creation of ncl-mode
@@ -716,6 +746,10 @@ For detail, see `comment-dwim'."
          (setq font-lock-keywords ncl-font-lock-keywords)
          ;;(setq font-lock-no-comments t)
          ))
+
+  ;; imenu thing
+  (set (make-local-variable 'imenu-generic-expression)
+       ncl-imenu-generic-expression)
 
   (font-lock-mode 1)
   ;;  (setq font-lock-maximum-decoration t)
