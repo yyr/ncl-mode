@@ -219,10 +219,10 @@
 
 (defvar ncl-all-keys
   (eval-when-compile
-    `(,(append
-        ncl-key-builtin ncl-key-contrib ncl-key-diag ncl-key-pop ncl-key-skewt
-        ncl-key-shea ncl-key-shea ncl-key-user ncl-key-wrfarw
-        ncl-key-wrfcontrib ncl-key-windrose ncl-key-gsn ncl-resources)))
+    `,(append
+      ncl-key-builtin ncl-key-contrib ncl-key-diag ncl-key-pop ncl-key-skewt
+      ncl-key-shea ncl-key-shea ncl-key-user ncl-key-wrfarw
+      ncl-key-wrfcontrib ncl-key-windrose ncl-key-gsn ncl-resources))
   "all keys in NCL")
 
 (defvar ncl-var-re
