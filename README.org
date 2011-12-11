@@ -36,11 +36,13 @@ website
 * Setup:
 put this in your .emacs
 #+source: setup
-#+begin_src elisp
+#+begin_src md
+```elisp
 (require 'ncl-doc)
 (add-hook 'ncl-mode-hook
           (lambda ()
             (ncl-doc-minor-mode 1)))
+```
 #+end_src
 * Usage:
 ** key bindings
