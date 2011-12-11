@@ -62,7 +62,6 @@
 ;;; construction of doc by removing header
 (defun ncl-doc-construct-url (KWORD)
   "construct a url from the KWORD"
-  (interactive "SNCL kwd: ")
   (let ((kwd KWORD))
     (cond                               ; FIXME simplify mapcar?
      ((find (format "%s" kwd) ncl-key-builtin :test 'string=)

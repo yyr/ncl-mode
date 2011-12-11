@@ -217,6 +217,15 @@
 
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
+(defvar ncl-var-re
+  (concat
+   "^[ \t]*"                            ;initial optional space
+   "\\([a-z0-9_]*\\)"                   ;var
+   "[@]?.*"                             ;optional "@" and space
+   "[ \t]*=.*"                          ;and rest
+   )
+  "Regexp for matching variable")
+
 (defconst ncl-font-lock-keywords
   (eval-when-compile            ; for  faster loading (is it working?)
     `(;; ncl major keywords
@@ -253,6 +262,8 @@
          "\\<" (regexp-opt ncl-resources t) "\\>")
        (1 font-lock-constant-face))
 
+      ;; variable face seq`ncl-var-re'
+      (,ncl-var-re (1 font-lock-variable-name-face))
       ))
   "ncl font lock key words ")
 
@@ -263,8 +274,9 @@
 ;;=================================================================
 ;;; imenu support for ncl-mode
 (defcustom ncl-imenu-generic-expression
-  '(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
-    ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1))
+  `(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
+    ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1)
+    ,(list "variables" ncl-var-re 1))
   "Generic expression for matching functions and procedure"
   :type 'string
   :group 'ncl)
