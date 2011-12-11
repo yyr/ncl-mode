@@ -7,10 +7,8 @@
 
 ;;; Commentary:
 ;;
-
 ;;=================================================================
 ;;; code starts here
-(require 'ncl)
 (eval-when-compile
   (require 'cl))
 
@@ -35,16 +33,6 @@
 (defvar ncl-doc-url-suffix
   ".shtml"
   "suffix of URLs. haven't checked if its same for all")
-
-(defvar ncl-doc-mode-map nil
- "key bindings")
-
-(define-minor-mode ncl-doc
-  "Minor mode to help to read on line documentation of ncl
-  functions and resources" nil
-  :group 'ncl-doc
-  :init-value nil
-  :keymap ncl-doc-mode-map)
 
 (defvar ncl-doc-url-alist
   ;;  ("keywords" . "Document/Manuals/Ref_Manual/")
@@ -133,7 +121,7 @@
   (interactive)
   (let* ((default-word (thing-at-point 'symbol))
          (default-prompt
-           (concat "Keyword: "
+           (concat "NCL Keyword "
                    (if default-word
                        (concat "[" default-word "]") nil) ": "))
          (default-query
@@ -146,8 +134,32 @@
     (let ((url (ncl-doc-construct-url default-query)))
       (if url
           (browse-url-default-browser url)
-        (message "could not find \" %s\" keyword :(" default-query)))))
+        (message "could not find \"%s\" keyword in ncl-doc database :("
+                 default-query)))))
 
+
+;;=================================================================
+;; Define mode
+;;=================================================================
+
+(defvar ncl-doc-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-s")
+      'ncl-doc-keyword-open-in-browser)
+    map)
+  "key bindings ncl-doc-minor-mode")
+
+;;;###autoload
+(define-minor-mode ncl-doc-minor-mode
+  "Minor mode to help to read on line documentation of ncl
+  functions and resources"
+  nil " ncl-doc"
+  :set 'custom-set-minor-mode
+  :initialize 'custom-initialize-default
+  :type    'boolean
+  :keymap ncl-doc-mode-map
+  :group 'ncl-doc
+  :require 'ncl)
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here
