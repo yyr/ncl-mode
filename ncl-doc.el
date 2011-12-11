@@ -7,6 +7,7 @@
 
 ;;; Commentary:
 ;;
+
 ;;=================================================================
 ;;; code starts here
 (eval-when-compile
@@ -54,9 +55,6 @@
     ("resources" . "/Document/Graphics/Resources/")
     ("keywords" . "Document/Manuals/Ref_Manual/"))
   "url alist for different categories")
-
-(defvar ncl-doc-mode-hook nil
-  "hook runs after enabling the ncl-doc-mode")
 
 ;;; functions
 (defun ncl-doc-cache-dir-create ()
@@ -124,11 +122,42 @@
       nil))))
 
 ;;=================================================================
-;; user fictions
+;; Define minor mode
+;;=================================================================
+(defvar ncl-doc-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
+    (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
+    map)
+  "key bindings ncl-doc-minor-mode")
+
+;;;###autoload
+(define-minor-mode ncl-doc-minor-mode
+  "Minor mode to help to read on line documentation of ncl
+  functions and resources
+see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
+"
+  nil " ncl-doc"
+  :set 'custom-set-minor-mode
+  :initialize 'custom-initialize-default
+  :type    'boolean
+  :keymap ncl-doc-minor-mode-map
+  :group 'ncl-doc
+  :require 'ncl)
+
+(defvar ncl-doc-completing-read
+  (if (null ido-mode) 'completing-read 'ido-completing-read)
+  "Ido support with convenience")
+
+;;=================================================================
+;; user functions
 ;;=================================================================
 ;;;###autoload
-(defun ncl-doc-keyword-open-in-browser ()
-  "asks for keyword and calls the opens in browser"
+(defun ncl-doc-query-at-point ()
+  "asks for keyword while picking up one at point if available
+and calls the browser if it matches any of ncl keywords
+For completion support call `ncl-doc-query-open'
+"
   (interactive)
   (let* ((default-word (thing-at-point 'symbol))
          (default-prompt
@@ -148,31 +177,22 @@
 Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                    default-query)
         (if url
-            (browse-url-default-browser url)
+            (browse-url url)
           (message "could not find \"%s\" keyword in ncl-doc database :("
                    default-query))))))
 
-;;=================================================================
-;; Define mode
-;;=================================================================
-(defvar ncl-doc-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-s")
-      'ncl-doc-keyword-open-in-browser)
-    map)
-  "key bindings ncl-doc-minor-mode")
-
 ;;;###autoload
-(define-minor-mode ncl-doc-minor-mode
-  "Minor mode to help to read on line documentation of ncl
-  functions and resources"
-  nil " ncl-doc"
-  :set 'custom-set-minor-mode
-  :initialize 'custom-initialize-default
-  :type    'boolean
-  :keymap ncl-doc-mode-map
-  :group 'ncl-doc
-  :require 'ncl)
+(defun ncl-doc-query-open (KEY)
+  "Query for a keyword from the database with completion support
+and calls browser with corresponding URL"
+  (interactive
+   (list
+    (let ((initial (thing-at-point 'word)))
+      (funcall ncl-doc-completing-read
+               "Query: " ncl-all-keys
+               nil nil nil nil))))
+  (let ((url (ncl-doc-construct-url KEY)))
+    (browse-url url)))
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here

@@ -46,4 +46,6 @@ put this in your .emacs
 #+end_src
 * Usage:
 ** key bindings
-C-c C-s  ncl-doc-keyword-open-in-browser
+ncl-doc minor mode key bindings
+C-c C-p  ncl-doc-query-at-point
+C-c C-o  ncl-doc-query-open
