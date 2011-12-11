@@ -34,8 +34,12 @@
   ".shtml"
   "suffix of URLs. haven't checked if its same for all")
 
+(defvar ncl-doc-resources-page
+  "list_alpha_res.shtml"
+  "suffix of URLs. haven't checked if its same for all")
+
 (defvar ncl-doc-url-alist
-  ;;  ("keywords" . "Document/Manuals/Ref_Manual/")
+  ;;
   '(("builtin" . "/Document/Functions/Built-in/")
     ("contrib" .  "/Document/Functions/Contributed/")
     ("diag" .  "/Document/Functions/Diagnostics/")
@@ -46,7 +50,9 @@
     ("wrfarw" .  "/Document/Functions/WRF_arw/")
     ("wrfcontrib" .  "/Document/Functions/WRF_contributed/")
     ("windrose" .  "/Document/Functions/Wind_rose/")
-    ("gsn" .  "/Document/Graphics/Interfaces/"))
+    ("gsn" .  "/Document/Graphics/Interfaces/")
+    ("resources" . "/Document/Graphics/Resources/")
+    ("keywords" . "Document/Manuals/Ref_Manual/"))
   "url alist for different categories")
 
 (defvar ncl-doc-mode-hook nil
@@ -104,12 +110,18 @@
       (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "gsn" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
 
+     ((find (format "%s" kwd) ncl-resources :test 'string=)
+      (format "%s%s%s#%s" ncl-doc-url-base (cdr (assoc "resources" ncl-doc-url-alist))
+              ncl-doc-resources-page kwd))
+
+     ((find (format "%s" kwd) ncl-keywords :test 'string=)
+      "keyword")
+
      ((find (format "%s" kwd) ncl-key-contrib :test 'string=)
       (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "contrib" ncl-doc-url-alist))
               kwd ncl-doc-url-suffix))
      (t
       nil))))
-
 
 ;;=================================================================
 ;; user fictions
@@ -131,16 +143,18 @@
                                                   str))
                     (read-string default-prompt nil nil default-word))))
     (let ((url (ncl-doc-construct-url default-query)))
-      (if url
-          (browse-url-default-browser url)
-        (message "could not find \"%s\" keyword in ncl-doc database :("
-                 default-query)))))
-
+      (if (string= url "keyword")       ; if its a ncl keyword its in the ref manual
+          (message "\"%s\" is a NCL builtin keyword and has no specific page to look at
+Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
+                   default-query)
+        (if url
+            (browse-url-default-browser url)
+          (message "could not find \"%s\" keyword in ncl-doc database :("
+                   default-query))))))
 
 ;;=================================================================
 ;; Define mode
 ;;=================================================================
-
 (defvar ncl-doc-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-s")
