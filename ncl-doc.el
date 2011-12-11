@@ -5,14 +5,10 @@
 ;; Created: Saturday, September 24 2011
 ;; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
-;;; Description:
-;; this is a minor moder to look
-;; ncl-doc-thing-at-point => collects the appropriate thing at point
-;; ncl-doc-classify => should look where to look
-;; ncl-doc-fetch => bring the doc from server (local?)
-;; ncl-doc-crop-header => should crop the headers
-;; ncl-doc-render => should render html doc
+;;; Commentary:
+;;
 
+;;=================================================================
 ;;; code starts here
 (require 'ncl)
 (eval-when-compile
@@ -33,17 +29,15 @@
   :group 'ncl-doc
   :type 'string)
 
-
 ;;=================================================================
 ;; internal variables
 ;;=================================================================
-
 (defvar ncl-doc-url-suffix
   ".shtml"
   "suffix of URLs. haven't checked if its same for all")
 
 (defvar ncl-doc-mode-map nil
-  "key bindings")
+ "key bindings")
 
 (define-minor-mode ncl-doc
   "Minor mode to help to read on line documentation of ncl
@@ -130,19 +124,29 @@
       nil))))
 
 
-(defun ncl-doc-keyword-open-in-browser (KWORD)
+;;=================================================================
+;; user fictions
+;;=================================================================
+;;;###autoload
+(defun ncl-doc-keyword-open-in-browser ()
   "asks for keyword and calls the opens in browser"
-  (interactive "SFuction/gsn Interface Name: ")
-  (let ((kwd KWORD))
-    (browse-url-default-browser (ncl-doc-construct-url kwd))))
-
-(ncl-doc-construct-url "stat_medrng")
-
-(defun ncl-doc-thing-at-point ()
-  "collect the thing at point tell if its a resource"
   (interactive)
-  (let ((tap (thing-at-point 'symbol)))
-    (message tap)))
+  (let* ((default-word (thing-at-point 'symbol))
+         (default-prompt
+           (concat "Keyword: "
+                   (if default-word
+                       (concat "[" default-word "]") nil) ": "))
+         (default-query
+           (funcall #'(lambda (str)
+                        "Remove Whitespace from beginning and end of a string."
+                        (replace-regexp-in-string "^[ \n\t]*\\(.*?\\)[ \n\t]*$"
+                                                  "\\1"
+                                                  str))
+                    (read-string default-prompt nil nil default-word))))
+    (let ((url (ncl-doc-construct-url default-query)))
+      (if url
+          (browse-url-default-browser url)
+        (message "could not find \" %s\" keyword :(" default-query)))))
 
 
 (provide 'ncl-doc)
