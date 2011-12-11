@@ -3,25 +3,45 @@
 the original version is downloaded from the following link
 http://www.ncl.ucar.edu/Applications/Files/ncl.el.
 
-* Development:
-This repo was created to serve the el-get. Since I am using NCL I
-started modifying it.  So version was bumped up to v0.9x to separate
-from the original version. I am not maintainer of this mode. but if
-anyone finds my changes useful and find any bugs please let me know.
-TODO section has details about changes I plan to implement
+* ncl.el
+This repo was created to serve the el-get. Since I am using NCL mode
+day to day I started modifying.  I am not maintainer of ncl.el. I will
+submit my changes upstream sometime soon.
+
+* ncl-doc.el
+ncl.el is mailnly modified to accommodate ncl-doc.el which is a
+major/minor mode to help documentation lookup from ncl website.
+
+The version was bumped up to v0.9x to separate from the original
+version. if anyone finds my changes useful and find any bugs
+please let me know.  TODO section has details about changes I plan to
+implement
 
 * TODOS
 ** NCL MODE
-- [ ] make font lock work better/faster
-- [ ] easy menu
+- [X] make font lock work better/faster
 - [X] imenu support
   - imenu can directly be used by keyboard (may be with ido or directly)
   - see function: ncl-add-imenu-menu
+- [ ] easy menu
 - [ ] fixing commenting system
 - [ ] fixing indentation
 
-** NCL DOC mode
+** NCL-DOC mode
 a mode to access/assist to read the online documentation from the Ncl
 website
-- [ ] call browser to look documentation of keyword
+- [X] call browser to look documentation of keyword
 - [ ] reading docs with in emacs
+
+* Setup:
+put this in your .emacs
+#+source: setup
+#+begin_src elisp
+(require 'ncl-doc)
+(add-hook 'ncl-mode-hook
+          (lambda ()
+            (ncl-doc-minor-mode 1)))
+#+end_src
+* Usage:
+** key bindings
+C-c C-s  ncl-doc-keyword-open-in-browser
