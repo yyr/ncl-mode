@@ -170,14 +170,18 @@ For completion support call `ncl-doc-query-open'
                         (replace-regexp-in-string "^[ \n\t]*\\(.*?\\)[ \n\t]*$"
                                                   "\\1"
                                                   str))
-                    (read-string default-prompt nil nil default-word))))
+                    (completing-read default-prompt ncl-all-keys))))
     (let ((url (ncl-doc-construct-url default-query)))
+      ;; if url is a keyword tell that there is no url for that
       (if (string= url "keyword")       ; if its a ncl keyword its in the ref manual
           (message "\"%s\" is a NCL builtin keyword and has no specific page to look at
 Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                    default-query)
         (if url
-            (browse-url url)
+            ;; gets an url call the browser
+            (progn
+              (message "Browsing: \"%s\"" url)
+              (browse-url url))
           (message "could not find \"%s\" keyword in ncl-doc database :("
                    default-query))))))
 
@@ -192,7 +196,9 @@ and calls browser with corresponding URL"
                "Query: " ncl-all-keys
                nil nil nil nil))))
   (let ((url (ncl-doc-construct-url KEY)))
-    (browse-url url)))
+    (progn
+      (message "Browsing: \"%s\"" url)
+      (browse-url url))))
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here
