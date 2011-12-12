@@ -730,6 +730,7 @@ For detail, see `comment-dwim'."
   (interactive "*P")
   (require 'newcomment)
   (let ((deactivate-mark nil) (comment-start ";") (comment-end ""))
+    (setq comment-add 1)          ;default to `;;' in comment-region
     (comment-dwim arg)))
 
 ;;****************************************************************************
