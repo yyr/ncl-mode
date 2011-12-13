@@ -221,18 +221,25 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
 (defun ncl-doc-browse-url ()
   "Lookup the current line in a browser."
   (interactive)
-  (let ((url (get-text-property (point) 'ncl-doc-key-url)))
+  (beginning-of-line)
+  (let* ((wd (thing-at-point 'symbol))
+         (url (ncl-doc-construct-url wd)))
     (if url
-        (progn
-          (beginning-of-line)
-          (message "Browsing: \"%s\"" url)
-          (browse-url url))
+        (if (string= url "keyword")
+            (message "\"%s\" is a NCL builtin keyword and has no specific page to look at
+Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
+                     wd)
+          (progn
+            (message "Browsing: \"%s\"" url)
+            (browse-url url)))
       (error "No URL on this line"))))
+
 
 (defun ncl-doc-quit-window ()
   "Leave the completions window."
   (interactive)
   (set-window-configuration ncl-doc-return-window-config))
+
 
 ;;=================================================================
 ;; user functions
@@ -297,7 +304,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                 (erase-buffer)
 
                 ;; Write what we are looking for
-                (insert (format "NCL keyword matches for \"%s\":\n"
+                (insert (format "NCL keyword matches for \"%s\":"
                                 default-query))
                 (insert "\n")
 
@@ -307,18 +314,13 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                   (while (> ln idx)
                     (let ((ct (nth idx ncl-doc-key-cat))
                           (mts (nth idx matches)))
-                      (insert (format ";; Search matches in \"%s\":\n" ct))
+                      (if mts
+                          (insert (format "\n;; Search matches in \"%s\":\n" ct)))
 
                       ;; loop over matches
                       (mapc (lambda (x)
-                              (insert (format "%s\n" x))
-
-                              ;; put url as property
-                              (put-text-property
-                               (line-beginning-position) (line-end-position)
-                               'ncl-doc-key-url (ncl-doc-construct-url x)))
+                              (insert (format "%s\n" x)))
                             mts))
-                    (insert "\n")
                     (incf idx)))
 
                 (goto-line 3)
@@ -327,7 +329,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 
                 (font-lock-add-keywords
                  nil
-                 '(("\\(;.*\\)" 1 font-lock-comment-face)))
+                 '(("\\(;.*\"\\)" 1 font-lock-comment-face)))
 
                 (font-lock-add-keywords
                  nil
@@ -344,19 +346,19 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 
 
 ;;;###autoload
-  (defun ncl-doc-query-open (KEY)
-    "Query for a keyword from the database with completion support
+(defun ncl-doc-query-open (KEY)
+  "Query for a keyword from the database with completion support
 and calls browser with corresponding URL"
-    (interactive
-     (list
-      (let ((initial (thing-at-point 'word)))
-        (funcall ncl-doc-completing-read
-                 "Query: " ncl-all-keys
-                 nil nil nil nil))))
-    (let ((url (ncl-doc-construct-url KEY)))
-      (progn
-        (message "Browsing: \"%s\"" url)
-        (browse-url url))))
+  (interactive
+   (list
+    (let ((initial (thing-at-point 'word)))
+      (funcall ncl-doc-completing-read
+               "Query: " ncl-all-keys
+               nil nil nil nil))))
+  (let ((url (ncl-doc-construct-url KEY)))
+    (progn
+      (message "Browsing: \"%s\"" url)
+      (browse-url url))))
 
-  (provide 'ncl-doc)
+(provide 'ncl-doc)
 ;;; ncl-doc.el ends here
