@@ -33,6 +33,14 @@
   :group 'ncl-doc
   :type 'string)
 
+(defcustom ncl-doc-mode-hook nil
+  "hook runs after enabling the ncl-doc-mode"
+  :group 'ncl-doc)
+
+(defcustom ncl-doc-minor-mode-hook nil
+  "hook runs after enabling the ncl-doc-mode"
+  :group 'ncl-doc)
+
 ;;=================================================================
 ;; internal variables
 ;;=================================================================
@@ -156,7 +164,8 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
   :type    'boolean
   :keymap ncl-doc-minor-mode-map
   :group 'ncl-doc
-  :require 'ncl)
+  :require 'ncl
+  (run-mode-hooks))
 
 (defvar ncl-doc-completing-read
   (if (null ido-mode) 'completing-read 'ido-completing-read)
@@ -165,9 +174,65 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
 ;;=================================================================
 ;; Major Mode stuff
 ;;=================================================================
-
 (defvar ncl-doc-temp-buffer-name
   "*ncl doc buffer*")
+
+(defvar ncl-doc-return-window-config nil
+  "previous window config")
+
+(defvar ncl-doc-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "\C-m"     'ncl-doc-browse-url)
+    (define-key map " "        'ncl-doc-browse-url)
+    (define-key map "f"        'ncl-doc-browse-url)
+    (define-key map "q"        'ncl-doc-quit-window)
+    (define-key map "n"        'ncl-doc-move-next-line)
+    (define-key map "p"        'ncl-doc-move-prev-line)
+
+    (define-key map "/"        'isearch-forward)
+    (define-key map "l"        'recenter)
+    (define-key map "<"        'beginning-of-buffer)
+    (define-key map ">"        'end-of-buffer)
+    (define-key map "v"        'scroll-down)
+    map)
+  "Keymap for `ncl-doc-mode'.")
+
+(define-derived-mode ncl-doc-mode fundamental-mode "ncl-doc"
+  "major mode to help read NCL docs from UCAR website"
+  :group 'ncl-doc
+  (kill-all-local-variables)
+  (use-local-map ncl-doc-mode-map)
+  (setq buffer-read-only t)
+  (run-mode-hooks))
+
+(defun ncl-doc-move-prev-line ()
+  "Move to previous entry"
+  (interactive)
+  (when (< 3 (line-number-at-pos))
+    (call-interactively 'previous-line)))
+
+(defun ncl-doc-move-next-line ()
+  "Move to next entry"
+  (interactive)
+  (when (< (line-number-at-pos)
+           (- (line-number-at-pos (point-max)) 1))
+    (call-interactively 'next-line)))
+
+(defun ncl-doc-browse-url ()
+  "Lookup the current line in a browser."
+  (interactive)
+  (let ((url (get-text-property (point) 'ncl-doc-key-url)))
+    (if url
+        (progn
+          (beginning-of-line)
+          (message "Browsing: \"%s\"" url)
+          (browse-url url))
+      (error "No URL on this line"))))
+
+(defun ncl-doc-quit-window ()
+  "Leave the completions window."
+  (interactive)
+  (set-window-configuration ncl-doc-return-window-config))
 
 ;;=================================================================
 ;; user functions
@@ -242,7 +307,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                   (while (> ln idx)
                     (let ((ct (nth idx ncl-doc-key-cat))
                           (mts (nth idx matches)))
-                      (insert (format ";;Search matches in \"%s\":\n" ct))
+                      (insert (format ";; Search matches in \"%s\":\n" ct))
 
                       ;; loop over matches
                       (mapc (lambda (x)
@@ -254,26 +319,44 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                                'ncl-doc-key-url (ncl-doc-construct-url x)))
                             mts))
                     (insert "\n")
-                    (goto-line 3)
-                    ;; Major mode stuff
+                    (incf idx)))
 
-                    (incf idx)
-                    )))))))))))
+                (goto-line 3)
+                ;; Major mode stuff
+                (ncl-doc-mode)
+
+                (font-lock-add-keywords
+                 nil
+                 '(("\\(;.*\\)" 1 font-lock-comment-face)))
+
+                (font-lock-add-keywords
+                 nil
+                 `((,(format "\\(.*\\(%s\\).*\\)" default-word)
+                    1 font-lock-keyword-face)))
+
+                ;; store window conf
+                (set (make-local-variable 'ncl-doc-return-window-config)
+                     cur-window-conf)
+
+                ;; make fit to screen
+                (shrink-window-if-larger-than-buffer (get-buffer-window tmpbuf))
+                )))))))))
+
 
 ;;;###autoload
-(defun ncl-doc-query-open (KEY)
-  "Query for a keyword from the database with completion support
+  (defun ncl-doc-query-open (KEY)
+    "Query for a keyword from the database with completion support
 and calls browser with corresponding URL"
-  (interactive
-   (list
-    (let ((initial (thing-at-point 'word)))
-      (funcall ncl-doc-completing-read
-               "Query: " ncl-all-keys
-               nil nil nil nil))))
-  (let ((url (ncl-doc-construct-url KEY)))
-    (progn
-      (message "Browsing: \"%s\"" url)
-      (browse-url url))))
+    (interactive
+     (list
+      (let ((initial (thing-at-point 'word)))
+        (funcall ncl-doc-completing-read
+                 "Query: " ncl-all-keys
+                 nil nil nil nil))))
+    (let ((url (ncl-doc-construct-url KEY)))
+      (progn
+        (message "Browsing: \"%s\"" url)
+        (browse-url url))))
 
-(provide 'ncl-doc)
+  (provide 'ncl-doc)
 ;;; ncl-doc.el ends here
