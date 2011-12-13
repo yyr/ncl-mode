@@ -82,10 +82,11 @@
                        (format "%s%s%s#%s"
                                ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
                                ncl-doc-resources-page kwd)
-                     (format
-                      "%s%s%s%s"
-                      ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
-                      kwd ncl-doc-url-suffix))))))))
+                     (if (string= ct "keywords")
+                         "keyword"
+                       (format "%s%s%s%s"
+                               ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
+                               kwd ncl-doc-url-suffix)))))))))
 
 ;;=================================================================
 ;; Define minor mode
