@@ -42,7 +42,6 @@
 (defvar ncl-doc-url-alist
   ;;
   '(("builtin" . "/Document/Functions/Built-in/")
-    ("contrib" .  "/Document/Functions/Contributed/")
     ("diag" .  "/Document/Functions/Diagnostics/")
     ("pop" .  "/Document/Functions/Pop_remap/")
     ("shea" .  "/Document/Functions/Shea_util/")
@@ -53,8 +52,9 @@
     ("windrose" .  "/Document/Functions/Wind_rose/")
     ("gsn" .  "/Document/Graphics/Interfaces/")
     ("resources" . "/Document/Graphics/Resources/")
-    ("keywords" . "Document/Manuals/Ref_Manual/"))
-  "url alist for different categories")
+    ("keywords" . "Document/Manuals/Ref_Manual/")
+    ("contrib" .  "/Document/Functions/Contributed/"); FIXME search matches with contrib list
+    )  "url alist for different categories")
 
 ;;; functions
 (defun ncl-doc-cache-dir-create ()
@@ -66,60 +66,26 @@
 ;;; construction of doc by removing header
 (defun ncl-doc-construct-url (KWORD)
   "construct a url from the KWORD"
-  (let ((kwd KWORD))
-    (cond                               ; FIXME simplify mapcar?
-     ((find (format "%s" kwd) ncl-key-builtin :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "builtin" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-diag :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "diag" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-pop :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "pop" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-shea :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "shea" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-skewt :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "skewt" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-user :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "user" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-wrfarw :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "wrfarw" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-wrfcontrib :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "wrfarw" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-windrose :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "windrose" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-key-gsn :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "gsn" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-
-     ((find (format "%s" kwd) ncl-resources :test 'string=)
-      (format "%s%s%s#%s" ncl-doc-url-base (cdr (assoc "resources" ncl-doc-url-alist))
-              ncl-doc-resources-page kwd))
-
-     ((find (format "%s" kwd) ncl-keywords :test 'string=)
-      "keyword")
-
-     ((find (format "%s" kwd) ncl-key-contrib :test 'string=)
-      (format "%s%s%s%s" ncl-doc-url-base (cdr (assoc "contrib" ncl-doc-url-alist))
-              kwd ncl-doc-url-suffix))
-     (t
-      nil))))
+  (let ((kwd KWORD)
+        ;; cats: all categories in the ncl-doc-url-alist
+        (cats (mapcar (lambda (cat)
+                        (car cat))
+                      ncl-doc-url-alist)))
+    (catch 'break
+      (while (cdr cats)                 ; loop on all categories
+        (setq ct (car cats))
+        (setq cats `,(cdr cats))
+        (if (member (format "%s" kwd)
+                    (symbol-value (intern (concat "ncl-key-" ct))))
+            (throw 'break
+                   (if (string= ct "resources")
+                       (format "%s%s%s#%s"
+                               ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
+                               ncl-doc-resources-page kwd)
+                     (format
+                      "%s%s%s%s"
+                      ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
+                      kwd ncl-doc-url-suffix))))))))
 
 ;;=================================================================
 ;; Define minor mode
@@ -159,7 +125,7 @@ and calls the browser if it matches any of ncl keywords
 For completion support call `ncl-doc-query-open'
 "
   (interactive)
-  (let* ((default-word (thing-at-point 'symbol))
+  (let* ((default-word (thing-at-point 'word))
          (default-prompt
            (concat "NCL Keyword "
                    (if default-word
@@ -171,6 +137,12 @@ For completion support call `ncl-doc-query-open'
                                                   "\\1"
                                                   str))
                     (completing-read default-prompt ncl-all-keys))))
+
+    (if (= 0 (string-width default-query)) ;protect if the user input is empty
+        (set 'default-query default-word)) ;then it should be default word only
+
+    (if (string= ""default-query)
+        (message "default-query is nothing "))
     (let ((url (ncl-doc-construct-url default-query)))
       ;; if url is a keyword tell that there is no url for that
       (if (string= url "keyword")       ; if its a ncl keyword its in the ref manual
