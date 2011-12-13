@@ -56,14 +56,41 @@
     ("contrib" .  "/Document/Functions/Contributed/"); FIXME search matches with contrib list
     )  "url alist for different categories")
 
-;;; functions
+;;=================================================================
+;; Internal functions
+;;=================================================================
 (defun ncl-doc-cache-dir-create ()
   "creates cache dir"
   (interactive)
   (unless (file-directory-p ncl-doc-cache-dir)
     (make-directory ncl-doc-cache-dir)))
 
-;;; construction of doc by removing header
+;;; search functions
+(defun ncl-doc-keys-search-cat (CAT TERM)
+  "searches for TERM in CAT"
+  (let ((cat-keys CAT))
+    (remove nil
+            (mapcar (lambda (x)
+                      (if (string-match TERM x)
+                          x))
+                    cat-keys))))
+
+(defun ncl-doc-keys-search (TERM)
+  "takes search TERM returns alist with matches; alist is category and matched
+keywords"
+  (let* ((st TERM)
+         (cats  (mapcar (lambda (x)
+                          (car x))
+                        ncl-doc-url-alist))
+         (cats (mapcar (lambda (x)           ;make list of keyword vars
+                         (concat "ncl-key-" x))
+                       cats)))
+    (mapcar (lambda (cat)
+              (let ((klst (symbol-value (intern cat))))
+                (ncl-doc-keys-search-cat klst TERM)))
+            cats)))
+
+;;; url constructions function
 (defun ncl-doc-construct-url (KWORD)
   "construct a url from the KWORD"
   (let ((kwd KWORD)
@@ -123,8 +150,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
 (defun ncl-doc-query-at-point ()
   "asks for keyword while picking up one at point if available
 and calls the browser if it matches any of ncl keywords
-For completion support call `ncl-doc-query-open'
-"
+For completion support call `ncl-doc-query-open'"
   (interactive)
   (let* ((default-word (thing-at-point 'word))
          (default-prompt
