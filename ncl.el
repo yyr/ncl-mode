@@ -238,7 +238,7 @@
   (eval-when-compile            ; for  faster loading (is it working?)
     `(;; ncl major keywords
       (,(concat
-         "\\<" (regexp-opt ncl-keywords 'paren) "\\>")
+         "\\<" (regexp-opt ncl-key-keywords 'paren) "\\>")
        (1 font-lock-keyword-face))
 
       ;; operators
@@ -267,7 +267,7 @@
 
       ;; ncl resources
       (,(concat
-         "\\<" (regexp-opt ncl-resources t) "\\>")
+         "\\<" (regexp-opt ncl-key-resources t) "\\>")
        (1 font-lock-constant-face))
 
       ;; variable face seq`ncl-var-re'
