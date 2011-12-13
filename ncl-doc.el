@@ -6,10 +6,15 @@
 ;; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
 ;;; Commentary:
+;; ncl-doc minor mode helps you read NCL documentation from UCAR website
 ;;
+;;
+;;
+;; acknowledgment: parts in the major mode section based on pylookup.el
 
 ;;=================================================================
 ;;; code starts here
+(require 'ncl) ;  in fact variables are defined there
 (eval-when-compile
   (require 'cl))
 
@@ -56,6 +61,20 @@
     ("contrib" .  "/Document/Functions/Contributed/"); FIXME search matches with contrib list
     )  "url alist for different categories")
 
+;;;
+(defvar ncl-doc-key-cat
+  (mapcar (lambda (x)
+            (car x))
+          ncl-doc-url-alist)
+  "Categories in the ncl. this variable is prepared from
+`ncl-doc-url-alist'")
+
+(defvar ncl-doc-key-all
+  (apply 'append (mapcar (lambda (x)
+                           (symbol-value (intern (format "ncl-key-%s" x))))
+                         ncl-doc-key-cat))
+  "all keys in ncl")
+
 ;;=================================================================
 ;; Internal functions
 ;;=================================================================
@@ -90,7 +109,7 @@ keywords"
                 (ncl-doc-keys-search-cat klst TERM)))
             cats)))
 
-;;; url constructions function
+;;; URL construction function
 (defun ncl-doc-construct-url (KWORD)
   "construct a url from the KWORD"
   (let ((kwd KWORD)
@@ -144,6 +163,13 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
   "Ido support with convenience")
 
 ;;=================================================================
+;; Major Mode stuff
+;;=================================================================
+
+(defvar ncl-doc-temp-buffer-name
+  "*ncl doc buffer*")
+
+;;=================================================================
 ;; user functions
 ;;=================================================================
 ;;;###autoload
@@ -163,26 +189,76 @@ For completion support call `ncl-doc-query-open'"
                         (replace-regexp-in-string "^[ \n\t]*\\(.*?\\)[ \n\t]*$"
                                                   "\\1"
                                                   str))
-                    (completing-read default-prompt ncl-all-keys))))
+                    (completing-read default-prompt ncl-doc-key-all))))
 
     (if (= 0 (string-width default-query)) ;protect if the user input is empty
         (set 'default-query default-word)) ;then it should be default word only
 
     (if (string= ""default-query)
         (message "default-query is nothing "))
+
     (let ((url (ncl-doc-construct-url default-query)))
       ;; if url is a keyword tell that there is no url for that
       (if (string= url "keyword")       ; if its a ncl keyword its in the ref manual
           (message "\"%s\" is a NCL builtin keyword and has no specific page to look at
 Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                    default-query)
+
         (if url
             ;; gets an url call the browser
             (progn
               (message "Browsing: \"%s\"" url)
               (browse-url url))
-          (message "could not find \"%s\" keyword in ncl-doc database :("
-                   default-query))))))
+
+          ;; lets try if search bring anything
+          (let ((matches (ncl-doc-keys-search default-query)))
+            (cond
+
+             ((eq (remove nil matches) nil)
+              ;; no search results; leave with fun message
+              (message
+               ":( May NCL GOD will help you; NO search results for \"%s\" from all keywords"
+               default-query))
+
+             ;; if any matches call the major mode to display
+             (t
+              (let* ((cur-window-conf (current-window-configuration))
+                     (tmpbuf (get-buffer-create ncl-doc-temp-buffer-name)))
+
+                (display-buffer tmpbuf)
+                (pop-to-buffer tmpbuf)
+
+                (setq buffer-read-only nil)
+                (erase-buffer)
+
+                ;; Write what we are looking for
+                (insert (format "NCL keyword matches for \"%s\":\n"
+                                default-query))
+                (insert "\n")
+
+                ;; insert text
+                (let ((idx 0)
+                      (ln (list-length ncl-doc-key-cat)))
+                  (while (> ln idx)
+                    (let ((ct (nth idx ncl-doc-key-cat))
+                          (mts (nth idx matches)))
+                      (insert (format ";;Search matches in \"%s\":\n" ct))
+
+                      ;; loop over matches
+                      (mapc (lambda (x)
+                              (insert (format "%s\n" x))
+
+                              ;; put url as property
+                              (put-text-property
+                               (line-beginning-position) (line-end-position)
+                               'ncl-doc-key-url (ncl-doc-construct-url x)))
+                            mts))
+                    (insert "\n")
+                    (goto-line 3)
+                    ;; Major mode stuff
+
+                    (incf idx)
+                    )))))))))))
 
 ;;;###autoload
 (defun ncl-doc-query-open (KEY)
