@@ -76,7 +76,7 @@ procedure write_keywords(lines)
 local key_names,vname,dstring
 begin
   dstring="Reserved Keywords in ncl"
-  vname="ncl-keywords"
+  vname="ncl-key-keywords"
   key_names = get_ncl_keywords()
   write_as_defvar(lines,key_names,vname,dstring)
 end
@@ -137,7 +137,7 @@ local dstr,rnames,vname
 begin
   rnames = get_ncl_resources()
   dstr="Ncl resources"
-  vname="ncl-resources"
+  vname="ncl-key-resources"
   write_as_defvar(lines,rnames,vname,dstr)
 end
 
