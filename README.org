@@ -17,6 +17,32 @@ version. if anyone finds my changes useful and find any bugs
 please let me know.  TODO section has details about changes I plan to
 implement
 
+* Setup:
+put this in your .emacs
+#+source: setup
+#+begin_src elisp
+(require 'ncl-doc)
+(add-hook 'ncl-mode-hook
+          (lambda ()
+            (ncl-doc-minor-mode 1)))
+#+end_src
+
+* Usage:
+** M-x ncl-doc-query-at-point ( C-c C-p )
+This function does:
+   1) It prompts for a string/keyword and collects a given string
+   2) It tries to find a URL for the given string
+      + If no URL is found, then goes on to search for the given
+        string.
+      + Displays all search matches in separate buffer category wise.
+        In that buffer RET in any search match will call browser for
+        take you to that page.
+      + If no matches found for a given string it leaves you there
+
+** M-x ncl-doc-query-open  ( C-c C-o )
+Use this function you lets you choose from the all keywords ncl-doc
+has in its database and takes you to that page.
+
 * TODOS
 ** NCL MODE
 - [X] make font lock work better/faster
@@ -32,18 +58,3 @@ a mode to access/assist to read the online documentation from the Ncl
 website
 - [X] call browser to look documentation of keyword
 - [ ] reading docs with in emacs
-
-* Setup:
-put this in your .emacs
-#+source: setup
-#+begin_src elisp
-(require 'ncl-doc)
-(add-hook 'ncl-mode-hook
-          (lambda ()
-            (ncl-doc-minor-mode 1)))
-#+end_src
-* Usage:
-** key bindings
-ncl-doc minor mode key bindings
-C-c C-p  ncl-doc-query-at-point
-C-c C-o  ncl-doc-query-open

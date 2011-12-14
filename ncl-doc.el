@@ -7,10 +7,31 @@
 
 ;;; Commentary:
 ;; ncl-doc minor mode helps you read NCL documentation from UCAR website
+;; ----------------------------------------------------------
+;; Setup: put the following your .emacs/init.el
+;; (require 'ncl-doc)
+;; (add-hook 'ncl-mode-hook
+;;   (lambda ()
+;;     (ncl-doc-minor-mode 1)))
+;; ----------------------------------------------------------
+;; Usage:
+;; M-x ncl-doc-query-at-point ( C-c C-p )
+;;    This function does:
+;;     1) It prompts for a string/keyword and collects a given string
+;;     2) It tries to find a URL for the given string
+;;         + If no URL is found, then goes on to search for the given
+;;           string.
+;;         + Displays all search matches in separate buffer category wise.
+;;           In that buffer RET in any search match will call browser for
+;;           take you to that page.
+;;         + If no matches found for a given string it leaves you there
 ;;
+;; M-x ncl-doc-query-open  ( C-c C-o )
+;;     Use this function you lets you choose from the all keywords ncl-doc
+;;     has in its database and takes you to that page.
 ;;
-;;
-;; acknowledgment: parts in the major mode section based on pylookup.el
+;; acknowledgment:
+;; parts in the major mode section based on pylookup.el
 
 ;;=================================================================
 ;;; code starts here
@@ -27,18 +48,18 @@
   :group 'ncl-doc
   :type 'string)
 
-(defcustom ncl-doc-cache-dir
+(defcustom ncl-doc-cache-dir            ; cache is not yet implemented
   "~/.ncl-doc/"
   "Directory to store the cache"
   :group 'ncl-doc
   :type 'string)
 
-(defcustom ncl-doc-mode-hook nil
-  "hook runs after enabling the ncl-doc-mode"
+(defcustom ncl-doc-mode-hook nil        ; major mode hook
+  "hook runs after enabling the ncl-doc-mode major mode"
   :group 'ncl-doc)
 
 (defcustom ncl-doc-minor-mode-hook nil
-  "hook runs after enabling the ncl-doc-mode"
+  "hook runs after enabling the ncl-doc-minor-mode-hook"
   :group 'ncl-doc)
 
 ;;=================================================================
@@ -318,7 +339,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                     (let ((ct (nth idx ncl-doc-key-cat))
                           (mts (nth idx matches)))
                       (if mts
-                          (insert (format "\n;; Matches in \"%s\":\n" ct)))
+                          (insert (format "\n;; Matches in the category \"%s\":\n" ct)))
 
                       ;; loop over matches
                       (mapc (lambda (x)
