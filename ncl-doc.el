@@ -126,9 +126,8 @@ keywords"
                         (car cat))
                       ncl-doc-url-alist)))
     (catch 'break
-      (while (cdr cats)                 ; loop on all categories
+      (while  cats                 ; loop on all categories
         (setq ct (car cats))
-        (setq cats `,(cdr cats))
         (if (member (format "%s" kwd)
                     (symbol-value (intern (concat "ncl-key-" ct))))
             (throw 'break
@@ -140,7 +139,8 @@ keywords"
                          "keyword"
                        (format "%s%s%s%s"
                                ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
-                               kwd ncl-doc-url-suffix)))))))))
+                               kwd ncl-doc-url-suffix)))))
+        (setq cats (cdr cats))))))
 
 ;;=================================================================
 ;; Define minor mode
