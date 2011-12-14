@@ -344,7 +344,6 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                         font-lock-warning-face prepend)))
 
                 (setq font-lock-keywords-case-fold-search t)
-                (set 'font-lock-defaults `,ncl-doc-font-lock-defaults)
 
                 ;; store window conf
                 (set (make-local-variable 'ncl-doc-return-window-config)
