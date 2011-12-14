@@ -217,14 +217,6 @@
 
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
-(defvar ncl-all-keys
-  (eval-when-compile
-    `,(append
-      ncl-key-builtin ncl-key-contrib ncl-key-diag ncl-key-pop ncl-key-skewt
-      ncl-key-shea ncl-key-shea ncl-key-user ncl-key-wrfarw
-      ncl-key-wrfcontrib ncl-key-windrose ncl-key-gsn ncl-key-resources))
-  "all keys in NCL")
-
 (defvar ncl-var-re
   (concat
    "^[ \t]*"                            ;initial optional space
@@ -254,7 +246,7 @@
       ;; contrib functions
       (,(concat
          "\\<" (regexp-opt
-                (nconc ncl-key-contrib ncl-key-shea ncl-key-pop
+                (append ncl-key-contrib ncl-key-shea ncl-key-pop
                        ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
                        ncl-key-wrfcontrib ncl-key-windrose
                        ) 'paren) "\\>")
