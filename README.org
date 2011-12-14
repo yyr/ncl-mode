@@ -43,6 +43,29 @@ This function does:
 Use this function you lets you choose from the all keywords ncl-doc
 has in its database and takes you to that page.
 
+* Customization:
+M-x customize-group RET ncl-doc RET
+check out the following variables
+ - `ncl-doc-url-base' = defaults to "http://www.ncl.ucar.edu"
+   you can change this to any folder if you have downloaded the
+   documentation from the NCL website and want read offline.
+   (setq ncl-doc-url-base "file:///home/yagnesh/docs/ncl/")
+
+   Tip from NCL website FAQ:
+  :  Is there a way I can download the NCL website documentation so I
+  :  can access it locally on my machine?
+  :  TJ Onley pointed out this nice solution. For example, if you just want
+  :  to download the files under http://www.ncl.ucar.edu/Document, use:
+  :
+  :  wget -r -l0  -p -np -nH -k http://www.ncl.ucar.edu/Document/
+  :
+  : This will create a directory called "Document", and in that directory,
+  : you can open the "index.shtml" file with your web browser and have
+  : access to all the files locally.
+
+
+ - `ncl-doc-minor-mode-hook'
+
 * TODOS
 ** NCL MODE
 - [X] make font lock work better/faster

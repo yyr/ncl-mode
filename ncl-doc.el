@@ -30,8 +30,16 @@
 ;;     Use this function you lets you choose from the all keywords ncl-doc
 ;;     has in its database and takes you to that page.
 ;;
+;; ----------------------------------------------------------
+;; Customization:
+;; M-x customize-group RET ncl-doc RET
+;; check out the following variables
+;; `ncl-doc-url-base'  defaults to "http://www.ncl.ucar.edu"
+;; `ncl-doc-minor-mode-hook'
+;; README.org file has little more info
+;; ----------------------------------------------------------
 ;; acknowledgment:
-;; parts in the major mode section based on pylookup.el
+;; Parts of the major mode section is based on pylookup.el
 
 ;;=================================================================
 ;;; code starts here
