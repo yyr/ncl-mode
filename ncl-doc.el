@@ -83,19 +83,19 @@
 
 (defvar ncl-doc-url-alist
   ;;
-  '(("builtin" . "/Document/Functions/Built-in/")
-    ("diag" .  "/Document/Functions/Diagnostics/")
-    ("pop" .  "/Document/Functions/Pop_remap/")
-    ("shea" .  "/Document/Functions/Shea_util/")
-    ("skewt" .  "/Document/Functions/Skewt_func/")
-    ("user" .  "/Document/Functions/User_contributed/")
-    ("wrfarw" .  "/Document/Functions/WRF_arw/")
-    ("wrfcontrib" .  "/Document/Functions/WRF_contributed/")
-    ("windrose" .  "/Document/Functions/Wind_rose/")
-    ("gsn" .  "/Document/Graphics/Interfaces/")
-    ("resources" . "/Document/Graphics/Resources/")
-    ("keywords" . "Document/Manuals/Ref_Manual/")
-    ("contrib" .  "/Document/Functions/Contributed/"); FIXME search matches with contrib list
+  '(("builtin"    . "/Document/Functions/Built-in/")
+    ("contrib"    . "/Document/Functions/Contributed/")
+    ("diag"       . "/Document/Functions/Diagnostics/")
+    ("pop"        . "/Document/Functions/Pop_remap/")
+    ("shea"       . "/Document/Functions/Shea_util/")
+    ("skewt"      . "/Document/Functions/Skewt_func/")
+    ("user"       . "/Document/Functions/User_contributed/")
+    ("wrfarw"     . "/Document/Functions/WRF_arw/")
+    ("wrfcontrib" . "/Document/Functions/WRF_contributed/")
+    ("windrose"   . "/Document/Functions/Wind_rose/")
+    ("gsn"        . "/Document/Graphics/Interfaces/")
+    ("resources"  . "/Document/Graphics/Resources/")
+    ("keywords"   . "Document/Manuals/Ref_Manual/")
     )  "url alist for different categories")
 
 ;;;
