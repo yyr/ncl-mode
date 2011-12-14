@@ -188,6 +188,8 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
     (define-key map "q"        'ncl-doc-quit-window)
     (define-key map "n"        'ncl-doc-move-next-line)
     (define-key map "p"        'ncl-doc-move-prev-line)
+    (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
+    (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
 
     (define-key map "/"        'isearch-forward)
     (define-key map "l"        'recenter)
@@ -250,7 +252,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 and calls the browser if it matches any of ncl keywords
 For completion support call `ncl-doc-query-open'"
   (interactive)
-  (let* ((default-word (thing-at-point 'word))
+  (let* ((default-word (thing-at-point 'symbol))
          (default-prompt
            (concat "NCL Keyword "
                    (if default-word
@@ -351,7 +353,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 and calls browser with corresponding URL"
   (interactive
    (list
-    (let ((initial (thing-at-point 'word)))
+    (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
                "Query: " ncl-all-keys
                nil nil nil nil))))
