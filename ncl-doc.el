@@ -203,6 +203,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
   "major mode to help read NCL docs from UCAR website"
   :group 'ncl-doc
   (kill-all-local-variables)
+  (setq mode-name "ncl-doc")
   (use-local-map ncl-doc-mode-map)
   (setq buffer-read-only t)
   (run-mode-hooks))
@@ -306,7 +307,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                 (erase-buffer)
 
                 ;; Write what we are looking for
-                (insert (format "NCL keyword matches for \"%s\":"
+                (insert (format "NCL keyword Search for \"%s\":"
                                 default-query))
                 (insert "\n")
 
@@ -317,7 +318,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                     (let ((ct (nth idx ncl-doc-key-cat))
                           (mts (nth idx matches)))
                       (if mts
-                          (insert (format "\n;; Search matches in \"%s\":\n" ct)))
+                          (insert (format "\n;; Matches in \"%s\":\n" ct)))
 
                       ;; loop over matches
                       (mapc (lambda (x)
@@ -331,12 +332,19 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 
                 (font-lock-add-keywords
                  nil
-                 '(("\\(;.*\"\\)" 1 font-lock-comment-face)))
+                 '("\\(^;.*\\)"
+                   (1 font-lock-comment-face)))
 
                 (font-lock-add-keywords
-                 nil
-                 `((,(format "\\(.*\\(%s\\).*\\)" default-word)
-                    1 font-lock-keyword-face)))
+                 nil `((,(format "\\(%s\\|%s\\|%s\\)"
+                                 default-query
+                                 (upcase default-query)
+                                 (upcase-initials default-query))
+                        1
+                        font-lock-warning-face prepend)))
+
+                (setq font-lock-keywords-case-fold-search t)
+                (set 'font-lock-defaults `,ncl-doc-font-lock-defaults)
 
                 ;; store window conf
                 (set (make-local-variable 'ncl-doc-return-window-config)
