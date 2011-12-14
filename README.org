@@ -21,10 +21,10 @@ implement
 put this in your .emacs
 #+source: setup
 #+begin_src elisp
-(require 'ncl-doc)
-(add-hook 'ncl-mode-hook
-          (lambda ()
-            (ncl-doc-minor-mode 1)))
+: (require 'ncl-doc)
+: (add-hook 'ncl-mode-hook
+:          (lambda ()
+:            (ncl-doc-minor-mode 1)))
 #+end_src
 
 * Usage:
