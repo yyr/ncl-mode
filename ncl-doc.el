@@ -215,6 +215,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
     (define-key map " "        'ncl-doc-browse-url)
     (define-key map "f"        'ncl-doc-browse-url)
     (define-key map "q"        'ncl-doc-quit-window)
+    (define-key map "q"        'ncl-doc-exit-window)
     (define-key map "n"        'ncl-doc-move-next-line)
     (define-key map "p"        'ncl-doc-move-prev-line)
     (define-key map "s" 'ncl-doc-query-at-point)
