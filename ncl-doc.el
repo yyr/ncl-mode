@@ -15,7 +15,7 @@
 ;;     (ncl-doc-minor-mode 1)))
 ;; ----------------------------------------------------------
 ;; Usage:
-;; M-x ncl-doc-query-at-point ( C-c C-p )
+;; M-x ncl-doc-query-at-point ( C-c C-s )
 ;;    This function does:
 ;;     1) It prompts for a string/keyword and collects a given string
 ;;     2) It tries to find a URL for the given string
@@ -217,8 +217,8 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
     (define-key map "q"        'ncl-doc-quit-window)
     (define-key map "n"        'ncl-doc-move-next-line)
     (define-key map "p"        'ncl-doc-move-prev-line)
-    (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
-    (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
+    (define-key map "s" 'ncl-doc-query-at-point)
+    (define-key map "o" 'ncl-doc-query-open)
 
     (define-key map "/"        'isearch-forward)
     (define-key map "l"        'recenter)
@@ -266,6 +266,13 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
             (browse-url url)))
       (error "No URL on this line"))))
 
+
+(defun ncl-doc-exit-window ()
+  "Leave the completions window."
+  (interactive)
+  (let ((buf (current-buffer)))
+    (set-window-configuration ncl-doc-return-window-config)
+    (kill-buffer buf)))
 
 (defun ncl-doc-quit-window ()
   "Leave the completions window."

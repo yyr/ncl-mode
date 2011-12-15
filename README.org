@@ -28,7 +28,7 @@ put this in your .emacs
 #+end_src
 
 * Usage:
-** M-x ncl-doc-query-at-point ( C-c C-p )
+** M-x ncl-doc-query-at-point ( C-c C-s )
 This function does:
    1) It prompts for a string/keyword and collects a given string
    2) It tries to find a URL for the given string
