@@ -8,7 +8,7 @@ http://www.ncl.ucar.edu/Applications/Files/ncl.el.
 This repo was created to serve the el-get. Since I am using NCL mode
 day to day I started modifying.  I am not maintainer of ncl.el. I sent
 my changes to ncl-talk mailing list, unfortunately didn't get any
-traction :(. So I keeping them myself.
+traction :(. So I am keeping them myself.
 
 * ncl-doc.el
 ncl.el is mailnly modified to accommodate ncl-doc.el which is a
@@ -39,9 +39,10 @@ put this in your .emacs
 
 * Usage:
 ** M-x ncl-doc-query-at-point ( C-c C-s )
-This function does:
+This function does few things.
    1) It prompts for a string/keyword and collects a given string
    2) It tries to find a URL for the given string
+      + if it finds URL for the string call the browser to open that URL
       + If no URL is found, then goes on to search for the given
         string.
       + Displays all search matches in separate buffer category wise.
@@ -72,7 +73,6 @@ Tip from NCL website FAQ:
 : This will create a directory called "Document", and in that directory,
 : you can open the "index.shtml" file with your web browser and have
 : access to all the files locally.
-
 
  - `ncl-doc-minor-mode-hook'
 

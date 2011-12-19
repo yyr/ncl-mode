@@ -16,9 +16,10 @@
 ;; ----------------------------------------------------------
 ;; Usage:
 ;; M-x ncl-doc-query-at-point ( C-c C-s )
-;;    This function does:
+;;    This function does few things.
 ;;     1) It prompts for a string/keyword and collects a given string
 ;;     2) It tries to find a URL for the given string
+;;         + if it finds URL for the string call the browser to open that URL
 ;;         + If no URL is found, then goes on to search for the given
 ;;           string.
 ;;         + Displays all search matches in separate buffer category wise.
