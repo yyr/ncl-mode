@@ -18,6 +18,7 @@ The version was bumped up to v0.9x to separate from the original
 version. if anyone finds my changes useful and find any bugs
 please let me know.  TODO section has details about changes I plan to
 implement
+[[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
 
 * ncl-ctags-gen.sh
 one liner to generate ctags from NCL Source files; uses
