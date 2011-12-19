@@ -1,12 +1,14 @@
 
-* ncl-mode for Ncar Command Language(NCL)
+Emacs editing utilities for Ncar Command Language(NCL)
+
+* ncl.el
 the original version is downloaded from the following link
 http://www.ncl.ucar.edu/Applications/Files/ncl.el.
 
-* ncl.el
 This repo was created to serve the el-get. Since I am using NCL mode
-day to day I started modifying.  I am not maintainer of ncl.el. I will
-submit my changes upstream sometime soon.
+day to day I started modifying.  I am not maintainer of ncl.el. I sent
+my changes to ncl-talk mailing list, unfortunately didn't get any
+traction :(. So I keeping them myself.
 
 * ncl-doc.el
 ncl.el is mailnly modified to accommodate ncl-doc.el which is a
@@ -17,15 +19,23 @@ version. if anyone finds my changes useful and find any bugs
 please let me know.  TODO section has details about changes I plan to
 implement
 
+* ncl-ctags-gen.sh
+one liner to generate ctags from NCL Source files; uses
+~exuberant-ctags~
+USAGE:
+: ncl-ctags-gen.sh /path/to/ncl/files
+if no arguments supplied it searches for ncl files in current
+directory including sub directories
+
+* Snippets for yasnippet
+snippets folder contains ncl-mode snippets I have written.
+
 * Setup:
 put this in your .emacs
-#+source: setup
-#+begin_src elisp
 : (require 'ncl-doc)
 : (add-hook 'ncl-mode-hook
 :          (lambda ()
 :            (ncl-doc-minor-mode 1)))
-#+end_src
 
 * Usage:
 ** M-x ncl-doc-query-at-point ( C-c C-s )
