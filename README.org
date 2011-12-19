@@ -36,7 +36,7 @@ This function does few things.
 Use this function you lets you choose from the all keywords ncl-doc
 has in its database and takes you to that page.
 
-To get an idea what ncl-doc: here I loaded the ncl-doc.el then called
+To get an idea what ncl-doc does: here I loaded the ncl-doc.el then called
 the function "ncl-doc-query-at-point" and given "add" string.
 
 [[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
