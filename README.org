@@ -17,8 +17,30 @@ major/minor mode to help documentation lookup from ncl website.
 The version was bumped up to v0.9x to separate from the original
 version. if anyone finds my changes useful and find any bugs
 please let me know.  TODO section has details about changes I plan to
-implement
+implement.
+
+** Usage:
+*** M-x ncl-doc-query-at-point ( C-c C-s )
+This function does few things.
+   1) It prompts for a string/keyword and collects a given string
+   2) It tries to find a URL for the given string
+      + if it finds URL for the string call the browser to open that URL
+      + If no URL is found, then goes on to search for the given
+        string.
+      + Displays all search matches in separate buffer category wise.
+        In that buffer RET in any search match will call browser for
+        take you to that page.
+      + If no matches found for a given string it leaves you there
+
+*** M-x ncl-doc-query-open  ( C-c C-o )
+Use this function you lets you choose from the all keywords ncl-doc
+has in its database and takes you to that page.
+
+To get an idea what ncl-doc: here I loaded the ncl-doc.el then called
+the function "ncl-doc-query-at-point" and given "add" string.
+
 [[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
+
 
 * ncl-ctags-gen.sh
 one liner to generate ctags from NCL Source files; uses
@@ -37,23 +59,6 @@ put this in your .emacs
 : (add-hook 'ncl-mode-hook
 :          (lambda ()
 :            (ncl-doc-minor-mode 1)))
-
-* Usage:
-** M-x ncl-doc-query-at-point ( C-c C-s )
-This function does few things.
-   1) It prompts for a string/keyword and collects a given string
-   2) It tries to find a URL for the given string
-      + if it finds URL for the string call the browser to open that URL
-      + If no URL is found, then goes on to search for the given
-        string.
-      + Displays all search matches in separate buffer category wise.
-        In that buffer RET in any search match will call browser for
-        take you to that page.
-      + If no matches found for a given string it leaves you there
-
-** M-x ncl-doc-query-open  ( C-c C-o )
-Use this function you lets you choose from the all keywords ncl-doc
-has in its database and takes you to that page.
 
 * Customization:
 M-x customize-group RET ncl-doc RET
