@@ -68,7 +68,7 @@
   :group 'ncl-doc)
 
 (defcustom ncl-doc-minor-mode-hook nil
-  "hook runs after enabling the ncl-doc-minor-mode-hook"
+  "hook runs after enabling the ncl-doc-minormode-hook"
   :group 'ncl-doc)
 
 ;;=================================================================
@@ -177,6 +177,7 @@ keywords"
 ;;=================================================================
 (defvar ncl-doc-minor-mode-map
   (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-s") 'ncl-doc-query-at-point)
     (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
     (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
     map)
@@ -400,7 +401,7 @@ and calls browser with corresponding URL"
    (list
     (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
-               "Query: " ncl-all-keys
+               "Query: " ncl-doc-key-all
                nil nil nil nil))))
   (let ((url (ncl-doc-construct-url KEY)))
     (progn
