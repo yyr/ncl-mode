@@ -157,19 +157,19 @@ keywords"
                       ncl-doc-url-alist)))
     (catch 'break
       (while  cats                 ; loop on all categories
-        (setq ct (car cats))
-        (if (member (format "%s" kwd)
-                    (symbol-value (intern (concat "ncl-key-" ct))))
-            (throw 'break
-                   (if (string= ct "resources")
-                       (format "%s%s%s#%s"
-                               ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
-                               ncl-doc-resources-page kwd)
-                     (if (string= ct "keywords")
-                         "keyword"
-                       (format "%s%s%s%s"
-                               ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
-                               kwd ncl-doc-url-suffix)))))
+        (let ((ct (car cats)))
+          (if (member (format "%s" kwd)
+                      (symbol-value (intern (concat "ncl-key-" ct))))
+              (throw 'break
+                     (if (string= ct "resources")
+                         (format "%s%s%s#%s"
+                                 ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
+                                 ncl-doc-resources-page kwd)
+                       (if (string= ct "keywords")
+                           "keyword"
+                         (format "%s%s%s%s"
+                                 ncl-doc-url-base (cdr (assoc ct ncl-doc-url-alist))
+                                 kwd ncl-doc-url-suffix))))))
         (setq cats (cdr cats))))))
 
 ;;=================================================================
@@ -352,7 +352,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 
                 ;; insert text
                 (let ((idx 0)
-                      (ln (list-length ncl-doc-key-cat)))
+                      (ln (length ncl-doc-key-cat)))
                   (while (> ln idx)
                     (let ((ct (nth idx ncl-doc-key-cat))
                           (mts (nth idx matches)))
@@ -365,7 +365,9 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                             mts))
                     (incf idx)))
 
-                (goto-line 3)
+                (goto-char (point-min))
+                (forward-line (1- 3))
+
                 ;; Major mode stuff
                 (ncl-doc-mode)
 
