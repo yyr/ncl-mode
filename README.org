@@ -33,7 +33,7 @@ enable ncl-doc for ncl mode
             (ncl-doc-minor-mode 1)))
 #+END_SRC
 
-you can also look at my configuration for ncl [[https://raw.github.com/yyr/emacsd/master/init-ncl.el][here]]
+you can also look at my configuration for ncl [[https://github.com/yyr/emacsd/blob/master/init-ncl.el][here]]
 
 ** Usage:
 *** M-x ncl-doc-query-at-point ( C-c C-s )
