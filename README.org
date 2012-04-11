@@ -1,5 +1,4 @@
-
-Emacs editing utilities for Ncar Command Language(NCL)
+Emacs editing utilities for Ncar Command Language(NCL).
 
 * ncl.el
 the original version is downloaded from the following link
@@ -8,7 +7,7 @@ http://www.ncl.ucar.edu/Applications/Files/ncl.el.
 This repo was created to serve the el-get. Since I am using NCL mode
 day to day I started modifying.  I am not maintainer of ncl.el. I sent
 my changes to ncl-talk mailing list, unfortunately didn't get any
-traction :(. So I am keeping them myself.
+traction :(. So I am keeping them myself and for you.
 
 * ncl-doc.el
 ncl.el is mailnly modified to accommodate ncl-doc.el which is a
@@ -18,6 +17,23 @@ The version was bumped up to v0.9x to separate from the original
 version. if anyone finds my changes useful and find any bugs
 please let me know.  TODO section has details about changes I plan to
 implement.
+* Installation & Setup
+put ncl.el folder (which you downloaded) in emacs load path.
+#+BEGIN_SRC elisp
+(add-to-list 'load-path "/path/to/ncl.el.folder")
+(setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
+#+END_SRC
+
+enable ncl-doc for ncl mode
+
+#+BEGIN_SRC elisp
+(add-hook 'ncl-mode-hook
+          (lambda ()
+            (require 'ncl-doc)
+            (ncl-doc-minor-mode 1)))
+#+END_SRC
+
+you can also look at my configuration for ncl [[https://raw.github.com/yyr/emacsd/master/init-ncl.el][here]]
 
 ** Usage:
 *** M-x ncl-doc-query-at-point ( C-c C-s )
