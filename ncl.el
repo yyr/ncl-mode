@@ -137,13 +137,13 @@
 (defvar ncl-key-keywords
   '(
     "begin" "break" "byte" "character" "continue" "create" "defaultapp" "do" "double" "else" "end" "enumeric" "external" "file" "float" "function" "getvalues" "graphic" "group" "if" "integer" "int64" "list" "load" "local" "logical" "long" "new" "_Missing" "Missing" "new" "noparent" "numeric" "procedure" "quit" "QUIT" "Quit" "record" "return" "setvalues" "short" "snumeric" "stop" "string" "then" "ubyte" "uint" "uint64" "ulong" "ushort" "while"
-    ) "Reserved Keywords in ncl")
+    ) "Reserved Keywords in ncl.")
 
 
 (defvar ncl-key-operators
   '(
     "(/" "/)" "\\" ".eq." ".ne." ".lt." ".le." ".gt." ".ge." ".and." ".or." ".not." ".xor."
-    ) "Operators in NCL")
+    ) "Operators in NCL.")
 
 
 (defvar ncl-key-builtin
@@ -153,68 +153,68 @@
     "list_procfuncs" "list_vars" "ListGetType" "ListSetType" "loadscript" "local_max" "local_min" "log" "log10" "longtobyte" "longtochar" "longtocharacter" "longtoint" "longtointeger" "longtoshort" "lspoly" "mask" "max" "maxind" "min" "minind" "mixhum_ptd" "mixhum_ptrh" "mjo_cross_coh2pha" "mjo_cross_segment" "moc_globe_atl" "monthday" "natgrid" "natgridd" "natgrids" "ncargpath" "ncargversion" "ndctodata" "ndtooned" "new" "ngezlogo" "nggcog" "nggetp" "nglogo" "ngsetp" "NhlAddAnnotation" "NhlAddData" "NhlAddOverlay" "NhlAddPrimitive" "NhlAppGetDefaultParentId" "NhlChangeWorkstation" "NhlClassName" "NhlClearWorkstation" "NhlDataPolygon" "NhlDataPolyline" "NhlDataPolymarker" "NhlDataToNDC" "NhlDestroy" "NhlDraw" "NhlFrame" "NhlFreeColor" "NhlGetBB" "NhlGetClassResources" "NhlGetErrorObjectId" "NhlGetNamedColorIndex" "NhlGetParentId" "NhlGetParentWorkstation" "NhlGetWorkspaceObjectId" "NhlIsAllocatedColor" "NhlIsApp" "NhlIsDataComm" "NhlIsDataItem" "NhlIsDataSpec" "NhlIsTransform" "NhlIsView" "NhlIsWorkstation" "NhlName" "NhlNDCPolygon" "NhlNDCPolyline" "NhlNDCPolymarker" "NhlNDCToData" "NhlNewColor" "NhlNewDashPattern" "NhlNewMarker" "NhlPalGetDefined" "NhlRemoveAnnotation" "NhlRemoveData" "NhlRemoveOverlay" "NhlRemovePrimitive" "NhlSetColor" "NhlSetDashPattern" "NhlSetMarker" "NhlUpdateData" "NhlUpdateWorkstation" "nice_mnmxintvl" "nngetaspectd" "nngetaspects" "nngetp" "nngetsloped" "nngetslopes" "nngetwts" "nngetwtsd" "nnpnt" "nnpntd" "nnpntend" "nnpntendd" "nnpntinit" "nnpntinitd" "nnpntinits" "nnpnts" "nnsetp" "num" "obj_anal_ic" "omega_ccm" "onedtond" "overlay" "paleo_outline" "pdfxy_bin" "poisson_grid_fill" "pop_remap" "prcwater_dp" "pres2hybrid" "pres_hybrid_ccm" "pres_sigma" "print" "printFileVarSummary" "printVarSummary" "product" "pslec" "pslhor" "pslhyp" "qsort" "rand" "random_chi" "random_gamma" "random_normal" "random_setallseed" "random_uniform" "rcm2points" "rcm2rgrid" "rdsstoi" "reg_multlin" "regcoef" "regCoef" "regline" "relhum" "replace_ieeenan" "reshape" "rgbhls" "rgbhsv" "rgbyiq" "rgrid2rcm" "rhomb_trunc" "rhomb_trunC" "rip_cape_2d" "rip_cape_3d" "round" "rtest" "runave" "runave_n" "set_default_fillvalue" "set_sphere_radius" "setfileoption" "sfvp2uvf" "sfvp2uvg" "shaeC" "shaec" "shagC" "shagc" "shgetnp" "shgetp" "shgrid" "shorttobyte" "shorttochar" "shorttocharacter" "show_ascii" "shsec" "shseC" "shsetp" "shsgC" "shsgc" "shsgc_R42" "sigma2hybrid" "simpeq" "simpne" "sin" "sindex_yrmo" "sinh" "sizeof" "sleep" "smth9" "snindex_yrmo" "solve_linsys" "sparse_matrix_mult" "spcorr" "spcorr_n" "specx_anal" "specxy_anal" "sprintf" "sprinti" "sqrt" "sqsort" "srand" "stat2" "stat4"
     "stat_medrng" "stat_trim" "status_exit" "stdatmus_p2tdz" "stdatmus_z2tdp" "stddev" "str_capital" "str_concat" "str_fields_count" "str_get_cols" "str_get_dq" "str_get_field" "str_get_nl" "str_index_of_substr" "str_insert" "str_is_blank" "str_join" "str_left_strip" "str_lower" "str_match" "str_match_ic" "str_match_ind" "str_match_ind_ic" "str_right_strip" "str_split" "str_split_by_length" "str_split_csv" "str_squeeze" "str_strip" "str_sub_str" "str_switch" "str_upper" "stringtochar" "stringtocharacter" "stringtodouble" "stringtofloat" "stringtoint" "stringtointeger" "stringtolong" "stringtoshort" "strlen" "student_t" "sum" "svd_lapack" "svdcov" "svdcov_sv" "svdstd" "svdstd_sv" "system" "systemfunc" "tan" "tanh" "taper" "taper_n" "tdclrs" "tdctri" "tdcudp" "tdcurv" "tddtri" "tdez2d" "tdez3d" "tdgetp" "tdgrds" "tdgrid" "tdgtrs" "tdinit" "tditri" "tdlbla" "tdlblp" "tdlbls" "tdline" "tdlndp" "tdlnpa" "tdlpdp" "tdmtri" "tdotri" "tdpara" "tdplch" "tdprpa" "tdprpi" "tdprpt" "tdsetp" "tdsort" "tdstri" "tdstrs" "tdttri" "tobyte" "tochar" "todouble" "tofloat" "toint" "toint64" "tointeger" "tolong" "toshort" "tosigned" "tostring" "toubyte" "touint" "touint64" "toulong" "tounsigned" "toushort" "tri_trunC" "tri_trunc" "triple2grid" "triple2grid2d" "trop_wmo" "ttest" "typeof" "undef" "unique_string" "update" "ushorttoint" "ut_calendar" "ut_inv_calendar" "utm2latlon" "uv2dv_cfd" "uv2dvf" "uv2dvF" "uv2dvg" "uv2dvG" "uv2sfvpF" "uv2sfvpf" "uv2sfvpG" "uv2sfvpg" "uv2vr_cfd" "uv2vrdvF" "uv2vrdvf" "uv2vrdvG" "uv2vrdvg" "uv2vrF" "uv2vrf" "uv2vrG" "uv2vrg" "v5d_close" "v5d_create" "v5d_setLowLev" "v5d_setUnits" "v5d_write" "v5d_write_var" "variance" "vhaeC" "vhaec" "vhagC" "vhagc" "vhseC" "vhsec" "vhsgc" "vhsgC" "vibeta" "vinth2p" "vinth2p_ecmwf" "vinth2p_ecmwf_nodes" "vinth2p_nodes" "vintp2p_ecmwf" "vr2uvf" "vr2uvF" "vr2uvg" "vr2uvG" "vrdv2uvf" "vrdv2uvF" "vrdv2uvg" "vrdv2uvG" "wavelet" "wavelet_default" "wgt_areaave" "wgt_areaave2" "wgt_arearmse" "wgt_arearmse2" "wgt_areasum2" "wgt_runave" "wgt_runave_n" "wgt_vert_avg_beta" "wgt_volave" "wgt_volave_ccm" "wgt_volrmse" "wgt_volrmse_ccm" "where" "wk_smooth121" "wmbarb" "wmbarbmap" "wmdrft" "wmgetp" "wmlabs" "wmsetp" "wmstnm" "wmvect" "wmvectmap" "wmvlbl" "wrf_avo" "wrf_cape_2d" "wrf_cape_3d" "wrf_dbz" "wrf_eth" "wrf_helicity" "wrf_ij_to_ll" "wrf_interp_1d" "wrf_interp_2d_xy" "wrf_interp_3d_z"
     "wrf_latlon_to_ij" "wrf_ll_to_ij" "wrf_pvo" "wrf_rh" "wrf_slp" "wrf_smooth_2d" "wrf_td" "wrf_tk" "wrf_updraft_helicity" "wrf_uvmet" "write_matrix" "yiqrgb" "z2geouv" "zonal_mpsi"
-    ) "ncl built-in functions")
+    ) "Ncl built-in functions.")
 
 
 (defvar ncl-key-contrib
   '(
     "addfiles_GetVar" "area_conserve_remap_Wrap" "area_hi2lores_Wrap" "array_append_record" "assignFillValue" "byte2flt" "calcDayAnomTLL" "calcMonAnomLLLT" "calcMonAnomLLT" "calcMonAnomTLL" "calcMonAnomTLLL" "changeCase" "changeCaseChar" "clmDayTLL" "clmDayTLLL" "clmMon2clmDay" "clmMonLLLT" "clmMonLLT" "clmMonTLL" "clmMonTLLL" "closest_val" "copy_VarAtts" "copy_VarCoords" "copy_VarCoords_1" "copy_VarCoords_2" "copy_VarMeta" "copyatt" "crossp3" "cshstringtolist" "cssgrid_Wrap" "dble2flt" "decimalPlaces" "delete_VarAtts" "dim_avg_n_Wrap" "dim_avg_wgt_n_Wrap" "dim_avg_wgt_Wrap" "dim_avg_Wrap" "dim_cumsum_n_Wrap" "dim_cumsum_Wrap" "dim_max_n_Wrap" "dim_min_n_Wrap" "dim_rmsd_n_Wrap" "dim_rmsd_Wrap" "dim_rmvmean_n_Wrap" "dim_rmvmean_Wrap" "dim_rmvmed_n_Wrap" "dim_rmvmed_Wrap" "dim_standardize_n_Wrap" "dim_standardize_Wrap" "dim_stddev_n_Wrap" "dim_stddev_Wrap" "dim_sum_n_Wrap" "dim_sum_wgt_n_Wrap" "dim_sum_wgt_Wrap" "dim_sum_Wrap" "dim_variance_n_Wrap" "dim_variance_Wrap" "dpres_plevel_Wrap" "dtrend_leftdim" "dv2uvF_Wrap" "dv2uvG_Wrap" "eofcor_Wrap" "eofcov_Wrap" "eofunc_ts_Wrap" "eofunc_varimax_reorder" "eofunc_varimax_Wrap" "eofunc_Wrap" "epsZero" "f2fosh_Wrap" "f2foshv_Wrap" "f2fsh_Wrap" "f2fshv_Wrap" "f2gsh_Wrap" "f2gshv_Wrap" "fbindirSwap" "fbinseqSwap1" "fbinseqSwap2" "flt2dble" "flt2string" "fo2fsh_Wrap" "fo2fshv_Wrap" "g2fsh_Wrap" "g2fshv_Wrap" "g2gsh_Wrap" "g2gshv_Wrap" "generate_unique_indices" "genNormalDist" "get1Dindex" "get1Dindex_Collapse" "get1Dindex_Exclude" "get_file_suffix" "GetFillColor" "GetFillColorIndex" "getFillValue" "getind_latlon2d" "getVarDimNames" "getVarFillValue" "grib_stime2itime" "hyi2hyo_Wrap" "ilapsF_Wrap" "ilapsG_Wrap" "ind_nearest_coord" "indStrSubset" "int2dble" "int2flt" "int2p_n_Wrap" "int2p_Wrap" "isMonotonic" "isStrSubset" "latGau" "latGauWgt" "latGlobeF" "latGlobeFo" "latRegWgt" "linint1_n_Wrap" "linint1_Wrap" "linint2_points_Wrap" "linint2_Wrap" "local_max_1d" "local_min_1d" "lonFlip" "lonGlobeF" "lonGlobeFo" "lonPivot" "merge_levels_sfc" "mod" "month_to_annual" "month_to_annual_weighted" "month_to_season" "month_to_season12" "month_to_seasonN" "monthly_total_to_daily_mean" "nameDim" "natgrid_Wrap" "NewCosWeight" "niceLatLon2D" "NormCosWgtGlobe" "numAsciiCol" "numAsciiRow" "numeric2int" "obj_anal_ic_deprecated" "obj_anal_ic_Wrap" "omega_ccm_driver" "oneDtostring" "pack_values" "pattern_cor" "pdfx" "pdfxy" "pres2hybrid_Wrap" "printMinMax" "quadroots" "rcm2points_Wrap" "rcm2rgrid_Wrap" "readAsciiHead" "readAsciiTable" "region_ind" "relhum_ttd" "remap_elements" "replaceSingleChar" "RGBtoCmap" "rgrid2rcm_Wrap" "rho_mwjf" "rm_single_dims" "rmAnnCycle1D" "rmInsufData" "rmMonAnnCycLLLT" "rmMonAnnCycLLT" "rmMonAnnCycTLL" "runave_n_Wrap" "runave_Wrap" "short2flt" "short2flt_hdf" "shsgc_R42_Wrap" "smth9_Wrap" "smthClmDayTLL" "SqrtCosWeight" "stat_dispersion" "stdMonLLLT" "stdMonLLT" "stdMonTLL" "stdMonTLLL" "symMinMaxPlt" "table_attach_columns" "table_attach_rows" "time_to_newtime" "transpose" "triple2grid_Wrap" "ut_convert" "uv2dvF_Wrap" "uv2dvG_Wrap" "uv2vrF_Wrap" "uv2vrG_Wrap" "vr2uvF_Wrap" "vr2uvG_Wrap" "wallClockElapseTime" "wave_number_spc" "wgt_areaave_Wrap" "wgt_runave_leftdim" "wgt_runave_n_Wrap" "wgt_runave_Wrap"
     "yyyyddd_to_yyyymmdd" "yyyymm_time" "yyyymm_to_yyyyfrac" "yyyymmdd_time" "yyyymmdd_to_yyyyddd" "yyyymmdd_to_yyyyfrac" "yyyymmddhh_to_yyyyfrac" "zonal_mpsi_Wrap" "zonalAve"
-    ) "contributed functions")
+    ) "Contributed functions.")
 
 
 (defvar ncl-key-diag
   '(
     "band_pass_area_time" "band_pass_area_time_plot" "band_pass_hovmueller" "band_pass_hovmueller_plot" "band_pass_latlon_time" "band_pass_latlon_time_plot" "decomposeSymAsym" "mjo_cross" "mjo_cross_plot" "mjo_phase_background" "mjo_space_time_cross" "mjo_spectra" "mjo_spectra_season" "mjo_wavenum_freq_season" "mjo_wavenum_freq_season_plot" "mjo_xcor_lag_ovly" "mjo_xcor_lag_ovly_panel" "mjo_xcor_lag_season" "resolveWavesHayashi" "wkSpaceTime" "wkSpaceTime_cam"
-    ) "diagnostics functions")
+    ) "Diagnostics functions.")
 
 
 (defvar ncl-key-pop
   '(
     "PopLatLon" "PopLatLonV"
-    ) "pop_remap functions")
+    ) "Pop_remap functions.")
 
 
 (defvar ncl-key-shea
   '(
     "add90LatX" "add90LatY" "boxplot" "ColorNegDashZeroPosContour" "ColorShadeLeGeContour" "drawNDCGrid" "infoTimeStamp" "landsea_mask" "msgValOutline" "pie_chart" "plt_pdfxy" "setColorContourClear" "ShadeCOI" "ShadeGeLeContour" "ShadeGtContour" "ShadeLtContour" "ShadeLtGtContour" "specx_ci"
-    ) "shea_util functions")
+    ) "Shea_util functions.")
 
 
 (defvar ncl-key-skewt
   '(
     "skewT_BackGround" "skewT_PlotData"
-    ) "skewt functions")
+    ) "Skewt functions.")
 
 
 (defvar ncl-key-user
   '(
     "calendar_decode2" "kf_filter" "run_cor" "time_axis_labels" "ut_string"
-    ) "user_contributed functions")
+    ) "User_contributed functions.")
 
 
 (defvar ncl-key-wrfarw
   '(
     "wrf_contour" "wrf_map" "wrf_map_overlay" "wrf_map_overlays" "wrf_map_zoom" "wrf_overlay" "wrf_overlays" "wrf_user_getvar" "wrf_user_ij_to_ll" "wrf_user_intrp2d" "wrf_user_intrp3d" "wrf_user_latlon_to_ij" "wrf_user_list_times" "wrf_user_ll_to_ij" "wrf_user_unstagger" "wrf_vector"
-    ) "wrf_arw functions")
+    ) "Wrf_arw functions.")
 
 
 (defvar ncl-key-wrfcontrib
   '(
     "wrf_mapres_c" "wrf_times_c"
-    ) "wrf_contributed functions")
+    ) "Wrf_contributed functions.")
 
 
 (defvar ncl-key-windrose
   '(
     "WindRoseBasic" "WindRoseColor" "WindRoseThickLine"
-    ) "wind_rose functions")
+    ) "Wind_rose functions.")
 
 
 (defvar ncl-key-gsn
   '(
     "gsn_add_annotation" "gsn_add_polygon" "gsn_add_polyline" "gsn_add_polymarker" "gsn_add_text" "gsn_attach_plots" "gsn_blank_plot" "gsn_contour" "gsn_contour_map" "gsn_contour_shade" "gsn_create_labelbar" "gsn_create_legend" "gsn_create_text" "gsn_csm_attach_zonal_means" "gsn_csm_blank_plot" "gsn_csm_contour" "gsn_csm_contour_map" "gsn_csm_contour_map_ce" "gsn_csm_contour_map_overlay" "gsn_csm_contour_map_polar" "gsn_csm_hov" "gsn_csm_lat_time" "gsn_csm_map" "gsn_csm_map_ce" "gsn_csm_map_polar" "gsn_csm_pres_hgt" "gsn_csm_pres_hgt_streamline" "gsn_csm_pres_hgt_vector" "gsn_csm_streamline" "gsn_csm_streamline_contour_map" "gsn_csm_streamline_contour_map_ce" "gsn_csm_streamline_contour_map_polar" "gsn_csm_streamline_map" "gsn_csm_streamline_map_ce" "gsn_csm_streamline_map_polar" "gsn_csm_time_lat" "gsn_csm_vector" "gsn_csm_vector_map" "gsn_csm_vector_map_ce" "gsn_csm_vector_map_polar" "gsn_csm_vector_scalar" "gsn_csm_vector_scalar_map" "gsn_csm_vector_scalar_map_ce" "gsn_csm_vector_scalar_map_polar" "gsn_csm_x2y" "gsn_csm_x2y2" "gsn_csm_xy" "gsn_csm_xy2" "gsn_csm_xy3" "gsn_csm_y" "gsn_define_colormap" "gsn_draw_colormap" "gsn_draw_named_colors" "gsn_histogram" "gsn_labelbar_ndc" "gsn_legend_ndc" "gsn_map" "gsn_merge_colormaps" "gsn_open_wks" "gsn_panel" "gsn_polygon" "gsn_polygon_ndc" "gsn_polyline" "gsn_polyline_ndc" "gsn_polymarker" "gsn_polymarker_ndc" "gsn_retrieve_colormap" "gsn_reverse_colormap" "gsn_streamline" "gsn_streamline_map" "gsn_streamline_scalar" "gsn_streamline_scalar_map" "gsn_table" "gsn_text" "gsn_text_ndc" "gsn_vector" "gsn_vector_map" "gsn_vector_scalar" "gsn_vector_scalar_map" "gsn_xy" "gsn_y" "hsv2rgb" "maximize_output" "namedcolor2rgb" "reset_device_coordinates" "span_named_colors"
-    ) "gsn csm plot templates and special gsn functions")
+    ) "Gsn csm plot templates and special gsn functions.")
 
 
 (defvar ncl-key-resources
@@ -227,7 +227,7 @@
     "tmYLFormat" "tmYLIrrTensionF" "tmYLIrregularPoints" "tmYLLabelAngleF" "tmYLLabelConstantSpacingF" "tmYLLabelDeltaF" "tmYLLabelDirection" "tmYLLabelFont" "tmYLLabelFontAspectF" "tmYLLabelFontColor" "tmYLLabelFontHeightF" "tmYLLabelFontQuality" "tmYLLabelFontThicknessF" "tmYLLabelFuncCode" "tmYLLabelJust" "tmYLLabelStride" "tmYLLabels" "tmYLLabelsOn" "tmYLMajorLengthF" "tmYLMajorLineColor" "tmYLMajorOutwardLengthF" "tmYLMajorThicknessF" "tmYLMaxLabelLenF" "tmYLMaxTicks" "tmYLMinLabelSpacingF" "tmYLMinorLengthF" "tmYLMinorLineColor" "tmYLMinorOn" "tmYLMinorOutwardLengthF" "tmYLMinorPerMajor" "tmYLMinorThicknessF" "tmYLMinorValues" "tmYLMode" "tmYLOn" "tmYLPrecision" "tmYLStyle" "tmYLTickEndF" "tmYLTickSpacingF" "tmYLTickStartF" "tmYLValues" "tmYMajorGrid" "tmYMajorGridLineColor" "tmYMajorGridLineDashPattern" "tmYMajorGridThicknessF" "tmYMinorGrid" "tmYMinorGridLineColor" "tmYMinorGridLineDashPattern" "tmYMinorGridThicknessF" "tmYRAutoPrecision" "tmYRBorderOn" "tmYRDataBottomF" "tmYRDataTopF" "tmYRFormat" "tmYRIrrTensionF" "tmYRIrregularPoints" "tmYRLabelAngleF" "tmYRLabelConstantSpacingF" "tmYRLabelDeltaF" "tmYRLabelDirection" "tmYRLabelFont" "tmYRLabelFontAspectF" "tmYRLabelFontColor" "tmYRLabelFontHeightF" "tmYRLabelFontQuality" "tmYRLabelFontThicknessF" "tmYRLabelFuncCode" "tmYRLabelJust" "tmYRLabelStride" "tmYRLabels" "tmYRLabelsOn" "tmYRMajorLengthF" "tmYRMajorLineColor" "tmYRMajorOutwardLengthF" "tmYRMajorThicknessF" "tmYRMaxLabelLenF" "tmYRMaxTicks" "tmYRMinLabelSpacingF" "tmYRMinorLengthF" "tmYRMinorLineColor" "tmYRMinorOn" "tmYRMinorOutwardLengthF" "tmYRMinorPerMajor" "tmYRMinorThicknessF" "tmYRMinorValues" "tmYRMode" "tmYROn" "tmYRPrecision" "tmYRStyle" "tmYRTickEndF" "tmYRTickSpacingF" "tmYRTickStartF" "tmYRValues" "tmYUseLeft" "trGridType" "trLineInterpolationOn" "trXAxisType" "trXCoordPoints" "trXInterPoints" "trXLog" "trXMaxF" "trXMinF" "trXReverse" "trXSamples" "trXTensionF" "trYAxisType" "trYCoordPoints" "trYInterPoints" "trYLog" "trYMaxF" "trYMinF" "trYReverse" "trYSamples" "trYTensionF" "txAngleF" "txBackgroundFillColor" "txConstantSpacingF" "txDirection" "txFont" "txFontAspectF" "txFontColor" "txFontHeightF" "txFontQuality" "txFontThicknessF" "txFuncCode" "txJust" "txPerimColor" "txPerimDashLengthF" "txPerimDashPattern" "txPerimOn" "txPerimSpaceF" "txPerimThicknessF" "txPosXF" "txPosYF" "txString" "vcExplicitLabelBarLabelsOn" "vcFillArrowEdgeColor" "vcFillArrowEdgeThicknessF" "vcFillArrowFillColor" "vcFillArrowHeadInteriorXF" "vcFillArrowHeadMinFracXF" "vcFillArrowHeadMinFracYF" "vcFillArrowHeadXF" "vcFillArrowHeadYF" "vcFillArrowMinFracWidthF" "vcFillArrowWidthF" "vcFillArrowsOn" "vcFillOverEdge" "vcGlyphStyle" "vcLabelBarEndLabelsOn" "vcLabelFontColor" "vcLabelFontHeightF" "vcLabelsOn" "vcLabelsUseVectorColor" "vcLevelColors" "vcLevelCount" "vcLevelSelectionMode" "vcLevelSpacingF" "vcLevels" "vcLineArrowColor" "vcLineArrowHeadMaxSizeF" "vcLineArrowHeadMinSizeF" "vcLineArrowThicknessF" "vcMagnitudeFormat" "vcMagnitudeScaleFactorF" "vcMagnitudeScaleValueF" "vcMagnitudeScalingMode" "vcMapDirection" "vcMaxLevelCount" "vcMaxLevelValF" "vcMaxMagnitudeF" "vcMinAnnoAngleF" "vcMinAnnoArrowAngleF" "vcMinAnnoArrowEdgeColor" "vcMinAnnoArrowFillColor" "vcMinAnnoArrowLineColor" "vcMinAnnoArrowMinOffsetF" "vcMinAnnoArrowSpaceF" "vcMinAnnoArrowUseVecColor" "vcMinAnnoBackgroundColor" "vcMinAnnoConstantSpacingF" "vcMinAnnoExplicitMagnitudeF" "vcMinAnnoFont" "vcMinAnnoFontAspectF" "vcMinAnnoFontColor" "vcMinAnnoFontHeightF" "vcMinAnnoFontQuality" "vcMinAnnoFontThicknessF" "vcMinAnnoFuncCode" "vcMinAnnoJust" "vcMinAnnoOn" "vcMinAnnoOrientation" "vcMinAnnoOrthogonalPosF" "vcMinAnnoParallelPosF" "vcMinAnnoPerimColor" "vcMinAnnoPerimOn" "vcMinAnnoPerimSpaceF" "vcMinAnnoPerimThicknessF" "vcMinAnnoSide" "vcMinAnnoString1" "vcMinAnnoString1On"
     "vcMinAnnoString2" "vcMinAnnoString2On" "vcMinAnnoTextDirection" "vcMinAnnoZone" "vcMinDistanceF" "vcMinFracLengthF" "vcMinLevelValF" "vcMinMagnitudeF" "vcMonoFillArrowEdgeColor" "vcMonoFillArrowFillColor" "vcMonoLineArrowColor" "vcMonoWindBarbColor" "vcNoDataLabelOn" "vcNoDataLabelString" "vcPositionMode" "vcRefAnnoAngleF" "vcRefAnnoArrowAngleF" "vcRefAnnoArrowEdgeColor" "vcRefAnnoArrowFillColor" "vcRefAnnoArrowLineColor" "vcRefAnnoArrowMinOffsetF" "vcRefAnnoArrowSpaceF" "vcRefAnnoArrowUseVecColor" "vcRefAnnoBackgroundColor" "vcRefAnnoConstantSpacingF" "vcRefAnnoExplicitMagnitudeF" "vcRefAnnoFont" "vcRefAnnoFontAspectF" "vcRefAnnoFontColor" "vcRefAnnoFontHeightF" "vcRefAnnoFontQuality" "vcRefAnnoFontThicknessF" "vcRefAnnoFuncCode" "vcRefAnnoJust" "vcRefAnnoOn" "vcRefAnnoOrientation" "vcRefAnnoOrthogonalPosF" "vcRefAnnoParallelPosF" "vcRefAnnoPerimColor" "vcRefAnnoPerimOn" "vcRefAnnoPerimSpaceF" "vcRefAnnoPerimThicknessF" "vcRefAnnoSide" "vcRefAnnoString1" "vcRefAnnoString1On" "vcRefAnnoString2" "vcRefAnnoString2On" "vcRefAnnoTextDirection" "vcRefAnnoZone" "vcRefLengthF" "vcRefMagnitudeF" "vcScalarFieldData" "vcScalarMissingValColor" "vcScalarValueFormat" "vcScalarValueScaleFactorF" "vcScalarValueScaleValueF" "vcScalarValueScalingMode" "vcUseRefAnnoRes" "vcUseScalarArray" "vcVectorDrawOrder" "vcVectorFieldData" "vcWindBarbCalmCircleSizeF" "vcWindBarbColor" "vcWindBarbLineThicknessF" "vcWindBarbScaleFactorF" "vcWindBarbTickAngleF" "vcWindBarbTickLengthF" "vcWindBarbTickSpacingF" "vcZeroFLabelAngleF" "vcZeroFLabelBackgroundColor" "vcZeroFLabelConstantSpacingF" "vcZeroFLabelFont" "vcZeroFLabelFontAspectF" "vcZeroFLabelFontColor" "vcZeroFLabelFontHeightF" "vcZeroFLabelFontQuality" "vcZeroFLabelFontThicknessF" "vcZeroFLabelFuncCode" "vcZeroFLabelJust" "vcZeroFLabelOn" "vcZeroFLabelOrthogonalPosF" "vcZeroFLabelParallelPosF" "vcZeroFLabelPerimColor" "vcZeroFLabelPerimOn" "vcZeroFLabelPerimSpaceF" "vcZeroFLabelPerimThicknessF" "vcZeroFLabelSide" "vcZeroFLabelString" "vcZeroFLabelTextDirection" "vcZeroFLabelZone" "vfCopyData" "vfDataArray" "vfExchangeDimensions" "vfExchangeUVData" "vfMagMaxV" "vfMagMinV" "vfMissingUValueV" "vfMissingVValueV" "vfPolarData" "vfSingleMissingValue" "vfUDataArray" "vfUMaxV" "vfUMinV" "vfVDataArray" "vfVMaxV" "vfVMinV" "vfXArray" "vfXCActualEndF" "vfXCActualStartF" "vfXCEndIndex" "vfXCEndSubsetV" "vfXCEndV" "vfXCStartIndex" "vfXCStartSubsetV" "vfXCStartV" "vfXCStride" "vfYArray" "vfYCActualEndF" "vfYCActualStartF" "vfYCEndIndex" "vfYCEndSubsetV" "vfYCEndV" "vfYCStartIndex" "vfYCStartSubsetV" "vfYCStartV" "vfYCStride" "vpAnnoManagerId" "vpClipOn" "vpHeightF" "vpKeepAspect" "vpOn" "vpUseSegments" "vpWidthF" "vpXF" "vpYF" "wkBackgroundColor" "wkColorMapLen" "wkColorMap" "wkColorModel" "wkColorModel" "wkDashTableLength" "wkDefGraphicStyleId" "wkDeviceLowerX" "wkDeviceLowerX" "wkDeviceLowerY" "wkDeviceLowerY" "wkDeviceUpperX" "wkDeviceUpperX" "wkDeviceUpperY" "wkDeviceUpperY" "wkFillTableLength" "wkForegroundColor" "wkFullBackground" "wkFullBackground" "wkGksWorkId" "wkMarkerTableLength" "wkMetaName" "wkOrientation" "wkOrientation" "wkPDFFileName" "wkPDFFormat" "wkPDFResolution" "wkPSFileName" "wkPSFormat" "wkPSResolution" "wkPause" "wkTopLevelViews" "wkViews" "wkVisualType" "wkVisualType" "wkWindowId" "wkXColorMode" "wsCurrentSize" "wsMaximumSize" "wsThresholdSize" "xyComputeXMax" "xyComputeXMin" "xyComputeYMax" "xyComputeYMin" "xyCoordData" "xyCoordDataSpec" "xyCurveDrawOrder" "xyDashPattern" "xyDashPatterns" "xyExplicitLabels" "xyExplicitLegendLabels" "xyLabelMode" "xyLineColor" "xyLineColors" "xyLineDashSegLenF" "xyLineLabelConstantSpacingF" "xyLineLabelFont" "xyLineLabelFontAspectF" "xyLineLabelFontColor" "xyLineLabelFontColors" "xyLineLabelFontHeightF" "xyLineLabelFontQuality" "xyLineLabelFontThicknessF" "xyLineLabelFuncCode" "xyLineThicknessF"
     "xyLineThicknesses" "xyMarkLineMode" "xyMarkLineModes" "xyMarker" "xyMarkerColor" "xyMarkerColors" "xyMarkerSizeF" "xyMarkerSizes" "xyMarkerThicknessF" "xyMarkerThicknesses" "xyMarkers" "xyMonoDashPattern" "xyMonoLineColor" "xyMonoLineLabelFontColor" "xyMonoLineThickness" "xyMonoMarkLineMode" "xyMonoMarker" "xyMonoMarkerColor" "xyMonoMarkerSize" "xyMonoMarkerThickness" "xyXIrrTensionF" "xyXIrregularPoints" "xyXStyle" "xyYIrrTensionF" "xyYIrregularPoints" "xyYStyle"
-    ) "Ncl resources")
+    ) "Ncl resources.")
 
 ;;;; COOKIE: ENDS HERE =DO NOT DELETE=
 
@@ -238,7 +238,7 @@
    "[@]?.*"                             ;optional "@" and space
    "[ \t]*=.*"                          ;and rest
    )
-  "Regexp for matching variable")
+  "Regexp for matching variable.")
 
 (defconst ncl-font-lock-keywords
   (eval-when-compile            ; for  faster loading (is it working?)
@@ -280,7 +280,7 @@
       ;; variable face seq`ncl-var-re'
       (,ncl-var-re (1 font-lock-variable-name-face))
       ))
-  "ncl font lock key words ")
+  "Ncl font lock key words.")
 
 (put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
 
@@ -292,12 +292,12 @@
   `(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
     ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1)
     ,(list "variables" ncl-var-re 1))
-  "Generic expression for matching functions and procedure"
+  "Generic expression for matching functions and procedure."
   :type 'string
   :group 'ncl)
 
 (defun ncl-add-imenu-menu ()
-  "Adds an \"imenu\" menu to the menubar. The look up can be customized with
+  "Add an `imenu' menu to the menubar. The look up can be customized with
 `ncl-imenu-generic-expression'"
   (interactive)
   (imenu-add-to-menubar "Imenu")
@@ -744,7 +744,7 @@ For detail, see `comment-dwim'."
 ;; define ncl mode
 ;;****************************************************************************
 (defun ncl-mode ()
-  "Major mode for editing NCL .ncl files"
+  "Major mode for editing NCL .ncl files."
   (interactive)
   (kill-all-local-variables)
   (setq major-mode 'ncl-mode)

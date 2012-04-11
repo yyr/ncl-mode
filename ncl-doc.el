@@ -72,22 +72,22 @@
 ;;=================================================================
 (defcustom ncl-doc-url-base
   "http://www.ncl.ucar.edu"
-  "Ncl documentation website base url. To construct URLs individual pages"
+  "Ncl documentation website base url.  To construct URLs individual pages."
   :group 'ncl-doc
   :type 'string)
 
 (defcustom ncl-doc-cache-dir            ; cache is not yet implemented
   "~/.ncl-doc/"
-  "Directory to store the cache"
+  "Directory to store the cache."
   :group 'ncl-doc
   :type 'string)
 
 (defcustom ncl-doc-mode-hook nil        ; major mode hook
-  "hook runs after enabling the ncl-doc-mode major mode"
+  "Hook runs after enabling the ncl-doc-mode major mode."
   :group 'ncl-doc)
 
 (defcustom ncl-doc-minor-mode-hook nil
-  "hook runs after enabling the ncl-doc-minormode-hook"
+  "Hook runs after enabling the ncl-doc-minormode-hook."
   :group 'ncl-doc)
 
 ;;=================================================================
@@ -95,11 +95,11 @@
 ;;=================================================================
 (defvar ncl-doc-url-suffix
   ".shtml"
-  "suffix of URLs. haven't checked if its same for all")
+  "Suffix of URLs.  haven't checked if its same for all.")
 
 (defvar ncl-doc-resources-page
   "list_alpha_res.shtml"
-  "suffix of URLs. haven't checked if its same for all")
+  "Suffix of URLs.  haven't checked if its same for all.")
 
 (defvar ncl-doc-url-alist
   ;;
@@ -116,34 +116,33 @@
     ("gsn"        . "/Document/Graphics/Interfaces/")
     ("resources"  . "/Document/Graphics/Resources/")
     ("keywords"   . "Document/Manuals/Ref_Manual/")
-    )  "url alist for different categories")
+    )  "Url alist for different categories.")
 
 ;;;
 (defvar ncl-doc-key-cat
   (mapcar (lambda (x)
             (car x))
           ncl-doc-url-alist)
-  "Categories in the ncl. this variable is prepared from
-`ncl-doc-url-alist'")
+  "Categories in the ncl.  This variable is prepared from `ncl-doc-url-alist'.")
 
 (defvar ncl-doc-key-all
   (apply 'append (mapcar (lambda (x)
                            (symbol-value (intern (format "ncl-key-%s" x))))
                          ncl-doc-key-cat))
-  "all keys in ncl")
+  "All keys in ncl.")
 
 ;;=================================================================
 ;; Internal functions
 ;;=================================================================
 (defun ncl-doc-cache-dir-create ()
-  "creates cache dir"
+  "Create cache dir."
   (interactive)
   (unless (file-directory-p ncl-doc-cache-dir)
     (make-directory ncl-doc-cache-dir)))
 
 ;;; search functions
 (defun ncl-doc-keys-search-cat (CAT TERM)
-  "searches for TERM in CAT"
+  "Search all CAT for a TERM."
   (let ((cat-keys CAT))
     (remove nil
             (mapcar (lambda (x)
@@ -152,8 +151,8 @@
                     cat-keys))))
 
 (defun ncl-doc-keys-search (TERM)
-  "takes search TERM returns alist with matches; alist is category and matched
-keywords"
+  "Take a search TERM, Return an alist with all matched items.
+Here alist is category and matched keywords."
   (let* ((st TERM)
          (cats  (mapcar (lambda (x)
                           (car x))
@@ -168,7 +167,7 @@ keywords"
 
 ;;; URL construction function
 (defun ncl-doc-construct-url (KWORD)
-  "construct a url from the KWORD"
+  "Construct a url from the KWORD."
   (let ((kwd KWORD)
         ;; cats: all categories in the ncl-doc-url-alist
         (cats (mapcar (lambda (cat)
@@ -200,7 +199,7 @@ keywords"
     (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
     (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
     map)
-  "key bindings ncl-doc-minor-mode")
+  "Key bindings `ncl-doc-minor-mode'.")
 
 ;;;###autoload
 (define-minor-mode ncl-doc-minor-mode
@@ -219,7 +218,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
 
 (defvar ncl-doc-completing-read
   (if (null ido-mode) 'completing-read 'ido-completing-read)
-  "Ido support with convenience")
+  "Ido support with convenience.")
 
 ;;=================================================================
 ;; Major Mode stuff
@@ -228,7 +227,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
   "*ncl doc buffer*")
 
 (defvar ncl-doc-return-window-config nil
-  "previous window config")
+  "Previous window config.")
 
 (defvar ncl-doc-mode-map
   (let ((map (make-sparse-keymap)))
@@ -260,13 +259,13 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
   (run-mode-hooks))
 
 (defun ncl-doc-move-prev-line ()
-  "Move to previous entry"
+  "Move to previous entry."
   (interactive)
   (when (< 3 (line-number-at-pos))
     (call-interactively 'previous-line)))
 
 (defun ncl-doc-move-next-line ()
-  "Move to next entry"
+  "Move to next entry."
   (interactive)
   (when (< (line-number-at-pos)
            (- (line-number-at-pos (point-max)) 1))
@@ -307,8 +306,8 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 ;;=================================================================
 ;;;###autoload
 (defun ncl-doc-query-at-point ()
-  "asks for keyword while picking up one at point if available
-and calls the browser if it matches any of ncl keywords
+  "Ask for keyword while picking up one at point if available and
+call the browser if the keyword match with any of ncl inbuilt.
 For completion support call `ncl-doc-query-open'"
   (interactive)
   (let* ((default-word (thing-at-point 'symbol))
@@ -417,7 +416,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 ;;;###autoload
 (defun ncl-doc-query-open (KEY)
   "Query for a keyword from the database with completion support
-and calls browser with corresponding URL"
+and call browser with corresponding URL"
   (interactive
    (list
     (let ((initial (thing-at-point 'symbol)))
