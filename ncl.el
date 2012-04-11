@@ -1,6 +1,53 @@
+;;; ncl.el --- Major mode for NCAR Command Language(NCL)
+;;
+
+;; Author: David Brown
+;;    Sylvia Murphy,
+;;    C. Schreck,
+;;    A. Srock,
+;;    T. Corti,
+;;    ETH Zurich,
+;; Maintainer:
+;; Created:
+;; Version: 0.95.1
+;; Keywords: ncl, NCAR Command Language.
+
+;; This file is NOT part of GNU Emacs.
+;;
+;;; Commentary:
 ;;********************************************
-;; Lisp code for an NCL major mode
+;; HOW TO USE
 ;;********************************************
+;; 1) place this file somewhere on your local system e.g. ~your_home/bin
+;; 2) in your .emacs or .xemacs/custom.el file, add and properly modify //
+;; the following (without the comments):
+;; (setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
+;; (autoload 'ncl-mode "LOCATION/ncl.el")
+;; (add-hook 'ncl-mode-hook
+;;           (lambda ()
+;;             )
+;;           )
+;; 3) setup display colors for font-lock.  You may also want to set default
+;; foreground and background colors.  Colors can be Xwindows names or #rrggbb.
+;; These should also go somewhere in your .emacs or .xemacs/custom.el file.
+;;     ; highlight comments
+;;         (set-face-foreground font-lock-comment-face "FireBrick")
+;;     ; highlight strings
+;;         (set-face-foreground font-lock-string-face "Salmon")
+;;     ; highlight keywords, array descriptors, and tests
+;;         (set-face-foreground font-lock-keyword-face "Purple")
+;;     ; highlight built-in functions
+;;         (set-face-foreground font-lock-builtin-face "Blue")
+;;     ; highlight gsn* functions
+;;         (set-face-foreground font-lock-variable-name-face "SteelBlue")
+;;     ; highlight shea_util and contributed functions
+;;         (set-face-foreground font-lock-function-name-face  "CadetBlue")
+;;     ; highlight resources
+;;         (set-face-foreground font-lock-constant-face  "ForestGreen")
+;;
+
+;;; Change Log:
+;;
 ;; September 20 2011
 ;; Revision 0.34
 ;;  - Updated to include new functions, resources, and
@@ -67,41 +114,8 @@
 ;;    ones.
 ;; 4) Have not demonstrated how to change the indentation value in .emacs
 ;; 5) The ncl-in-comment function does not work. Its calls are commented out.
-;;
-;;********************************************
-;; HOW TO USE
-;;********************************************
-;; 1) place this file somewhere on your local system e.g. ~your_home/bin
 
-;; 2) in your .emacs or .xemacs/custom.el file, add and properly modify //
-;; the following (without the comments):
-;; (setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
-;; (autoload 'ncl-mode "LOCATION/ncl.el")
-;; (add-hook 'ncl-mode-hook
-;;           (lambda ()
-;;             )
-;;           )
-
-;; 3) setup display colors for font-lock.  You may also want to set default
-;; foreground and background colors.  Colors can be Xwindows names or #rrggbb.
-;; These should also go somewhere in your .emacs or .xemacs/custom.el file.
-;;     ; highlight comments
-;;         (set-face-foreground font-lock-comment-face "FireBrick")
-;;     ; highlight strings
-;;         (set-face-foreground font-lock-string-face "Salmon")
-;;     ; highlight keywords, array descriptors, and tests
-;;         (set-face-foreground font-lock-keyword-face "Purple")
-;;     ; highlight built-in functions
-;;         (set-face-foreground font-lock-builtin-face "Blue")
-;;     ; highlight gsn* functions
-;;         (set-face-foreground font-lock-variable-name-face "SteelBlue")
-;;     ; highlight shea_util and contributed functions
-;;         (set-face-foreground font-lock-function-name-face  "CadetBlue")
-;;     ; highlight resources
-;;         (set-face-foreground font-lock-constant-face  "ForestGreen")
-;;;
-
-;;; code starts here
+;;; Code:
 ;;=================================================================
 ;; user options
 ;;=================================================================
@@ -248,9 +262,9 @@
       (,(concat
          "\\<" (regexp-opt
                 (append ncl-key-contrib ncl-key-shea ncl-key-pop
-                       ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
-                       ncl-key-wrfcontrib ncl-key-windrose
-                       ) 'paren) "\\>")
+                        ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
+                        ncl-key-wrfcontrib ncl-key-windrose
+                        ) 'paren) "\\>")
        (1 font-lock-function-face))
 
       ;; ncl gsn function-face
@@ -793,4 +807,5 @@ For detail, see `comment-dwim'."
 
 ;;************************************************************************
 (provide 'ncl)
+
 ;;; ncl.el ends here

@@ -1,11 +1,31 @@
-;;; ncl-doc.el
-;;
-;;    File: ncl-doc.el
-;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;;; ncl-doc.el --- NCL doc lookup helper
+
+;; Copyright (C) 2011-2012 Yagnesh Raghava Yakkala <http://yagnesh.org>
+
+;; Author: Yagnesh Raghava Yakkala <yagnesh@live.com>
+;; URL: https://github.com/yyr/ncl.el
+;; Version: 0.95.1
+;; Maintainer: Yagnesh Raghava Yakkala <yagnesh@live.com>
 ;; Created: Saturday, September 24 2011
-;; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
+;; Keywords: doc,lookup,ncl
+
+;; This file is NOT part of GNU Emacs.
+
+;; ncl-doc.el is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; ncl-doc.el is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with python.el.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+;;
 ;; ncl-doc minor mode helps you read NCL documentation from UCAR website
 ;; ----------------------------------------------------------
 ;; Setup: put the following your .emacs/init.el
@@ -42,8 +62,7 @@
 ;; acknowledgment:
 ;; Parts of the major mode section is based on pylookup.el
 
-;;=================================================================
-;;; code starts here
+;;; Code:
 (require 'ncl) ;  in fact variables are defined there
 (eval-when-compile
   (require 'cl))
