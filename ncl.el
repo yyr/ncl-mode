@@ -805,6 +805,28 @@ For detail, see `comment-dwim'."
   (run-hooks 'ncl-mode-hook))
 
 
+(easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
+  `("NCL"
+    ("Customization"
+     ,(custom-menu-create 'ncl))
+
+    "--"
+    ["Comment Region" comment-region mark-active]
+    ["Uncomment Region"
+     (comment-region (region-beginning) (region-end) 1)
+     mark-active]
+    ["Indent Region"     indent-region mark-active]
+
+    "--"
+    ["Narrow to Subprogram" narrow-to-defun t]
+    ["Widen" widen t]
+
+    ["Add Imenu Menu" imenu-add-menubar-index
+     :active   (not (lookup-key (current-local-map) [menu-bar index]))
+     :included (fboundp 'imenu-add-to-menubar)
+     :help "Add an index menu to the menu-bar"]))
+
+
 ;;************************************************************************
 (provide 'ncl)
 
