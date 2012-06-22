@@ -132,6 +132,11 @@
   :options '(ncl-add-imenu-menu)
   :group   'ncl)
 
+(defcustom ncl-shell-program "ncl"
+  "*The perl shell program location."
+  :type 'string
+  :group 'ncl)
+
 ;;;; COOKIE: STARTS HERE =DO NOT DELETE=
 
 (defvar ncl-key-keywords
