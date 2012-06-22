@@ -67,6 +67,11 @@
 (eval-when-compile
   (require 'cl))
 
+(defgroup ncl-doc nil
+  "*Ncl documentation lookup helper"
+  :group 'ncl
+  :group 'docs)
+
 ;;=================================================================
 ;; user options
 ;;=================================================================
