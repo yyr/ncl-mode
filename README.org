@@ -9,7 +9,7 @@ version from [[https://github.com/yyr/ncl-mode/downloads][here]]
  : (load "/path/to/downloaded/ncl-mode/ncl-mode-load.el")
 - That' it. It will take care of all the needed set up for ncl-mode,
   ncl-doc-mode, auto-complete, yasnippet and inf-ncl. If you care to
-  know what are they, then read on.
+  know what they are, then read on..
 
 * ncl.el
 ncl.el is forked version of ncl.el by NCL folks. the original version is downloaded from the following link
@@ -125,4 +125,4 @@ enable ncl-doc for ncl mode
 
 you can also look at my configuration for ncl [[https://github.com/yyr/emacsd/blob/master/init-ncl.el][here]]
 * License
-All the items written by me are GPL v3 or later
+All the code written by me are Licensed under GPL v3 or later
