@@ -30,7 +30,9 @@
 ;; To load all this the stuff in this package simply add the following
 ;; line in your .emacs file
 ;; (load "path/to/this/file/emacs-ncl-load.el")
-;; That's it. Good luck.
+;; That's it.
+
+;;; Code:
 
 ;; find this file path and it to load-path
 (defconst ncl-mode-dir (file-name-directory
@@ -38,26 +40,38 @@
 (add-to-list 'load-path ncl-mode-dir)
 
 
-;;; autoload ncl mode
+;;; General autoload ncl mode
+;;=================================================================
 (autoload 'ncl-mode "ncl" "ncl-mode for editing ncar graphics" t)
 (setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
 (setq ncl-startup-message nil)
 
 ;;; load inf-ncl, ncl-doc
-(eval-after-load "ncl"
-  '(progn
-     (require 'ncl-doc)
-     (require 'inf-ncl)
-     (ncl-doc-minor-mode 1)))
+(require 'ncl-doc)
+(require 'inf-ncl)
 
+(add-hook 'ncl-mode-hook (lambda () (ncl-doc-minor-mode 1)))
+(add-hook 'ncl-mode-hook 'inf-ncl-keys)
+
+;; Auto Complete setup
+;;=================================================================
 ;;; if user has auto-complete installed then set it up for ncl as well
+;;; ncl-mode
+(defun ac-ncl-mode-setup ()
+  (setq ac-sources
+        (append '(ac-source-yasnippet
+                  ac-source-words-in-buffer)
+                ac-sources)))
+
 (when (require 'auto-complete nil t)
   (add-to-list 'ac-modes 'ncl-mode)
   ;; add dictionary
   (add-to-list 'ac-dictionary-directories
-               (concat ncl-mode-dir "dict/")))
+               (concat ncl-mode-dir "dict/"))
+  (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup))
 
-;; yasnippet setup
+;; Yasnippet setup
+;;=================================================================
 (when (require 'yasnippet nil t)
   (add-to-list 'yas/snippet-dirs (concat ncl-mode-dir "snippets/")))
 
