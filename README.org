@@ -1,23 +1,25 @@
-Emacs editing utilities for Ncar Command Language(NCL).
+Emacs editing mode for Ncar Command Language(NCL).
 
 * ncl.el
-the original version is downloaded from the following link
+ncl.el is forked version of ncl.el by NCL folks. the original version is downloaded from the following link
 http://www.ncl.ucar.edu/Applications/Files/ncl.el.
+** Why did I fork?
+Parts of the this file has been modified/improved for other files in
+this package.
 
-This repo was created to serve the el-get. Since I am using NCL mode
-day to day I started modifying.  I am not maintainer of ncl.el. I sent
-my changes to ncl-talk mailing list, unfortunately didn't get any
-traction :(. So I am keeping them myself and for you.
+I may rewrite whole ncl.el some day since I would like this package to
+be in the core of Emacs or at least in official ELPA. For that to
+happen FSF needs copy write papers form all the authors of ncl.el. I
+think Its easy to rewrite the mode than collecting the papers from all
+the contributors of ncl.el.
+
+BTW, I did send a mail to ncl-list, got no replies/interest.
 
 * ncl-doc.el
-ncl.el is mailnly modified to accommodate ncl-doc.el which is a
-major/minor mode to help documentation lookup from ncl website.
+Helps you read NCL documentation for NCAR website.
+[[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
 
-The version was bumped up to v0.9x to separate from the original
-version. if anyone finds my changes useful and find any bugs
-please let me know.  TODO section has details about changes I plan to
-implement.
-* Installation & Setup
+** Installation & Setup
 put ncl.el folder (which you downloaded) in emacs load path.
 #+BEGIN_SRC elisp
 (add-to-list 'load-path "/path/to/ncl.el.folder")
@@ -55,8 +57,9 @@ has in its database and takes you to that page.
 To get an idea what ncl-doc does: here I loaded the ncl-doc.el then called
 the function "ncl-doc-query-at-point" and given "add" string.
 
-[[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
-
+* inf-ncl.el
+Which lets you run NCL within Emacs and interact NCL process from
+ncl-mode buffer.
 
 * ncl-ctags-gen.sh
 one liner to generate ctags from NCL Source files; uses
@@ -100,16 +103,19 @@ Tip from NCL website FAQ:
 
 * TODOS
 ** NCL MODE
+- [ ] REWRITE
 - [X] make font lock work better/faster
-- [X] imenu support
-  - imenu can directly be used by keyboard (may be with ido or directly)
+- [X] Imenu support
+  - Imenu can directly be used by keyboard (may be with ido or directly)
   - see function: ncl-add-imenu-menu
 - [ ] easy menu
 - [ ] fixing commenting system
 - [ ] fixing indentation
 
 ** NCL-DOC mode
-a mode to access/assist to read the online documentation from the Ncl
-website
 - [X] call browser to look documentation of keyword
 - [ ] reading docs with in emacs
+
+** inf-ncl mode
+- [X] implement
+- [ ] test
