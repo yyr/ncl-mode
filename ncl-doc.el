@@ -22,7 +22,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with python.el.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 ;;
@@ -66,6 +66,11 @@
 (require 'ncl) ;  in fact variables are defined there
 (eval-when-compile
   (require 'cl))
+
+(defgroup ncl-doc nil
+  "*Ncl documentation lookup helper"
+  :group 'ncl
+  :group 'docs)
 
 ;;=================================================================
 ;; user options

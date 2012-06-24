@@ -294,6 +294,6 @@ begin
     lines(ii(nii)+1:ii(nii)+nl) = l
   else
     print("Error: no room left to add lines to array. Quitting...")
-    exit
+    return
   end if
 end
