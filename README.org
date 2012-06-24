@@ -17,7 +17,8 @@ BTW, I did send a mail to ncl-list, got no replies/interest.
 
 * ncl-doc.el
 Helps you read NCL documentation for NCAR website.
-[[https://raw.github.com/yyr/ncl.el/master/img/ncl-doc-usage.png]]
+
+[[https://raw.github.com/yyr/ncl-mode/master/img/ncl-doc-usage.png]]
 
 ** Installation & Setup
 put ncl.el folder (which you downloaded) in emacs load path.
