@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
-;; URL: https://github.com/yyr/ncl.el
+;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: 2012-06-21
 ;; Keywords: run, ncl, inferior, shell

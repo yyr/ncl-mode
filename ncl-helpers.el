@@ -1,7 +1,7 @@
 ;;; ncl-helpers.el
 ;;
 ;;    File: ncl-helpers.el
-;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Friday, December  9 2011
 
 ;;; Description:
