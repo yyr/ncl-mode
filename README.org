@@ -13,7 +13,7 @@ version from [[https://github.com/yyr/ncl-mode/downloads][here]]
 
 * ncl.el
 ncl.el is forked version of ncl.el by NCL folks. the original version is downloaded from the following link
-http://www.ncl.ucar.edu/Applications/Files/ncl-mode.
+http://www.ncl.ucar.edu/Applications/Files/ncl.el .
 ** Why did I fork?
 Parts of the this file has been modified/improved for other files in
 this package.
