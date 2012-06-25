@@ -107,22 +107,5 @@ Tip from NCL website FAQ:
 - [X] implement
 - [ ] test
 
-** Installation & Setup
-put ncl.el folder (which you downloaded) in emacs load path.
-#+BEGIN_SRC elisp
-(add-to-list 'load-path "/path/to/ncl.el.folder")
-(setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
-#+END_SRC
-
-enable ncl-doc for ncl mode
-
-#+BEGIN_SRC elisp
-(add-hook 'ncl-mode-hook
-          (lambda ()
-            (require 'ncl-doc)
-            (ncl-doc-minor-mode 1)))
-#+END_SRC
-
-you can also look at my configuration for ncl [[https://github.com/yyr/emacsd/blob/master/init-ncl.el][here]]
 * License
 All the code written by me are Licensed under GPL v3 or later
