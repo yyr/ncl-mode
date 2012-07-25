@@ -12,19 +12,15 @@ Emacs editing mode for Ncar Command Language(NCL).
   know what they are, then read on..
 
 * ncl.el
-ncl.el is forked version of ncl.el by NCL folks. the original version is downloaded from the following link
-http://www.ncl.ucar.edu/Applications/Files/ncl.el .
-** Why did I fork?
-Parts of the this file has been modified/improved for other files in
-this package.
+The =ncl.el=  modified from the [[http://www.ncl.ucar.edu/Applications/Files/ncl.el][original]]
 
-I may rewrite whole ncl.el some day since I would like this package to
-be in the core of Emacs or at least in official ELPA. For that to
-happen FSF needs copy write papers form all the authors of ncl.el. I
-think Its easy to rewrite the mode than collecting the papers from all
-the contributors of ncl.el.
+** Rewrite plan.
+Parts of original =ncl.el= file has been modified/improved to accommodate
+other files in this package.
 
-BTW, I did send a mail to ncl-list, got no replies/interest.
+I plan to rewrite whole =ncl.el= some time soon. Since the current
+implementation really doesn't understand the NCL syntax And also I would like
+this package to be in the core of Emacs or at least in official ELPA.
 
 * ncl-doc.el
 Helps you read NCL documentation for NCAR website.
@@ -52,8 +48,8 @@ To get an idea what ncl-doc does: here I loaded the ncl-doc.el then called
 the function "ncl-doc-query-at-point" and given "add" string.
 
 * inf-ncl.el
-Which lets you run NCL within Emacs and interact NCL process from
-ncl-mode buffer.
+Which lets you run NCL within Emacs and interact NCL process from ncl-mode
+buffer.  ac-completion support is also available for this mode.
 
 * ncl-ctags-gen.sh
 one liner to generate ctags from NCL Source files; uses
@@ -108,4 +104,4 @@ Tip from NCL website FAQ:
 - [ ] test
 
 * License
-All the code written by me are Licensed under GPL v3 or later
+All the code written by me is Licensed under GPL v3 or later
