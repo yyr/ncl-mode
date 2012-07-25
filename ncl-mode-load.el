@@ -55,20 +55,21 @@
 
 ;; Auto Complete setup
 ;;=================================================================
-;;; if user has auto-complete installed then set it up for ncl as well
-;;; ncl-mode
+;;; if user has auto-complete installed then set it up for both
+;;; ncl-mode and inf-ncl-mode
 (defun ac-ncl-mode-setup ()
   (setq ac-sources
         (append '(ac-source-yasnippet
                   ac-source-words-in-buffer)
                 ac-sources)))
 
-(when (require 'auto-complete nil t)
-  (add-to-list 'ac-modes 'ncl-mode)
-  ;; add dictionary
-  (add-to-list 'ac-dictionary-directories
-               (concat ncl-mode-dir "dict/"))
-  (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup))
+(mapc (lambda (x)
+        (when (require 'auto-complete nil t)
+          (add-to-list 'ac-modes x)
+          (add-hook (intern (format "%s-hook" x)) 'ac-ncl-mode-setup)
+          (add-to-list 'ac-dictionary-directories
+                       (concat ncl-mode-dir "dict/"))))
+      '(ncl-mode inf-ncl-mode))
 
 ;; Yasnippet setup
 ;;=================================================================
