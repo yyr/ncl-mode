@@ -50,7 +50,6 @@
   :type 'string
   :group 'ncl)
 
-
 (defvar ncl-var-re
   (concat
    "^[ \t]*"                            ;initial optional space
@@ -149,10 +148,6 @@
     map)
   "Key map for NCL mode.")
 
-(defcustom ncl-indent-tabs-mode nil
-  "Indentation can insert tabs in ncl mode if this is non-nil."
-  :type 'boolean :group 'ncl)
-
 ;;=================================================================
 ;; imenu
 ;;=================================================================
@@ -161,7 +156,8 @@
   `(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
     ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1)
     ,(list "variables" ncl-var-re 1))
-  "Generic expression for matching functions and procedure."
+  "Generic expression for matching functions, procedure and
+variable assignments."
   :type 'string
   :group 'ncl)
 
@@ -172,6 +168,9 @@
   (imenu-add-to-menubar "Imenu")
   (redraw-frame (selected-frame)))
 
+;;=================================================================
+;; Menu
+;;=================================================================
 (easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
   `("NCL"
     ("Customization"
@@ -192,6 +191,15 @@
      :active   (not (lookup-key (current-local-map) [menu-bar index]))
      :included (fboundp 'imenu-add-to-menubar)
      :help "Add an index menu to the menu-bar"]))
+
+
+;;=================================================================
+;; Indentation
+;;=================================================================
+
+(defcustom ncl-indent-tabs-mode nil
+  "Indentation can insert tabs in ncl mode if this is non-nil."
+  :type 'boolean :group 'ncl)
 
 
 (provide 'ncl-mode)
