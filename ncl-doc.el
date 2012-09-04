@@ -63,7 +63,9 @@
 ;; Parts of the major mode section is based on pylookup.el
 
 ;;; Code:
-(require 'ncl) ;  in fact variables are defined there
+(require 'ncl-mode-keywords)
+(require 'ncl)
+
 (eval-when-compile
   (require 'cl))
 
