@@ -9,7 +9,7 @@
 ;;    ETH Zurich,
 ;; Maintainer:
 ;; Created:
-;; Version: 0.95.1
+;; Version: 0.97
 ;; Keywords: ncl, NCAR Command Language.
 
 ;; This file is NOT part of GNU Emacs.
@@ -219,7 +219,7 @@
   "Keymap used in NCL mode.")
 (defvar ncl-startup-message t
   "*Non-nil displays a startup message when `ncl-mode' is first called.")
-(defconst ncl-mode-version "v0.92")
+(defconst ncl-mode-version "v0.97")
 ;;************************************************
 ;; syntax table
 ;;************************************************
