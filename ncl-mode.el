@@ -104,6 +104,41 @@
 
 (put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
 
+
+;;; syntax table
+(defvar ncl-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    (modify-syntax-entry ?\r " "  table) ; return is white space
+    (modify-syntax-entry ?_  "w"  table) ; underscore in names
+    (modify-syntax-entry ?/ "$"   table) ; paired delimiters
+    (modify-syntax-entry ?\\ "\\" table) ; escape chars
+
+    (modify-syntax-entry ?\; "<"  table) ; begin comment
+    (modify-syntax-entry ?\n ">"  table) ; end comment
+    (modify-syntax-entry ?\f ">"  table)
+
+    (modify-syntax-entry ?$  "_"  table) ; symbol constituents
+    (modify-syntax-entry ?\` "_"  table)
+
+    (modify-syntax-entry ?\' "\"" table) ; string quote
+    (modify-syntax-entry ?\" "\"" table)
+
+    (modify-syntax-entry ?.   "." table) ; punctuation
+    (modify-syntax-entry ?<   "." table)
+    (modify-syntax-entry ?>   "." table)
+    (modify-syntax-entry ?+  "."  table)
+    (modify-syntax-entry ?-  "."  table)
+    (modify-syntax-entry ?=  "."  table)
+    (modify-syntax-entry ?*  "."  table)
+    (modify-syntax-entry ?/  "."  table)
+    (modify-syntax-entry ?%  "."  table)
+    (modify-syntax-entry ?#  "."  table)
+
+    table)
+  "Syntax table used in ncl mode.")
+
+
+
 ;;=================================================================
 ;; imenu
 ;;=================================================================
