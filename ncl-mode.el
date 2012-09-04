@@ -133,11 +133,25 @@
     (modify-syntax-entry ?/  "."  table)
     (modify-syntax-entry ?%  "."  table)
     (modify-syntax-entry ?#  "."  table)
-
     table)
   "Syntax table used in ncl mode.")
 
+(defvar ncl-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-M-a") 'ncl-beginning-of-defun)
+    (define-key map (kbd "C-M-e") 'ncl-end-of-defun)
+    (define-key map (kbd "C-M-p") 'ncl-beginning-of-block)
+    (define-key map (kbd "C-M-n") 'ncl-end-of-block)
+    (define-key map (kbd "C-M-h") 'ncl-mark-defun)
+    (define-key map (kbd "C-M-q") 'ncl-indent-exp)
+    (define-key map (kbd "C-j")   'reindent-then-newline-and-indent)
+    (define-key map (kbd "C-m")   'newline)
+    map)
+  "Key map for NCL mode.")
 
+(defcustom ncl-indent-tabs-mode nil
+  "Indentation can insert tabs in ncl mode if this is non-nil."
+  :type 'boolean :group 'ncl)
 
 ;;=================================================================
 ;; imenu
