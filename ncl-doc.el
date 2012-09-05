@@ -64,7 +64,6 @@
 
 ;;; Code:
 (require 'ncl-mode-keywords)
-(require 'ncl)
 
 (eval-when-compile
   (require 'cl))
