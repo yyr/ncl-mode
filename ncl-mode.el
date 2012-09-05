@@ -200,7 +200,7 @@ variable assignments."
 (define-derived-mode ncl-mode prog-mode "Ncl"
   "Major mode for editing Ncl scripts.
 
-\\{ruby-mode-map}
+\\{ncl-mode-map}
 "
   (set (make-local-variable 'indent-line-function) 'ncl-indent-line)
   (set (make-local-variable 'indent-region-function) 'ncl-indent-region)
