@@ -46,7 +46,7 @@
   :group   'ncl)
 
 (defcustom ncl-shell-program "ncl"
-  "*The perl shell program location."
+  "*The ncl shell program location."
   :type 'string
   :group 'ncl)
 
