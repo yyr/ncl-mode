@@ -205,7 +205,7 @@ variable assignments."
   (set (make-local-variable 'indent-line-function) 'ncl-indent-line)
   (set (make-local-variable 'indent-region-function) 'ncl-indent-region)
   (set (make-local-variable 'comment-start) ";")
-  (set (make-local-variable 'comment-start-ski) ";+ *")
+  (set (make-local-variable 'comment-start-skip) ";+ *")
   (set (make-local-variable 'comment-indent-function) 'ncl-comment-indent)
   (setq indent-tabs-mode nil)           ; auto buffer local
   (set (make-local-variable 'imenu-generic-expression)
