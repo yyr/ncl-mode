@@ -192,15 +192,30 @@ variable assignments."
      :included (fboundp 'imenu-add-to-menubar)
      :help "Add an index menu to the menu-bar"]))
 
-
 ;;=================================================================
 ;; Indentation
 ;;=================================================================
 
-(defcustom ncl-indent-tabs-mode nil
-  "Indentation can insert tabs in ncl mode if this is non-nil."
-  :type 'boolean :group 'ncl)
+;;;###autoload
+(define-derived-mode ncl-mode prog-mode "Ncl"
+  "Major mode for editing Ncl scripts.
 
+\\{ruby-mode-map}
+"
+  (set (make-local-variable 'indent-line-function) 'ncl-indent-line)
+  (set (make-local-variable 'indent-region-function) 'ncl-indent-region)
+  (set (make-local-variable 'comment-start) ";")
+  (set (make-local-variable 'comment-start-ski) ";+ *")
+  (set (make-local-variable 'comment-indent-function) 'ncl-comment-indent)
+  (setq indent-tabs-mode nil)           ; auto buffer local
+  (set (make-local-variable 'imenu-generic-expression)
+       ncl-imenu-generic-expression)
+  (set (make-local-variable 'beginning-of-defun-function)
+       'ncl-beginning-of-subprogram)
+  (set (make-local-variable 'end-of-defun-function) 'ncl-end-of-subprogram))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist (cons (purecopy "\\.ncl\\'") 'ncl-mode))
 
 (provide 'ncl-mode)
 ;;; ncl-mode.el ends here
