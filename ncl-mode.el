@@ -196,6 +196,53 @@ variable assignments."
 ;; Indentation
 ;;=================================================================
 
+;; Comment indentation
+;; if single `;' at the beginning of line it will stay for ever.
+;; if single `;' comment line will goes according to the line indentaion.
+;; above rules are same for multiple `;'
+
+(defsubst ncl-in-string ()
+  "Return non-nil if point is inside a string. Checks from `point-min'."
+  (nth 3 (parse-partial-sexp (point-min)
+                             (point))))
+
+(defsubst ncl-in-comment ()
+  "Return non-nil if point is inside a comment."
+  (nth 4 (parse-partial-sexp (point-min)
+                             (point))))
+
+(defsubst ncl-line-continued ()
+  "Return t if the current line is a continued one. This includes
+  comment lines embedded in continued lines, but not the last
+  line of a continued statements."
+  (save-excursion
+    (beginning-of-line)
+    (while (and (looking-at "[ \t]*\\(;\\|$\\)"))
+      (zerop (forward-line -1))) ; adjustment for empty line
+    (end-of-line)
+    (while (ncl-in-comment)
+      (search-backward ";" (line-beginning-position))
+      (skip-chars-backward ";"))        ; for a comment line
+    (skip-chars-backward " \t")
+    (= (preceding-char) ?\\)))
+
+(defsubst ncl-current-indentation ()
+  "Return indentation of current line."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")))
+
+(defun ncl-indent-line ()
+  ""
+  )
+
+(defun ncl-indent-region ()
+  ""
+  )
+
+(defun ncl-comment-indent ()
+  )
+
 ;;;###autoload
 (define-derived-mode ncl-mode prog-mode "Ncl"
   "Major mode for editing Ncl scripts.
