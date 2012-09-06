@@ -201,6 +201,21 @@ variable assignments."
 ;; if single `;' comment line will goes according to the line indentaion.
 ;; above rules are same for multiple `;'
 
+(defvar ncl-do "^[ \t]*do"
+  "Regular expression to find beginning of  \"do\"")
+
+(defvar ncl-end-do "^[ \t]*end[ ]do"
+  "Regular expression to find beginning of  \"end do\"")
+
+(defvar ncl-if "^[ \t]*if"
+  "Regular expression to find beginning of  \"do\"")
+
+(defvar ncl-end-if "^[ \t]*end[ ]if"
+  "Regular expression to find beginning of  \"end if\"")
+
+(defvar ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
+  "Regular expression to find Ncl identifiers. ")
+
 (defsubst ncl-in-string ()
   "Return non-nil if point is inside a string. Checks from `point-min'."
   (nth 3 (parse-partial-sexp (point-min)
@@ -231,6 +246,16 @@ variable assignments."
   (save-excursion
     (beginning-of-line)
     (skip-chars-forward " \t")))
+
+(defsubst ncl-get-present-comment-type ()
+  "If point lies within a comment, return the string starting the comment."
+  (save-excursion
+    (when (ncl-in-comment)
+      (beginning-of-line)
+      (re-search-forward ";+[ \t]*" (line-end-position))
+      (while (ncl-in-string)
+        (re-search-forward ";+[ \t]*" (line-end-position)))
+      (match-string-no-properties 0))))
 
 (defun ncl-indent-line ()
   ""
