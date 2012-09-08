@@ -143,8 +143,7 @@ The following commands are available:
 ;;;###autoload
 (defun inf-ncl-load-file (fn)
   "Load ncl library into inferior process."
-  (interactive (comint-source-default "Load ncl library: "
-                                      inf-ncl-prev-dir/file nil nil))
+  (interactive (comint-source-default inf-ncl-prev-dir/file 'ncl-mode))
   (comint-check-source fn)              ;checks if the buffer needs to be saved
   (setq inf-ncl-prev-dir/file (cons (file-name-directory fn)
                                     (file-name-nondirectory fn)))
