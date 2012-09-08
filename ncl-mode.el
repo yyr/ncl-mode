@@ -101,9 +101,6 @@
       ))
   "Ncl font lock key words.")
 
-(put 'ncl-mode 'font-lock-defaults 'ncl-font-lock-keywords)
-
-
 ;;; syntax table
 (defvar ncl-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -282,6 +279,8 @@ variable assignments."
   (setq indent-tabs-mode nil)           ; auto buffer local
   (set (make-local-variable 'imenu-generic-expression)
        ncl-imenu-generic-expression)
+  (set (make-local-variable 'font-lock-defaults)
+       '(ncl-font-lock-keywords))
   (set (make-local-variable 'beginning-of-defun-function)
        'ncl-beginning-of-subprogram)
   (set (make-local-variable 'end-of-defun-function) 'ncl-end-of-subprogram))
