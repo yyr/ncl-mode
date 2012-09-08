@@ -36,7 +36,7 @@
 
 (eval-when-compile
   (require 'cl))
-(require 'ncl) ;  in fact variables are defined there
+(require 'ncl-mode)
 (require 'comint)
 
 (defgroup inf-ncl nil
