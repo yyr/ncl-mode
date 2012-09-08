@@ -42,9 +42,8 @@
 
 ;;; General autoload ncl mode
 ;;=================================================================
-(autoload 'ncl-mode "ncl" "ncl-mode for editing ncar graphics" t)
-(setq auto-mode-alist (cons '("\.ncl$" . ncl-mode) auto-mode-alist))
-(setq ncl-startup-message nil)
+(add-to-list 'auto-mode-alist (cons (purecopy "\\.ncl\\'") 'ncl-mode))
+(autoload 'ncl-mode "ncl-mode.el" "ncl-mode for editing ncar graphics" t)
 
 ;;; load inf-ncl, ncl-doc
 (require 'ncl-doc)
