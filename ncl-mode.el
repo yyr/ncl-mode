@@ -210,6 +210,9 @@ variable assignments."
 (defvar ncl-end-if "^[ \t]*end[ ]if"
   "Regular expression to find beginning of  \"end if\"")
 
+(defvar ncl-else "^[ \t]*else"
+  "Regular expression to find beginning of  \"else\"")
+
 (defvar ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
   "Regular expression to find Ncl identifiers. ")
 
@@ -253,6 +256,30 @@ variable assignments."
       (while (ncl-in-string)
         (re-search-forward ";+[ \t]*" (line-end-position)))
       (match-string-no-properties 0))))
+
+(defun ncl-previous-statement ()
+  "Move point to beginning of the previous statement.
+If no previous statement is found (i.e. if called from the first statement in
+buffer), move to the start of the buffer and return nil. "
+  (interactive)
+  (let (not-first-statement)
+    (beginning-of-line)
+    (while (and (setq not-first-statement (zerop (forward-line -1)))
+                (looking-at "[ \t]*\\(;\\|$\\)")))
+    not-first-statement))
+
+(defun ncl-next-statement ()
+  "Move point to beginning of the next ncl statement.
+Return nil if no later statement is found."
+  (interactive)
+  (let (not-last-statement)
+    (beginning-of-line)
+    (while (and (setq not-last-statement
+                      (and (zerop (forward-line 1))
+                           (not (eobp))))
+                (looking-at "[ \t]*\\(;\\|$\\)")))
+    not-last-statement))
+
 
 (defun ncl-indent-line ()
   ""
