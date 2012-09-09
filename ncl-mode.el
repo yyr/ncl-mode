@@ -24,11 +24,9 @@
 ;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;;
+;; Major mode to edit ncl scripts.
 
 ;;; Code:
-;;
-
 (require 'ncl-mode-keywords)
 
 (defgroup ncl nil
@@ -134,8 +132,8 @@
 
 (defvar ncl-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-M-a") 'ncl-beginning-of-defun)
-    (define-key map (kbd "C-M-e") 'ncl-end-of-defun)
+    (define-key map (kbd "C-M-a") 'ncl-beginning-of-fun/proc)
+    (define-key map (kbd "C-M-e") 'ncl-end-of-fun/proc)
     (define-key map (kbd "C-M-p") 'ncl-beginning-of-block)
     (define-key map (kbd "C-M-n") 'ncl-end-of-block)
     (define-key map (kbd "C-M-h") 'ncl-mark-defun)
@@ -279,6 +277,15 @@ Return nil if no later statement is found."
                            (not (eobp))))
                 (looking-at "[ \t]*\\(;\\|$\\)")))
     not-last-statement))
+
+(defun ncl-beginning-of-fun/proc ()
+  "Move point to the beginning of the current function or procedure."
+  (interactive)
+  (let ((count 1)
+        (case-fold-search ))))
+
+(defun ncl-end-of-fun/proc ()
+  "Move point to the beginning of ")
 
 
 (defun ncl-indent-line ()
