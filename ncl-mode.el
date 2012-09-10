@@ -453,10 +453,6 @@ All other return `comment-column', leaving at least one space after code."
              (max (if (bolp) 0 (1+ (current-column)))
                   comment-column)))))
 
-(defun ncl-end-of-fun/proc ()
-  "Move point to the beginning of ")
-
-
 (defun ncl-indent-line ()
   ""
   )
@@ -464,7 +460,6 @@ All other return `comment-column', leaving at least one space after code."
 (defun ncl-indent-region ()
   ""
   )
-
 
 
 ;;;###autoload
