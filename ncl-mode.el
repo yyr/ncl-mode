@@ -56,14 +56,14 @@
 (defcustom ncl-indent-tabs-mode nil
   "Indentation can insert tabs in Ncl mode if this is non-nil."
   :type 'boolean
-  :group 'ncl)
+  :group 'ncl-indent)
 
 (defcustom ncl-indent-level 2
   "Indentation of Ncl statements."
   :type 'integer
-  :group 'ncl)
+  :group 'ncl-indent)
 
-(defcustom ncl-indented-comment-re ";+"
+(defcustom ncl-indented-comment-re ";"
   "Regexp matching comments to indent as code"
   :type 'integer
   :group 'ncl-indent)
@@ -218,8 +218,9 @@ variable assignments."
 
 ;; start-string/regexp  indent         variable holding start-string/regexp
 ;;    ^; (re)              0
+;;    ;;;                  0              ncl-comment-region
 ;;    ;  (re)            as code          ncl-indented-comment-re
-;;    ;;$                  0              ncl-comment-region
+;;    ;;                 as code          ncl-comment-region
 ;;    default            comment-column
 
 (defconst ncl-block-beg-re "\\(if\\|do\\|do[ \t]+while\\)"
@@ -288,6 +289,13 @@ variable assignments."
   (save-excursion
     (beginning-of-line)
     (skip-chars-forward " \t")))
+
+(defsubst ncl-indent-to (col)
+  "Indent current line to column COL."
+  (beginning-of-line)
+  (back-to-indentation)
+  (delete-horizontal-space)
+  (indent-to col))
 
 (defsubst ncl-get-present-comment-type ()
   "If point lies within a comment, return the string starting the comment."
@@ -396,6 +404,24 @@ with ARG, move up multiple block."
       nil)))
 
 
+(defun ncl-comment-indent ()
+  "Return the indentation to be used for a comment starting at point.
+Used for `comment-indent-function' by ncl mode.
+if comment type \";;;\", \"^;\" this function return 0.
+`ncl-indented-comment-re' (if not trailing code) calls `ncl-calculate-indent'.
+All other return `comment-column', leaving at least one space after code."
+  (cond ((looking-at ";;;") 0)
+        ((save-excursion (looking-at ";")) 0)  ; for "^;"
+        ((and (looking-at ncl-indented-comment-re)
+              (save-excursion
+                (skip-chars-forward " \t")
+                (bolp)))
+         (ncl-calculate-indent))
+        (t (save-excursion
+             (skip-chars-forward " \t")
+             (max (if (bolp) 0 (1+ (current-column)))
+                  comment-column)))))
+
 (defun ncl-end-of-fun/proc ()
   "Move point to the beginning of ")
 
@@ -408,8 +434,7 @@ with ARG, move up multiple block."
   ""
   )
 
-(defun ncl-comment-indent ()
-  )
+
 
 ;;;###autoload
 (define-derived-mode ncl-mode prog-mode "Ncl"
