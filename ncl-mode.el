@@ -196,24 +196,29 @@ variable assignments."
 ;; if single `;' comment line will goes according to the line indentaion.
 ;; above rules are same for multiple `;'
 
-(defvar ncl-do "^[ \t]*do"
+(defconst ncl-do "^[ \t]*do"
   "Regular expression to find beginning of  \"do\"")
 
-(defvar ncl-end-do "^[ \t]*end[ ]do"
+(defconst ncl-end-do "^[ \t]*end[ ]do"
   "Regular expression to find beginning of  \"end do\"")
 
-(defvar ncl-if "^[ \t]*if"
+(defconst ncl-if "^[ \t]*if"
   "Regular expression to find beginning of  \"do\"")
 
-(defvar ncl-end-if "^[ \t]*end[ ]if"
+(defconst ncl-end-if "^[ \t]*end[ ]if"
   "Regular expression to find beginning of  \"end if\"")
 
-(defvar ncl-else "^[ \t]*else"
+(defconst ncl-else "^[ \t]*else"
   "Regular expression to find beginning of  \"else\"")
 
-(defvar ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
+(defconst ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
   "Regular expression to find Ncl identifiers. ")
 
+(defconst ncl-fun/proc-block-re
+  (regexp-opt '("function" "procedure") 'paren)
+  "Regexp used to locate the start of a \"function/procedure\".")
+
+;;; Inline functions
 (defsubst ncl-in-string ()
   "Return non-nil if point is inside a string. Checks from `point-min'."
   (nth 3 (parse-partial-sexp (point-min)
@@ -255,6 +260,15 @@ variable assignments."
         (re-search-forward ";+[ \t]*" (line-end-position)))
       (match-string-no-properties 0))))
 
+(defsubst ncl-looking-at-fun/proc-block-start ()
+  "Return (KIND NAME) if a fuction/procedure block with name NAME
+starts after point. "
+  (cond
+   ((looking-at "\\(function\\)[ \t]+\\(\\sw+\\)\\>")
+    (list (match-end 1) (match-end 2)))
+   ((loking-at ""\\(procedure\\)[ \t]+\\(\\sw+\\)\\>"")
+    (list (match-end 1) (match-end 2)))))
+
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
 If no previous statement is found (i.e. if called from the first statement in
@@ -278,11 +292,27 @@ Return nil if no later statement is found."
                 (looking-at "[ \t]*\\(;\\|$\\)")))
     not-last-statement))
 
+;;;###autoload
 (defun ncl-beginning-of-fun/proc ()
   "Move point to the beginning of the current function or procedure."
   (interactive)
   (let ((count 1)
-        (case-fold-search ))))
+        (matching-beg))
+    (beginning-of-line)
+    (while (and (> count 0)
+                (re-search-backward ncl-fun/proc-block-re nil 'move))
+      (beginning-of-line)
+      (skip-chars-forward " \t")
+      (cond ((setq matching-beg (ncl-looking-at-fun/proc-block-start))
+             (setq count (1- count)))
+            ((ncl-looking-at-fun/proc-block-end)
+             (setq count (1+ count)))))
+    (if (zerop count)
+        matching-beg
+      (if (called-interactively-p 'interactive)
+          (message "No beginning found"))
+      nil)))
+
 
 (defun ncl-end-of-fun/proc ()
   "Move point to the beginning of ")
