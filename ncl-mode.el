@@ -266,7 +266,7 @@ starts after point. "
   (cond
    ((looking-at "\\(function\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))
-   ((loking-at ""\\(procedure\\)[ \t]+\\(\\sw+\\)\\>"")
+   ((looking-at "\\(procedure\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))))
 
 (defun ncl-previous-statement ()
