@@ -31,9 +31,14 @@
 
 (defgroup ncl nil
   "major mode to edit Ncar Command Line(NCL) language "
-  :prefix "ncl-"
   :link '(custom-group-link :tag "Font Lock Faces group" font-lock-faces)
   :group 'languages)
+
+(defgroup ncl-indent nil
+  "major mode to edit Ncar Command Line(NCL) language "
+  :prefix "ncl-"
+  :link '(custom-group-link :tag "Font Lock Faces group" font-lock-faces)
+  :group 'ncl)
 
 (defcustom ncl-mode-hook nil
   "Hook run when entering NCL mode."
@@ -57,6 +62,11 @@
   "Indentation of Ncl statements."
   :type 'integer
   :group 'ncl)
+
+(defcustom ncl-indented-comment-re ";+"
+  "Regexp matching comments to indent as code"
+  :type 'integer
+  :group 'ncl-indent)
 
 (defcustom ncl-comment-column 32
   "Indentation column of comments."
@@ -206,10 +216,11 @@ variable assignments."
 ;; Indentation
 ;;=================================================================
 
-;; Comment indentation
-;; if single `;' at the beginning of line it will stay for ever.
-;; if single `;' comment line will goes according to the line indentaion.
-;; above rules are same for multiple `;'
+;; start-string/regexp  indent         variable holding start-string/regexp
+;;    ^; (re)              0
+;;    ;  (re)            as code          ncl-indented-comment-re
+;;    ;;$                  0              ncl-comment-region
+;;    default            comment-column
 
 (defconst ncl-block-beg-re "\\(if\\|do\\|do[ \t]+while\\)"
   "Regular expression to find beginning of \"if/do while/do\" block.")
