@@ -196,6 +196,13 @@ variable assignments."
 ;; if single `;' comment line will goes according to the line indentaion.
 ;; above rules are same for multiple `;'
 
+(defconst ncl-block-beg-re "\\(if\\|do\\|do[ \t]+while\\)"
+  "Regular expression to find beginning of \"if/do while/do\" block.")
+
+(defconst ncl-block-end-re (regexp-opt '("end" "end if"
+                                         "end do") 'symbols)
+  "Regular expression to find end of \"end\" block.")
+
 (defconst ncl-do "^[ \t]*do"
   "Regular expression to find beginning of  \"do\"")
 
@@ -269,6 +276,8 @@ starts after point. "
    ((looking-at "\\(procedure\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))))
 
+
+;;; functions
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
 If no previous statement is found (i.e. if called from the first statement in
@@ -291,6 +300,47 @@ Return nil if no later statement is found."
                            (not (eobp))))
                 (looking-at "[ \t]*\\(;\\|$\\)")))
     not-last-statement))
+
+(defun ncl-move-to-block (n)
+  "Move to the beginning (N < 0) or the end (N > 0) of the current block
+or blocks."
+  (let ((orig (point))
+;        (start (ncl-calculate-indent))
+        (down (looking-at
+               (if (< n 0)
+                   ncl-block-end-re
+                 (concat "\\<\\(" ncl-block-beg-re "\\)\\>"))))
+        pos done)
+    (while (and (not done)
+                (not (if (< n 0)
+                         (bobp)
+                       (eobp))))
+      (forward-line n)
+      (cond
+       ((looking-at "^\\s *$"))
+       ((looking-at "^\\s *;"))
+       ((and (> n 0)
+             (looking-at (concat "\\<\\(" ncl-block-beg-re "\\)\\>")))
+        (re-search-forward ncl-block-end-re))
+       ((and (< n 0)
+             (looking-at ncl-block-end-re))
+        (re-search-backward ncl-block-beg-re))
+       (t
+        (setq pos (current-indentation))
+        (setq done t))))
+    (back-to-indentation)))
+
+(defun ncl-beginning-of-block (&optional arg)
+  "Move backward to the beginning of the current block.
+with ARG, move up multiple block."
+  (interactive "p")
+  (ncl-move-to-block (- (or arg 1))))
+
+(defun ncl-end-of-block (&optional arg)
+  "Move backward to the end of the current block.
+with ARG, move up multiple block."
+  (interactive)
+  (ncl-move-to-block (or arg 1)))
 
 ;;;###autoload
 (defun ncl-beginning-of-fun/proc ()
