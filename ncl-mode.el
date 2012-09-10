@@ -48,6 +48,21 @@
   :type 'string
   :group 'ncl)
 
+(defcustom ncl-indent-tabs-mode nil
+  "Indentation can insert tabs in Ncl mode if this is non-nil."
+  :type 'boolean
+  :group 'ncl)
+
+(defcustom ncl-indent-level 2
+  "Indentation of Ncl statements."
+  :type 'integer
+  :group 'ncl)
+
+(defcustom ncl-comment-column 32
+  "Indentation column of comments."
+  :type 'integer
+  :group 'ncl)
+
 (defvar ncl-var-re
   (concat
    "^[ \t]*"                            ;initial optional space
@@ -224,6 +239,12 @@ variable assignments."
 (defconst ncl-fun/proc-block-re
   (regexp-opt '("function" "procedure") 'paren)
   "Regexp used to locate the start of a \"function/procedure\".")
+
+;;;
+(defconst ncl-indent-beg-re
+  (concat "^\\s *" (regexp-opt '("if" "do" "do while"
+                                 "begin")) "\\_>")
+  "Regexp to match where the indentation gets deeper.")
 
 ;;; Inline functions
 (defsubst ncl-in-string ()
