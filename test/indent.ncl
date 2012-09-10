@@ -33,6 +33,20 @@ end
 
 begin
 
+do it = 0, 4, 1
+
+if ( choice  ) then
+
+do while ( some_logical_exp )
+
+end do
+
+else
+
+end if
+
+
+end do
 
 
 
