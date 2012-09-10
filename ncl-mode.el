@@ -226,8 +226,11 @@ variable assignments."
 (defconst ncl-block-beg-re "\\(if\\|do\\|do[ \t]+while\\)"
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
-(defconst ncl-block-end-re (regexp-opt '("end" "end if"
+(defconst ncl-block-end-re (regexp-opt '("end if"
                                          "end do") 'symbols)
+  "Regular expression to find end of block.")
+
+(defconst ncl-end-re "[ \t]*end[ \t]*$"
   "Regular expression to find end of \"end\" block.")
 
 (defconst ncl-do "^[ \t]*do"
@@ -252,7 +255,6 @@ variable assignments."
   (regexp-opt '("function" "procedure") 'paren)
   "Regexp used to locate the start of a \"function/procedure\".")
 
-;;;
 (defconst ncl-indent-beg-re
   (concat "^\\s *" (regexp-opt '("if" "do" "do while"
                                  "begin")) "\\_>")
@@ -307,7 +309,7 @@ variable assignments."
         (re-search-forward ";+[ \t]*" (line-end-position)))
       (match-string-no-properties 0))))
 
-(defsubst ncl-looking-at-fun/proc-block-start ()
+(defsubst ncl-looking-at-fun/proc-start ()
   "Return (KIND NAME) if a fuction/procedure block with name NAME
 starts after point. "
   (cond
@@ -316,6 +318,13 @@ starts after point. "
    ((looking-at "\\(procedure\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))))
 
+(defsubst ncl-looking-at-fun/proc-end ()
+  "Return (KIND NAME) if a fuction/procedure block with name NAME
+starts after point. "
+  (cond
+   ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
+    (list (match-end 1)))
+   (t nil)))
 
 ;;; functions
 (defun ncl-previous-statement ()
@@ -393,14 +402,36 @@ with ARG, move up multiple block."
                 (re-search-backward ncl-fun/proc-block-re nil 'move))
       (beginning-of-line)
       (skip-chars-forward " \t")
-      (cond ((setq matching-beg (ncl-looking-at-fun/proc-block-start))
+      (cond ((setq matching-beg (ncl-looking-at-fun/proc-start))
              (setq count (1- count)))
-            ((ncl-looking-at-fun/proc-block-end)
+            ((ncl-looking-at-fun/proc-end)
              (setq count (1+ count)))))
     (if (zerop count)
         matching-beg
       (if (called-interactively-p 'interactive)
           (message "No beginning found"))
+      nil)))
+
+;;;###autoload
+(defun ncl-end-of-fun/proc ()
+  "Move point to the beginning of the current function or procedure."
+  (interactive)
+  (let ((count 1)
+        matching-end)
+    (end-of-line)
+    (while (and (> count 0)
+                (re-search-forward ncl-end-re nil 'move))
+      (beginning-of-line)
+      (skip-chars-forward " \t")
+      (cond ((ncl-looking-at-fun/proc-start)
+             (setq count (1+ count)))
+            ((setq matching-end (ncl-looking-at-fun/proc-end))
+             (setq count (1- count))))
+      (end-of-line))
+    (if (zerop count)
+        matching-end
+      (if (called-interactively-p 'interactive)
+          (message "No end found"))
       nil)))
 
 
