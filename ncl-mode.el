@@ -223,7 +223,7 @@ variable assignments."
 ;;    ;;                 as code          ncl-comment-region
 ;;    default            comment-column
 
-(defconst ncl-block-beg-re "\\(if\\|do\\|do[ \t]+while\\)"
+(defconst ncl-block-beg-re (regexp-opt '("if" "do" "do while") 'symbols)
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
 (defconst ncl-block-end-re (regexp-opt '("end if"
@@ -354,11 +354,11 @@ Return nil if no later statement is found."
   "Move to the beginning (N < 0) or the end (N > 0) of the current block
 or blocks."
   (let ((orig (point))
-;        (start (ncl-calculate-indent))
+                                        ;        (start (ncl-calculate-indent))
         (down (looking-at
                (if (< n 0)
                    ncl-block-end-re
-                 (concat "\\<\\(" ncl-block-beg-re "\\)\\>"))))
+                 ncl-block-beg-re)))
         pos done)
     (while (and (not done)
                 (not (if (< n 0)
@@ -369,7 +369,7 @@ or blocks."
        ((looking-at "^\\s *$"))
        ((looking-at "^\\s *;"))
        ((and (> n 0)
-             (looking-at (concat "\\<\\(" ncl-block-beg-re "\\)\\>")))
+             (looking-at ncl-block-beg-re))
         (re-search-forward ncl-block-end-re))
        ((and (< n 0)
              (looking-at ncl-block-end-re))
