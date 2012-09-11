@@ -175,7 +175,7 @@
 (defcustom ncl-imenu-generic-expression
   `(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)" 1)
     ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*)" 1)
-    ,(list "variables" ncl-var-re 1))
+    ,(list "variables" "^[ \t]*\\([a-z0-9_]*\\)[ \t]*=.*" 1))
   "Generic expression for matching functions, procedure and
 variable assignments."
   :type 'string
