@@ -33,6 +33,22 @@ end
 
 begin
 
+varname = "a"
+dimname = "Dimension1"
+
+a&Dimension1 = (/.1,.2,.3,.4,.5,.../)
+a&$dimname$ = (/.1,.2,.3,.4,.5,.../)
+a@units = "Degrees C"
+a@_FillValue = -9999.0
+
+thefile->a&Dimension1 = (/.1,.2,.3,.4,.5,.../)
+thefile->$varname$&$dimname$ = (/.1,.2,.3,.4,.5,.../)
+thefile->a@units = "Degrees C"
+
+attnames = (/"units","_FillValue"/)
+a@$attnames(0)$ = "Degrees C"
+a@$attnames(1)$ = -9999.0
+
 do it = 0, 4, 1
 
 if ( choice  ) then
