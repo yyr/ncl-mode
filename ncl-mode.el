@@ -236,7 +236,7 @@ variable assignments."
 (defconst ncl-do "^[ \t]*do"
   "Regular expression to find beginning of  \"do\"")
 
-(defconst ncl-end-do "^[ \t]*end[ ]do"
+(defconst ncl-end-do "[ \t]*end[ ]do"
   "Regular expression to find beginning of  \"end do\"")
 
 (defconst ncl-if "^[ \t]*if"
@@ -318,14 +318,6 @@ starts after point. "
    ((looking-at "\\(procedure\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))))
 
-(defsubst ncl-looking-at-fun/proc-end ()
-  "Return (KIND NAME) if a fuction/procedure block with name NAME
-starts after point. "
-  (cond
-   ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
-    (list (match-end 1)))
-   (t nil)))
-
 (defsubst ncl-looking-at-do ()
   "Return \"do\" and next word (may be \"while\") if a do statement starts
 after point."
@@ -346,6 +338,16 @@ after point."
              (equal "while" (cadr dop)))
         nil
       (car dop))))
+
+(defsubst ncl-looking-at-end ()
+  "Return (KIND) of \"end\" after the point."
+  (cond ((looking-at (concat "\\(" ncl-end-do "\\)\\>"))
+         "do")
+        ((looking-at (concat "\\(" ncl-end-if "\\)\\>"))
+         "if")
+        ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
+         "end")
+        (t nil)))
 
 ;;; functions
 (defun ncl-previous-statement ()
@@ -425,7 +427,7 @@ with ARG, move up multiple block."
       (skip-chars-forward " \t")
       (cond ((setq matching-beg (ncl-looking-at-fun/proc-start))
              (setq count (1- count)))
-            ((ncl-looking-at-fun/proc-end)
+            ((ncl-looking-at-end)
              (setq count (1+ count)))))
     (if (zerop count)
         matching-beg
@@ -446,7 +448,7 @@ with ARG, move up multiple block."
       (skip-chars-forward " \t")
       (cond ((ncl-looking-at-fun/proc-start)
              (setq count (1+ count)))
-            ((setq matching-end (ncl-looking-at-fun/proc-end))
+            ((setq matching-end (ncl-looking-at-end))
              (setq count (1- count))))
       (end-of-line))
     (if (zerop count)
