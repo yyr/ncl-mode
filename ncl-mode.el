@@ -326,6 +326,27 @@ starts after point. "
     (list (match-end 1)))
    (t nil)))
 
+(defsubst ncl-looking-at-do ()
+  "Return \"do\" and next word (may be \"while\") if a do statement starts
+after point."
+  (if (looking-at "\\(\\(do\\)[ \t]+\\(\\sw+\\)\\)")
+      (list (match-string-no-properties 2) (match-string-no-properties 3))))
+
+(defsubst ncl-looking-at-do-while ()
+  "Return \"('do' 'while') if a do statement starts after point."
+  (let (dop (ncl-looking-at-do-while))
+    (if (and dop
+             (equal "while" (cadr dop)))
+        dop)))
+
+(defsubst ncl-looking-at-only-do-while
+  "Return \"do\" if the statement starts with only \"do\" not \"do while\" "
+  (let (dop (ncl-looking-at-do-while))
+    (if (and dop
+             (equal "while" (cadr dop)))
+        nil
+      (car dop))))
+
 ;;; functions
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
