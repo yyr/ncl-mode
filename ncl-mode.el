@@ -512,8 +512,21 @@ All other return `comment-column', leaving at least one space after code."
                   comment-column)))))
 
 (defun ncl-indent-line ()
-  ""
-  )
+  "Indent current line as ncl code."
+  (interactive "*P")
+  (let ((pos (point-marker))
+        indent)
+    (back-to-indentation)
+    (if (looking-at ";") ; comment line
+        (setq indent (ncl-comment-indent))
+      (and (looking-at "end")           ; match struct find its indentation
+           (ncl-match-end))
+      (setq indent (ncl-calculate-indent)))
+    (or (= indent (current-column))
+        (ncl-indent-to indent))
+    (and (< (point) pos)
+         (goto-char pos))
+    (set-marker pos nil)))
 
 (defun ncl-indent-region ()
   ""
