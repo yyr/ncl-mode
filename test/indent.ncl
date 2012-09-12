@@ -20,7 +20,8 @@ end
 ;_____________________________________________________________________________
 undef("some_fun")
 function some_fun(f:file, n:numeric, \
-                       s:string)
+                  s1:string s2:string \
+                  l2:logical l2:logical)
 local m
 
 begin
