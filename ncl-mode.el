@@ -329,6 +329,11 @@ starts after point. "
    ((looking-at "\\(procedure\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))))
 
+(defsubst ncl-looking-at-begin ()
+  "Return \"begin\" if a begin statement starts after point"
+  (when (looking-at "begin")
+    "begin"))
+
 (defsubst ncl-looking-at-do ()
   "Return \"do\" and next word (may be \"while\") if a do statement starts
 after point."
