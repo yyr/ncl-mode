@@ -63,6 +63,17 @@
   :type 'integer
   :group 'ncl-indent)
 
+(defcustom ncl-body-indent 0
+  "Ncl Script body indentation."
+  :type 'integer
+  :group 'ncl-indent)
+
+(defcustom ncl-continuation-indent 5
+  "Extra indentation applied to continuation lines."
+  :type  'integer
+  :safe  'integerp
+  :group 'ncl-indent)
+
 (defcustom ncl-indented-comment-re ";"
   "Regexp matching comments to indent as code"
   :type 'integer
