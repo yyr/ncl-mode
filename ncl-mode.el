@@ -365,6 +365,25 @@ after point."
          "end")
         (t nil)))
 
+
+(defsubst ncl-present-statement-cont ()
+  "Return continuation properties of present statement.
+Possible return values are:
+single - statement is not continued.
+begin  - current line is the first in a continued statement.
+end    - current line is the last in a continued statement
+middle - current line is neither first nor last in a continued statement.
+Comment lines embedded amongst continued lines return 'middle."
+  (let (pcont cont)
+    (save-excursion
+      (setq pcont (if (ncl-previous-statement) (ncl-line-continued))))
+    (setq cont (ncl-line-continued))
+    (cond ((and (not pcont) (not cont)) 'single)
+          ((and (not pcont) cont)       'begin)
+          ((and pcont       (not cont)) 'end)
+          ((and pcont       cont)       'middle)
+          (t (error "The impossible occurred")))))
+
 ;;; functions
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
