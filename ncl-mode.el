@@ -254,20 +254,14 @@ variable assignments."
   (regexp-opt '("else" "else if") 'symbols)
   "Regexp matching an \"else\" or \"else if\".")
 
-(defconst ncl-do "^[ \t]*do"
+(defconst ncl-do "[ \t]*do"
   "Regular expression to find beginning of  \"do\"")
 
 (defconst ncl-end-do "[ \t]*end[ ]do"
   "Regular expression to find beginning of  \"end do\"")
 
-(defconst ncl-if "^[ \t]*if"
-  "Regular expression to find beginning of  \"do\"")
-
-(defconst ncl-end-if "^[ \t]*end[ ]if"
+(defconst ncl-end-if "[ \t]*end[ ]if"
   "Regular expression to find beginning of  \"end if\"")
-
-(defconst ncl-else "^[ \t]*else"
-  "Regular expression to find beginning of  \"else\"")
 
 (defconst ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
   "Regular expression to find Ncl identifiers. ")
@@ -347,8 +341,8 @@ starts after point. "
 (defsubst ncl-looking-at-if ()
   "Return \"if\" and next word (may be \"while\") if a do statement starts
 after point."
-  (if (looking-at "\\(\\(if\\)[ \t]+\\(\\sw+\\)\\)")
-      (list (match-string-no-properties 2) (match-string-no-properties 3))))
+  (if (looking-at "\\(\\(if\\)[ \t]+\\)")
+      (list (match-string-no-properties 2))))
 
 (defsubst ncl-looking-at-do ()
   "Return (DO NEXT) and next word (may be 'while) if a do statement starts
@@ -372,11 +366,11 @@ after point."
 
 (defsubst ncl-looking-at-end ()
   "Return (KIND) of end after the point."
-  (cond ((looking-at (concat "\\(" ncl-end-do "\\)\\>"))
+  (cond ((looking-at ncl-end-do)
          'enddo)
-        ((looking-at (concat "\\(" ncl-end-if "\\)\\>"))
+        ((looking-at ncl-end-if)
          'endif)
-        ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
+        ((looking-at ncl-end-re)
          'end)
         (t nil)))
 
@@ -592,7 +586,8 @@ All other return `comment-column', leaving at least one space after code."
                                (or
                                 (looking-at ncl-else-like-re)
                                 (ncl-looking-at-end-x))
-                               (not pre-if-p))
+;                               (not pre-if-p)
+                               )
                           (setq icol (- icol ncl-block-indent)))
                          (t
                           (setq icol icol))))))))
