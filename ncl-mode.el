@@ -351,33 +351,31 @@ after point."
       (list (match-string-no-properties 2) (match-string-no-properties 3))))
 
 (defsubst ncl-looking-at-do ()
-  "Return \"do\" and next word (may be \"while\") if a do statement starts
+  "Return (DO NEXT) and next word (may be 'while) if a do statement starts
 after point."
   (if (looking-at "\\(\\(do\\)[ \t]+\\(\\sw+\\)\\)")
       (list (match-string-no-properties 2) (match-string-no-properties 3))))
 
 (defsubst ncl-looking-at-do-while ()
-  "Return \"('do' 'while')\" if a do statement starts after point."
-  (let (dop (ncl-looking-at-do-while))
-    (if (and dop
-             (equal "while" (cadr dop)))
-        dop)))
+  "Return 'dowhile if a do statement starts after point."
+  (if (and (ncl-looking-at-do)
+           (equal "while" (cadr (ncl-looking-at-do))))
+      'dowhile
+    nil))
 
 (defsubst ncl-looking-at-only-do ()
-  "Return \"do\" if the statement starts with only do"
-  (let (dop (ncl-looking-at-do-while))
-    (if (and dop
-             (equal "while" (cadr dop)))
-        nil
-      (car dop))))
-
+  "Return 'do if the statement starts with only do"
+  (if (and (ncl-looking-at-do)
+           (equal "while" (cadr (ncl-looking-at-do))))
+      nil
+    'do))
 
 (defsubst ncl-looking-at-end ()
   "Return (KIND) of end after the point."
   (cond ((looking-at (concat "\\(" ncl-end-do "\\)\\>"))
-         'do)
+         'enddo)
         ((looking-at (concat "\\(" ncl-end-if "\\)\\>"))
-         'if)
+         'endif)
         ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
          'end)
         (t nil)))
@@ -389,7 +387,7 @@ after point."
 
 (defsubst ncl-looking-at-end-x ()
   "Return t if \"end\" is not alone (end do end if...)."
-  (when (memq  (ncl-looking-at-end) '(if do))
+  (when (memq  (ncl-looking-at-end) '(enddo endif))
     t))
 
 (defsubst ncl-present-statement-cont ()
