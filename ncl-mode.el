@@ -341,7 +341,7 @@ starts after point. "
 (defsubst ncl-looking-at-if ()
   "Return \"if\" and next word (may be \"while\") if a do statement starts
 after point."
-  (if (looking-at "\\(\\(if\\)[ \t]+\\)")
+  (if (looking-at "\\(\\(if\\)[ \t]*\\)")
       (list (match-string-no-properties 2))))
 
 (defsubst ncl-looking-at-do ()
@@ -552,15 +552,17 @@ All other return `comment-column', leaving at least one space after code."
   (let ((count 1)
         (top-of-window (window-start))
         (end-point (point))
-        beg-name  end-type)
+        beg-name  end-type
+        match-pnt)
     (when (save-excursion (back-to-indentation)
                           (setq end-type (ncl-looking-at-end)))
       (save-excursion
         (beginning-of-line)
         (while (and (> count 0)
-                    (not (= (line-beginning-position) (point))))
-          (re-search-backward ncl-block-beg-re nil 'move)
+                    (or (re-search-backward "begin" top-of-window 'move)
+                        (re-search-backward ncl-block-beg-re top-of-window 'move)))
           (back-to-indentation)
+          (setq match-pnt (point))
           (cond ((or (ncl-in-string)
                      (ncl-in-comment)))
                 ((setq beg-name
@@ -573,9 +575,12 @@ All other return `comment-column', leaving at least one space after code."
                 ((ncl-looking-at-end)
                  (setq count (1+ count)))))
         (if (> count 0)
-            (message "No matching beginning.")
+            (progn
+              (setq match-pnt nil)
+              (message "No matching beginning."))
           (goto-char end-point)
-          (beginning-of-line))))))
+          (beginning-of-line))))
+    match-pnt))
 
 (defun ncl-calculate-indent ()
   "Calculate the indent column based on previous statements."
