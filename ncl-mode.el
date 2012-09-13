@@ -58,8 +58,8 @@
   :type 'boolean
   :group 'ncl-indent)
 
-(defcustom ncl-indent-level 2
-  "Indentation of Ncl statements."
+(defcustom ncl-block-indent 2
+  "Indentation of Ncl blocks."
   :type 'integer
   :group 'ncl-indent)
 
@@ -244,6 +244,10 @@ variable assignments."
 (defconst ncl-end-re "[ \t]*end[ \t]*$"
   "Regular expression to find end of \"end\" block.")
 
+(defconst ncl-else-like-re
+  "\\(?:else\\(?: if\\)?\\)"
+  "Regexp matching an \"else\" or \"else if\".")
+
 (defconst ncl-do "^[ \t]*do"
   "Regular expression to find beginning of  \"do\"")
 
@@ -334,6 +338,12 @@ starts after point. "
   (when (looking-at "begin")
     "begin"))
 
+(defsubst ncl-looking-at-if ()
+  "Return \"if\" and next word (may be \"while\") if a do statement starts
+after point."
+  (if (looking-at "\\(\\(if\\)[ \t]+\\(\\sw+\\)\\)")
+      (list (match-string-no-properties 2) (match-string-no-properties 3))))
+
 (defsubst ncl-looking-at-do ()
   "Return \"do\" and next word (may be \"while\") if a do statement starts
 after point."
@@ -365,6 +375,15 @@ after point."
          "end")
         (t nil)))
 
+(defsubst ncl-looking-at-only-end ()
+  "Return t if only \"end\" present on the line."
+  (when (equal "end" (ncl-looking-at-end))
+    t))
+
+(defsubst ncl-looking-at-end-x ()
+  "Return t if \"end\" is not alone (end do end if...)."
+  (when (not (equal "end" (ncl-looking-at-end)))
+    t))
 
 (defsubst ncl-present-statement-cont ()
   "Return continuation properties of present statement.
@@ -528,10 +547,48 @@ All other return `comment-column', leaving at least one space after code."
          (goto-char pos))
     (set-marker pos nil)))
 
+(defun ncl-calculate-indent ()
+  "Calculate the indent column based on previous statements."
+  (interactive)
+  (let (icol cont (pnt (point)))
+    (save-excursion
+      (if (not (ncl-previous-statement))
+          ;; if previous statement is nil, on or first line of first statement
+          (setq icol 0)
+
+        (setq cont (ncl-line-continued))
+        (if (eq cont 'end)
+            (while (not (eq 'begin (ncl-present-statement-cont)))
+              (ncl-previous-statement)))
+
+        (cond ((eq cont 'begin)
+               (setq icol (+ (ncl-current-indentation)
+                             ncl-continuation-indent)))
+              ((eq cont 'middle) (setq icol (current-indentation)))
+
+              (t (setq icol (ncl-current-indentation))
+                 (skip-chars-forward " \t")
+                 (if (or (ncl-looking-at-if)
+                         (ncl-looking-at-do)
+                         (looking-at ncl-else-like-re))
+                     (setq icol (+ icol ncl-block-indent)))
+
+                 (goto-char pnt)
+                 (beginning-of-line)
+                 (cond ((looking-at " \t*$"))
+                       (t
+                        (skip-chars-forward " \t")
+                        (cond ((or (looking-at ncl-else-like-re)
+                                   (ncl-looking-at-end-x))
+                               (setq icol (- icol ncl-block-indent)))
+                              ((or (ncl-looking-at-only-end)
+                                   (ncl-looking-at-begin))
+                               (setq icol 0)))))))))
+    (message "ical: %d" icol)))
+
 (defun ncl-indent-region ()
   ""
   )
-
 
 ;;;###autoload
 (define-derived-mode ncl-mode prog-mode "Ncl"
