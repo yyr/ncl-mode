@@ -351,22 +351,23 @@ after point."
       (list (match-string-no-properties 2) (match-string-no-properties 3))))
 
 (defsubst ncl-looking-at-do-while ()
-  "Return \"('do' 'while') if a do statement starts after point."
+  "Return \"('do' 'while')\" if a do statement starts after point."
   (let (dop (ncl-looking-at-do-while))
     (if (and dop
              (equal "while" (cadr dop)))
         dop)))
 
-(defsubst ncl-looking-at-only-do-while
-  "Return \"do\" if the statement starts with only \"do\" not \"do while\" "
+(defsubst ncl-looking-at-only-do ()
+  "Return \"do\" if the statement starts with only do"
   (let (dop (ncl-looking-at-do-while))
     (if (and dop
              (equal "while" (cadr dop)))
         nil
       (car dop))))
 
+
 (defsubst ncl-looking-at-end ()
-  "Return (KIND) of \"end\" after the point."
+  "Return (KIND) of end after the point."
   (cond ((looking-at (concat "\\(" ncl-end-do "\\)\\>"))
          "do")
         ((looking-at (concat "\\(" ncl-end-if "\\)\\>"))
