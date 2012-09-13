@@ -580,7 +580,7 @@ All other return `comment-column', leaving at least one space after code."
 (defun ncl-calculate-indent ()
   "Calculate the indent column based on previous statements."
   (interactive)
-  (let (icol cont (pnt (point)) pre-if-p)
+  (let (icol cont (pnt (point)))
     (save-excursion
       (back-to-indentation)
       (if (looking-at ncl-zero-indent-re)
@@ -606,8 +606,6 @@ All other return `comment-column', leaving at least one space after code."
                            (ncl-looking-at-do)
                            (looking-at ncl-else-like-re))
                        (setq icol (+ icol ncl-block-indent)))
-                   ;; check the previous is also else like
-                   (setq pre-if-p (if (looking-at ncl-else-like-re) t nil))
 
                    ;; hunt for decrement
                    (goto-char pnt)
@@ -616,9 +614,7 @@ All other return `comment-column', leaving at least one space after code."
                          ((and (skip-chars-forward " \t")
                                (or
                                 (looking-at ncl-else-like-re)
-                                (ncl-looking-at-end-x))
-;                               (not pre-if-p)
-                               )
+                                (ncl-looking-at-end-x)))
                           (setq icol (- icol ncl-block-indent)))
                          (t
                           (setq icol icol))))))))
