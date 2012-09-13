@@ -546,6 +546,37 @@ All other return `comment-column', leaving at least one space after code."
          (goto-char pos))
     (set-marker pos nil)))
 
+(defun ncl-match-end ()
+  "From an end block statement, find the corresponding block and name."
+  (interactive)
+  (let ((count 1)
+        (top-of-window (window-start))
+        (end-point (point))
+        beg-name  end-type)
+    (when (save-excursion (back-to-indentation)
+                          (setq end-type (ncl-looking-at-end)))
+      (save-excursion
+        (beginning-of-line)
+        (while (and (> count 0)
+                    (not (= (line-beginning-position) (point))))
+          (re-search-backward ncl-block-beg-re nil 'move)
+          (back-to-indentation)
+          (cond ((or (ncl-in-string)
+                     (ncl-in-comment)))
+                ((setq beg-name
+                       (or
+                        (ncl-looking-at-do)
+                        (ncl-looking-at-begin)
+                        (ncl-looking-at-if)
+                        (ncl-looking-at-fun/proc-start)))
+                 (setq count (1- count)))
+                ((ncl-looking-at-end)
+                 (setq count (1+ count)))))
+        (if (> count 0)
+            (message "No matching beginning.")
+          (goto-char end-point)
+          (beginning-of-line))))))
+
 (defun ncl-calculate-indent ()
   "Calculate the indent column based on previous statements."
   (interactive)
