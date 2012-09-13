@@ -68,10 +68,16 @@
   :type 'integer
   :group 'ncl-indent)
 
-(defcustom ncl-continuation-indent 5
+(defcustom ncl-continuation-indent 8
   "Extra indentation applied to continuation lines."
   :type  'integer
   :safe  'integerp
+  :group 'ncl-indent)
+
+(defcustom ncl-zero-indent-re
+  "\\_<\\(begin\\|end[ \t]*$\\|function\\|local\\|procedure\\|undef\\)\\_>"
+  "Extra indentation applied to continuation lines."
+  :type  'regexp
   :group 'ncl-indent)
 
 (defcustom ncl-indented-comment-re ";"
@@ -369,21 +375,21 @@ after point."
 (defsubst ncl-looking-at-end ()
   "Return (KIND) of end after the point."
   (cond ((looking-at (concat "\\(" ncl-end-do "\\)\\>"))
-         "do")
+         'do)
         ((looking-at (concat "\\(" ncl-end-if "\\)\\>"))
-         "if")
+         'if)
         ((looking-at (concat "\\(" ncl-end-re "\\)\\>"))
-         "end")
+         'end)
         (t nil)))
 
 (defsubst ncl-looking-at-only-end ()
   "Return t if only \"end\" present on the line."
-  (when (equal "end" (ncl-looking-at-end))
+  (when (eq 'end (ncl-looking-at-end))
     t))
 
 (defsubst ncl-looking-at-end-x ()
   "Return t if \"end\" is not alone (end do end if...)."
-  (when (not (equal "end" (ncl-looking-at-end)))
+  (when (memq  (ncl-looking-at-end) '(if do))
     t))
 
 (defsubst ncl-present-statement-cont ()
@@ -553,45 +559,45 @@ All other return `comment-column', leaving at least one space after code."
   (interactive)
   (let (icol cont (pnt (point)) pre-if-p)
     (save-excursion
-      (if (not (ncl-previous-statement))
-          ;; if previous statement is nil, on or first line of first statement
+      (back-to-indentation)
+      (if (looking-at ncl-zero-indent-re)
           (setq icol 0)
+        (if (not (ncl-previous-statement))
+            ;; if previous statement is nil, on or first line of first statement
+            (setq icol 0)
 
-        (setq cont (ncl-present-statement-cont))
-        (if (eq cont 'end)
-            (while (not (eq 'begin (ncl-present-statement-cont)))
-              (ncl-previous-statement)))
+          (setq cont (ncl-present-statement-cont))
+          (if (eq cont 'end)
+              (while (not (eq 'begin (ncl-present-statement-cont)))
+                (ncl-previous-statement)))
 
-        (cond ((eq cont 'begin)
-               (setq icol (+ (ncl-current-indentation)
-                             ncl-continuation-indent)))
-              ((eq cont 'middle) (setq icol (current-indentation)))
+          (cond ((eq cont 'begin)
+                 (setq icol (+ (ncl-current-indentation)
+                               ncl-continuation-indent)))
+                ((eq cont 'middle) (setq icol (current-indentation)))
 
-              (t (setq icol (ncl-current-indentation))
-                 (skip-chars-forward " \t")
-                 (if (or (ncl-looking-at-fun/proc-start)
-                         (ncl-looking-at-if)
-                         (ncl-looking-at-do)
-                         (looking-at ncl-else-like-re))
-                     (setq icol (+ icol ncl-block-indent)))
-                 ;; check the previous is also else like
-                 (setq pre-if-p (if (looking-at ncl-else-like-re) t nil))
+                (t (setq icol (ncl-current-indentation))
+                   (skip-chars-forward " \t")
+                   (if (or (ncl-looking-at-fun/proc-start)
+                           (ncl-looking-at-if)
+                           (ncl-looking-at-do)
+                           (looking-at ncl-else-like-re))
+                       (setq icol (+ icol ncl-block-indent)))
+                   ;; check the previous is also else like
+                   (setq pre-if-p (if (looking-at ncl-else-like-re) t nil))
 
-                 ;; hunt for decrement
-                 (goto-char pnt)
-                 (beginning-of-line)
-                 (cond ((looking-at " \t*$"))
-                       ((or (ncl-looking-at-only-end)
-                            (ncl-looking-at-begin))
-                        (setq icol 0))
-                       ((and (skip-chars-forward " \t")
-                             (or
-                              (looking-at ncl-else-like-re)
-                              (ncl-looking-at-end-x))
-                             (not pre-if-p))
-                        (setq icol (- icol ncl-block-indent)))
-                       (t
-                        (setq icol icol)))))))
+                   ;; hunt for decrement
+                   (goto-char pnt)
+                   (beginning-of-line)
+                   (cond ((looking-at " \t*$") nil)
+                         ((and (skip-chars-forward " \t")
+                               (or
+                                (looking-at ncl-else-like-re)
+                                (ncl-looking-at-end-x))
+                               (not pre-if-p))
+                          (setq icol (- icol ncl-block-indent)))
+                         (t
+                          (setq icol icol))))))))
     icol))
 
 (defun ncl-indent-region ()
