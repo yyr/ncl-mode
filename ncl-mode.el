@@ -625,9 +625,91 @@ All other return `comment-column', leaving at least one space after code."
                           (setq icol icol))))))))
     icol))
 
-(defun ncl-indent-region ()
-  ""
-  )
+(defun ncl-indent-region (beg-region end-region)
+  "Indent every line in region by forward parsing."
+  (interactive "*r")
+  (let ((end-region-mark (copy-marker end-region))
+        (save-point (point-marker))
+        block-list ind-lev ind-curr ind-b cont struct beg-struct end-struct)
+    (goto-char beg-region)
+    (beginning-of-line)
+    (while (and (looking-at "[ \t]*\\(;+[ \t]*$\\)")
+                (progn (ncl-indent-line)
+                       (zerop (forward-line 1)))
+                (< (point) end-region-mark)))
+    (setq cont (ncl-present-statement-cont))
+    (while (and (memq cont '(middle and))
+                (ncl-previous-statement))
+      (setq cont (ncl-present-statement-cont)))
+    ;; process present line for beginning of block.
+    (ncl-indent-line)
+    (setq ind-lev (ncl-current-indentation)
+          ind-curr ind-lev)
+    (back-to-indentation)
+    (setq struct nil
+          ind-b (cond ((setq struct (or (ncl-looking-at-do)
+                                        (ncl-looking-at-if)
+                                        (ncl-looking-at-fun/proc-start))
+                             ncl-block-indent))
+                      ((looking-at ncl-else-like-re)
+                       ncl-block-indent)))
+    (if ind-b (setq ind-lev (+ ind-lev ind-b)))
+    (if struct (setq block-list (cons struct block-list)))
+
+    ;; continuation line
+    (while (and (ncl-line-continued)
+                (zerop (forward-line 1))
+                (< (point) end-region-mark))
+      (if (looking-at "[ \t]*;")
+          (ncl-indent-to (ncl-comment-indent))
+        (or (= (current-indentation)
+               (+ ind-curr ncl-continuation-indent))
+            (ncl-indent-to (+ ind-curr ncl-continuation-indent)))))
+
+    ;; rest
+    (while (and (zerop (forward-line 1))
+                (< (point) end-region-mark))
+      (beginning-of-line)
+      (cond ((looking-at "[ \t]*$") (setq ind-curr 0))
+            ((looking-at ";") (setq ind-curr (ncl-comment-indent)))
+            ((ncl-no-block-limit) (setq ind-curr ind-lev))
+            ((looking-at ncl-else-like-re) (setq ind-curr
+                                                 (- ind-lev ncl-block-indent)))
+
+            ((setq ind-b (cond ((setq struct (or (ncl-looking-at-do)
+                                                 (ncl-looking-at-if)
+                                                 (ncl-looking-at-fun/proc-start))
+                                      ncl-block-indent))
+                               ((looking-at ncl-else-like-re)
+                                ncl-block-indent)))
+             (setq ind-curr ind-lev)
+             (if ind-b (setq ind-lev (+ ind-lev ind-b)))
+             (setq block-list (cons struct block-list)))
+
+            ((setq end-struct (ncl-looking-at-only-end))
+             (setq beg-struct (car block-list)
+                   block-list (cdr block-list))
+             (setq ind-b
+                   (cond ((ncl-looking-at-end-x) ncl-block-indent)
+                         ((ncl-looking-at-only-end) (- ind-lev))))
+             (if ind-b (setq ind-lev (- ind-lev ind-b)))
+             (setq ind-curr ind-lev))
+            (t (setq ind-curr ind-lev)))
+
+      ;; finally indent
+      (or (= ind-curr (current-column))
+          (ncl-indent-to ind-curr))
+      (while (and (ncl-line-continued) (zerop (forward-line 1))
+                  (< (point) end-region-mark))
+        (if (looking-at "[ \t]*;")
+            (ncl-indent-to (ncl-comment-indent))
+          (or (= (current-indentation)
+                 (+ ind-curr ncl-continuation-indent))
+              (ncl-indent-to
+               (+ ind-curr ncl-continuation-indent))))))
+    (goto-char save-point)
+    (set-marker end-region-mark nil)
+    (set-marker save-point nil)))
 
 ;;;###autoload
 (define-derived-mode ncl-mode prog-mode "Ncl"
