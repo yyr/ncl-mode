@@ -301,12 +301,6 @@ variable assignments."
     (skip-chars-backward " \t")
     (= (preceding-char) ?\\)))
 
-(defsubst ncl-current-indentation ()
-  "Return indentation of current line."
-  (save-excursion
-    (beginning-of-line)
-    (skip-chars-forward " \t")))
-
 (defsubst ncl-indent-to (col)
   "Indent current line to column COL."
   (beginning-of-line)
@@ -600,11 +594,11 @@ All other return `comment-column', leaving at least one space after code."
                 (ncl-previous-statement)))
 
           (cond ((eq cont 'begin)
-                 (setq icol (+ (ncl-current-indentation)
+                 (setq icol (+ (current-indentation)
                                ncl-continuation-indent)))
                 ((eq cont 'middle) (setq icol (current-indentation)))
 
-                (t (setq icol (ncl-current-indentation))
+                (t (setq icol (current-indentation))
                    (skip-chars-forward " \t")
                    (if (or (ncl-looking-at-fun/proc-start)
                            (ncl-looking-at-if)
@@ -643,7 +637,7 @@ All other return `comment-column', leaving at least one space after code."
       (setq cont (ncl-present-statement-cont)))
     ;; process present line for beginning of block.
     (ncl-indent-line)
-    (setq ind-lev (ncl-current-indentation)
+    (setq ind-lev (current-indentation)
           ind-curr ind-lev)
     (back-to-indentation)
     (setq struct nil
