@@ -609,7 +609,7 @@ All other return `comment-column', leaving at least one space after code."
                    ;; hunt for decrement
                    (goto-char pnt)
                    (beginning-of-line)
-                   (cond ((looking-at " \t*$") nil)
+                   (cond ((looking-at "[ \t]*$") nil)
                          ((and (skip-chars-forward " \t")
                                (or
                                 (looking-at ncl-else-like-re)
