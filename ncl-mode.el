@@ -292,7 +292,8 @@ variable assignments."
   line of a continued statements."
   (save-excursion
     (beginning-of-line)
-    (while (and (looking-at "[ \t]*\\(;\\|$\\)"))
+    (while (and (looking-at "[ \t]*\\(;\\|$\\)")
+                (not (bobp)))
       (zerop (forward-line -1))) ; adjustment for empty line
     (end-of-line)
     (while (ncl-in-comment)
