@@ -28,4 +28,8 @@ The whitespace before and including \"|\" on each line is removed."
 
 ;;; tests
 
+(ert-deftest ncl-indent-continued-lines ()
+  (ncl-should-indent "a = 1 + \\\n2" ncl-continuation-indent)
+  (ncl-should-indent "  a = 1 + \\\n2 + \\\n4" (+ 2 ncl-continuation-indent)))
+
 ;;; ncl-mode-tests.el ends here
