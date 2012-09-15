@@ -599,6 +599,7 @@ All other return `comment-column', leaving at least one space after code."
                 (t (setq icol (current-indentation))
                    (skip-chars-forward " \t")
                    (if (or (ncl-looking-at-fun/proc-start)
+                           (ncl-looking-at-begin)
                            (ncl-looking-at-if)
                            (ncl-looking-at-do)
                            (looking-at ncl-else-like-re))
