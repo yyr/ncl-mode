@@ -531,8 +531,6 @@ All other return `comment-column', leaving at least one space after code."
     (back-to-indentation)
     (if (looking-at ";") ; comment line
         (setq indent (ncl-comment-indent))
-      (and (looking-at "end")           ; match struct find its indentation
-           (ncl-match-end))
       (setq indent (ncl-calculate-indent)))
     (or (= indent (current-column))
         (ncl-indent-to indent))
