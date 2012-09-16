@@ -674,7 +674,7 @@ All other return `comment-column', leaving at least one space after code."
       (beginning-of-line)
       (cond ((looking-at "[ \t]*$") (setq ind-curr 0))
             ((looking-at ";") (setq ind-curr (ncl-comment-indent)))
-            ((ncl-no-block-limit) (setq ind-curr ind-lev))
+            ;; ((ncl-no-block-limit) (setq ind-curr ind-lev))
             ((looking-at ncl-else-like-re) (setq ind-curr
                                                  (- ind-lev ncl-block-indent)))
 
