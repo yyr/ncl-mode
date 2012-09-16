@@ -639,9 +639,10 @@ All other return `comment-column', leaving at least one space after code."
                        (zerop (forward-line 1)))
                 (< (point) end-region-mark)))
     (setq cont (ncl-present-statement-cont))
-    (while (and (memq cont '(middle and))
-                (ncl-previous-statement))
-      (setq cont (ncl-present-statement-cont)))
+
+    (and (memq cont '(middle end))
+         (ncl-previous-statement-uncont))
+
     ;; process present line for beginning of block.
     (ncl-indent-line)
     (setq ind-lev (current-indentation)
