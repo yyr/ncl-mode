@@ -409,6 +409,14 @@ buffer), move to the start of the buffer and return nil. "
                 (looking-at "[ \t]*\\(;\\|$\\)")))
     not-first-statement))
 
+(defun ncl-previous-statement-uncont ()
+  "Same as ncl-previous-statement. But if previous statement is
+  continued, moves point to first line of the continued statement"
+  (interactive)
+  (ncl-previous-statement)
+  (while (not (memq (ncl-present-statement-cont) '(single begin)))
+    (ncl-previous-statement)))
+
 (defun ncl-next-statement ()
   "Move point to beginning of the next ncl statement.
 Return nil if no later statement is found."
@@ -589,8 +597,7 @@ All other return `comment-column', leaving at least one space after code."
 
           (setq cont (ncl-present-statement-cont))
           (if (eq cont 'end)
-              (while (not (eq 'begin (ncl-present-statement-cont)))
-                (ncl-previous-statement)))
+              (ncl-previous-statement-uncont))
 
           (cond ((eq cont 'begin)
                  (setq icol (+ (current-indentation)
