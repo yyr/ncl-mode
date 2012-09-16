@@ -651,8 +651,8 @@ All other return `comment-column', leaving at least one space after code."
     (setq struct nil
           ind-b (cond ((setq struct (or (ncl-looking-at-do)
                                         (ncl-looking-at-if)
-                                        (ncl-looking-at-fun/proc-start))
-                             ncl-block-indent))
+                                        (ncl-looking-at-fun/proc-start)))
+                       ncl-block-indent)
                       ((looking-at ncl-else-like-re)
                        ncl-block-indent)))
     (if ind-b (setq ind-lev (+ ind-lev ind-b)))
@@ -680,8 +680,8 @@ All other return `comment-column', leaving at least one space after code."
 
             ((setq ind-b (cond ((setq struct (or (ncl-looking-at-do)
                                                  (ncl-looking-at-if)
-                                                 (ncl-looking-at-fun/proc-start))
-                                      ncl-block-indent))
+                                                 (ncl-looking-at-fun/proc-start)))
+                                ncl-block-indent)
                                ((looking-at ncl-else-like-re)
                                 ncl-block-indent)))
              (setq ind-curr ind-lev)
