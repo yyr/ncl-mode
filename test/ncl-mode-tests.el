@@ -3,7 +3,6 @@
 ;;; Description: tests for ncl-mode.
 ;; based on ruby-mode tests
 
-(require 'ert)
 (require 'ncl-mode)
 
 (defun ncl-should-indent (content column)
