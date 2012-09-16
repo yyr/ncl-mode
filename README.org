@@ -105,3 +105,6 @@ Tip from NCL website FAQ:
 
 * License
 All the code written by me is Licensed under GPL v3 or later
+
+* travis-ci tests status
+[[https://secure.travis-ci.org/yyr/ncl-mode.png]]
