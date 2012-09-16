@@ -47,5 +47,41 @@ The whitespace before and including \"|\" on each line is removed."
    |    zot
    |"))
 
+(ert-deftest ncl-multiple-loop-indent ()
+  (ncl-should-indent-buffer
+   "do it = 0, 4, 1
+   |  do while ( some_exp )
+   |    a = \"b\"
+   |  end do
+   |end do
+   |"
+   "    do it = 0, 4, 1
+   |do while ( some_exp )
+   |a = \"b\"
+   |  end do
+   | end do
+   |"))
+
+(ert-deftest ncl-procedure-indent ()
+  (ncl-should-indent-buffer
+   "undef(\"some_proc\")
+   |procedure some_proc(a:numeric, b:numeric)
+   |local a, b, c
+   |
+   |begin
+   |  a = \"b\"
+   |
+   |  return
+   |end"
+   "undef(\"some_proc\")
+   |procedure some_proc(a:numeric, b:numeric)
+   |local
+   |
+   |begin
+   |
+   |
+   |return
+   |end"
+   ))
 
 ;;; ncl-mode-tests.el ends here
