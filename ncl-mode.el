@@ -638,8 +638,8 @@ All other return `comment-column', leaving at least one space after code."
                 (progn (ncl-indent-line)
                        (zerop (forward-line 1)))
                 (< (point) end-region-mark)))
-    (setq cont (ncl-present-statement-cont))
 
+    (setq cont (ncl-present-statement-cont))
     (and (memq cont '(middle end))
          (ncl-previous-statement-uncont))
 
@@ -675,8 +675,8 @@ All other return `comment-column', leaving at least one space after code."
       (cond ((looking-at "[ \t]*$") (setq ind-curr 0))
             ((looking-at ";") (setq ind-curr (ncl-comment-indent)))
             ;; ((ncl-no-block-limit) (setq ind-curr ind-lev))
-            ((looking-at ncl-else-like-re) (setq ind-curr
-                                                 (- ind-lev ncl-block-indent)))
+            ((looking-at ncl-else-like-re)
+             (setq ind-curr (- ind-lev ncl-block-indent)))
 
             ((setq ind-b (cond ((setq struct (or (ncl-looking-at-do)
                                                  (ncl-looking-at-if)
@@ -688,19 +688,18 @@ All other return `comment-column', leaving at least one space after code."
              (if ind-b (setq ind-lev (+ ind-lev ind-b)))
              (setq block-list (cons struct block-list)))
 
-            ((setq end-struct (ncl-looking-at-only-end))
-             (setq beg-struct (car block-list)
-                   block-list (cdr block-list))
+            ((setq end-struct (ncl-looking-at-end))
              (setq ind-b
-                   (cond ((ncl-looking-at-end-x) ncl-block-indent)
+                   (cond ((ncl-looking-at-end-x)
+                          ncl-block-indent)
                          ((ncl-looking-at-only-end) (- ind-lev))))
-             (if ind-b (setq ind-lev (- ind-lev ind-b)))
-             (setq ind-curr ind-lev))
+             (setq ind-lev (- ind-lev ind-b))
+             (if ind-b (setq ind-curr ind-lev)))
+
             (t (setq ind-curr ind-lev)))
 
       ;; finally indent
-      (or (= ind-curr (current-column))
-          (ncl-indent-to ind-curr))
+      (ncl-indent-to ind-curr)
       (while (and (ncl-line-continued) (zerop (forward-line 1))
                   (< (point) end-region-mark))
         (if (looking-at "[ \t]*;")
