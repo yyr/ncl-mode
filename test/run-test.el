@@ -27,7 +27,9 @@
 
 ;;; run
 (if noninteractive
-    (ert-run-tests-batch-and-exit)
+    (progn
+      (princ emacs-version)
+      (ert-run-tests-batch-and-exit))
   (ert t))
 
 ;;; run-test.el ends here
