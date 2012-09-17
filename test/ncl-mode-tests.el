@@ -74,13 +74,13 @@ The whitespace before and including \"|\" on each line is removed."
    |end"
    "undef(\"some_proc\")
    |procedure some_proc(a:numeric, b:numeric)
-   |local
+   |  local a, b, c
    |
-   |begin
+   |    begin
+   |  a = \"b\"
    |
-   |
-   |return
-   |end"
+   |        return
+   |  end"
    ))
 
 ;;; ncl-mode-tests.el ends here
