@@ -397,6 +397,17 @@ Comment lines embedded amongst continued lines return 'middle."
           ((and pcont       cont)       'middle)
           (t (error "The impossible occurred")))))
 
+(defsubst ncl-no-block-limit ()
+  "Return nil if point is at the edge of a code block.
+Searches line forward for \"function\" or \"subroutine\",
+if all else fails."
+  (save-excursion
+    (not (or (ncl-looking-at-end)
+             (ncl-looking-at-if)
+             (looking-at ncl-else-like-re)
+             (looking-at ncl-zero-indent-re)
+             (ncl-looking-at-fun/proc-start)))))
+
 ;;; functions
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
@@ -674,7 +685,10 @@ All other return `comment-column', leaving at least one space after code."
       (beginning-of-line)
       (cond ((looking-at "[ \t]*$") (setq ind-curr 0))
             ((looking-at ";") (setq ind-curr (ncl-comment-indent)))
-            ;; ((ncl-no-block-limit) (setq ind-curr ind-lev))
+            ((looking-at ncl-zero-indent-re) (setq ind-curr 0
+                                                   ind-lev 0))
+            ((ncl-no-block-limit) (setq ind-curr ind-lev))
+
             ((looking-at ncl-else-like-re)
              (setq ind-curr (- ind-lev ncl-block-indent)))
 
