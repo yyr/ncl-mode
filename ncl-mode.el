@@ -63,11 +63,6 @@
   :type 'integer
   :group 'ncl-indent)
 
-(defcustom ncl-body-indent 0
-  "Ncl Script body indentation."
-  :type 'integer
-  :group 'ncl-indent)
-
 (defcustom ncl-continuation-indent 8
   "Extra indentation applied to continuation lines."
   :type  'integer
@@ -253,9 +248,6 @@ variable assignments."
 (defconst ncl-else-like-re
   (regexp-opt '("else" "else if") 'symbols)
   "Regexp matching an \"else\" or \"else if\".")
-
-(defconst ncl-do "[ \t]*do"
-  "Regular expression to find beginning of  \"do\"")
 
 (defconst ncl-end-do "[ \t]*end[ ]do"
   "Regular expression to find beginning of  \"end do\"")
