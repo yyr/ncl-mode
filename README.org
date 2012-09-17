@@ -1,4 +1,25 @@
 Emacs editing mode for Ncar Command Language(NCL).
+[[https://secure.travis-ci.org/yyr/ncl-mode.png]]
+
+* Intro
+ncl-mode package contains emacs major mode and other utilities to help write
+ncl scripts
+
+Please not to confuse this mode with [[http://www.ncl.ucar.edu/Applications/Files/ncl.el][other]] package written by NCAR people. you may
+think this provide newer and hopefully better Emacs support for Ncl.
+
+* Features
+- easy code navigation (consistent with other Emacs modes)
+- better indentation
+- proper comment handling
+- Imenu support (my favorite)
+- menu support
+- Snippets for yasnippet
+- auto-complete support
+- ctags support (ctags generation script included)
+- ncl-doc-mode minor mode for browsing/searching NCL documentation from NCAR
+  website
+- inf-ncl.el mode for running NCL within Emacs.
 
 
 * Installation
@@ -10,17 +31,6 @@ Emacs editing mode for Ncar Command Language(NCL).
 - That' it. It will take care of all the needed set up for ncl-mode,
   ncl-doc-mode, auto-complete, yasnippet and inf-ncl. If you care to
   know what they are, then read on..
-
-* ncl.el
-The =ncl.el=  modified from the [[http://www.ncl.ucar.edu/Applications/Files/ncl.el][original]]
-
-** Rewrite plan.
-Parts of original =ncl.el= file has been modified/improved to accommodate
-other files in this package.
-
-I plan to rewrite whole =ncl.el= some time soon. Since the current
-implementation really doesn't understand the NCL syntax And also I would like
-this package to be in the core of Emacs or at least in official ELPA.
 
 * ncl-doc.el
 Helps you read NCL documentation for NCAR website.
@@ -59,9 +69,6 @@ USAGE:
 if no arguments supplied it searches for ncl files in current
 directory including sub directories
 
-* Snippets for yasnippet
-snippets folder contains ncl-mode snippets.
-
 * Customization:
 M-x customize-group RET ncl-doc RET
 check out the following variables
@@ -86,14 +93,15 @@ Tip from NCL website FAQ:
 
 * TODOS
 ** NCL MODE
-- [ ] REWRITE
+- [X] REWRITE
 - [X] make font lock work better/faster
 - [X] Imenu support
   - Imenu can directly be used by keyboard (may be with ido or directly)
   - see function: ncl-add-imenu-menu
 - [ ] easy menu
 - [ ] fixing commenting system
-- [ ] fixing indentation
+- [X] fixing indentation
+- [ ] Documentation
 
 ** NCL-DOC mode
 - [X] call browser to look documentation of keyword
@@ -101,10 +109,7 @@ Tip from NCL website FAQ:
 
 ** inf-ncl mode
 - [X] implement
-- [ ] test
+- [X] test
 
 * License
 All the code written by me is Licensed under GPL v3 or later
-
-* travis-ci tests status
-[[https://secure.travis-ci.org/yyr/ncl-mode.png]]
