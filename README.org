@@ -1,6 +1,7 @@
-Emacs editing mode for Ncar Command Language(NCL).
 [[https://secure.travis-ci.org/yyr/ncl-mode.png]]
 
+
+Emacs editing mode for Ncar Command Language(NCL).
 ** Introduction.
 ncl-mode package contains emacs major mode and other utilities to help write
 Ncl scripts
