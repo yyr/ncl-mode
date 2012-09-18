@@ -178,7 +178,7 @@
     (define-key map (kbd "C-j")   'reindent-then-newline-and-indent)
     (define-key map (kbd "C-m")   'newline)
 
-    (easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
+    (easy-menu-define ncl-menu map "Menu for NCL mode."
       `("NCL"
         ("Customization"
          ,(custom-menu-create 'ncl))
