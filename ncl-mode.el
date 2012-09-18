@@ -173,8 +173,8 @@
     (define-key map (kbd "C-M-e") 'ncl-end-of-fun/proc)
     (define-key map (kbd "C-M-p") 'ncl-beginning-of-block)
     (define-key map (kbd "C-M-n") 'ncl-end-of-block)
-    (define-key map (kbd "C-M-h") 'ncl-mark-defun)
-    (define-key map (kbd "C-M-q") 'ncl-indent-exp)
+    ;; (define-key map (kbd "C-M-p") 'ncl-beginning-of-block)
+    ;; (define-key map (kbd "C-M-q") 'ncl-indent-exp)
     (define-key map (kbd "C-j")   'reindent-then-newline-and-indent)
     (define-key map (kbd "C-m")   'newline)
     map)
@@ -238,8 +238,7 @@ variable assignments."
 (defconst ncl-block-beg-re (regexp-opt '("if" "do" "do while") 'symbols)
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
-(defconst ncl-block-end-re (regexp-opt '("end if"
-                                         "end do") 'symbols)
+(defconst ncl-block-end-re (regexp-opt '("end if" "end do" "end") 'symbols)
   "Regular expression to find end of block.")
 
 (defconst ncl-end-re "[ \t]*end[ \t]*$"
@@ -425,16 +424,13 @@ Return nil if no later statement is found."
   "Move to the beginning (N < 0) or the end (N > 0) of the current block
 or blocks."
   (let ((orig (point))
-                                        ;        (start (ncl-calculate-indent))
+        (start (ncl-calculate-indent))
         (down (looking-at
                (if (< n 0)
                    ncl-block-end-re
                  ncl-block-beg-re)))
         pos done)
-    (while (and (not done)
-                (not (if (< n 0)
-                         (bobp)
-                       (eobp))))
+    (while (and (not done) (not (if (< n 0) (bobp) (eobp))))
       (forward-line n)
       (cond
        ((looking-at "^\\s *$"))
@@ -447,7 +443,13 @@ or blocks."
         (re-search-backward ncl-block-beg-re))
        (t
         (setq pos (current-indentation))
-        (setq done t))))
+        (cond
+         ((< start pos)
+          (setq down t))
+         ((and down (= pos start))
+          (setq done t))
+         ((> start pos)
+          (setq done t))))))
     (back-to-indentation)))
 
 (defun ncl-beginning-of-block (&optional arg)
