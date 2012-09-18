@@ -1,4 +1,5 @@
 *.elc
-*.shtml
+*.html
 *.bkp
 *.new
+tmp*
