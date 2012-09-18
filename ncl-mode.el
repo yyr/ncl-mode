@@ -119,7 +119,7 @@
                         ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
                         ncl-key-wrfcontrib ncl-key-windrose
                         ) 'paren) "\\>")
-       (1 font-lock-function-face))
+       (1 font-lock-function-name-face))
 
       ;; ncl gsn function-face
       (,(concat
@@ -133,7 +133,8 @@
 
       ;; variable face seq`ncl-var-re'
       (,ncl-var-re (1 font-lock-variable-name-face))
-      ))
+      ("\\<\\([[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)\\)\\>"
+       (2 font-lock-function-name-face))))
   "Ncl font lock key words.")
 
 ;;; syntax table
