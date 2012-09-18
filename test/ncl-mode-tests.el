@@ -28,12 +28,12 @@ The whitespace before and including \"|\" on each line is removed."
 ;;; tests
 
 ;;; indentation
-(ert-deftest ncl-indent-continued-lines ()
+(ert-deftest ncl-test-indent-continued-lines ()
   (ncl-should-indent "a = 1 + \\\n2" ncl-continuation-indent)
   (ncl-should-indent "  a = 1 + \\\n2 + \\\n4" 0)
   (ncl-should-indent "  a = 1 + \\\n  2 + \\\n4" 2))
 
-(ert-deftest ncl-indent-simple ()
+(ert-deftest ncl-test-indent-simple ()
   (ncl-should-indent-buffer
    "if (foo)
    |  bar
@@ -46,7 +46,7 @@ The whitespace before and including \"|\" on each line is removed."
    |    zot
    |"))
 
-(ert-deftest ncl-multiple-loop-indent ()
+(ert-deftest ncl-test-multiple-loop-indent ()
   (ncl-should-indent-buffer
    "do it = 0, 4, 1
    |  do while ( some_exp )
@@ -61,7 +61,7 @@ The whitespace before and including \"|\" on each line is removed."
    | end do
    |"))
 
-(ert-deftest ncl-procedure-indent ()
+(ert-deftest ncl-test-procedure-indent ()
   (ncl-should-indent-buffer
    "undef(\"some_proc\")
    |procedure some_proc(a:numeric, b:numeric)
@@ -82,5 +82,27 @@ The whitespace before and including \"|\" on each line is removed."
    |        return
    |  end"
    ))
+
+(ert-deftest ncl-test-comment-indent-simple ()
+  (ncl-should-indent "  a = 1 + 2\n  ; two" 2)
+  (ncl-should-indent "  a = 1 + 2\n; two" 0)
+  (ncl-should-indent "  a = 1 + 2\n  ;;; two" 0))
+
+(ert-deftest ncl-test-comment-indent ()
+  (ncl-should-indent-buffer
+   "; some if
+   |if ( choice  ) then
+   |  a@attnames = -9999.0
+   |;;; some else if
+   |  ;
+   |end if
+   "
+   "; some if
+   |if ( choice  ) then
+   |  a@attnames = -9999.0
+   |   ;;; some else if
+   | ;
+   |end if
+   "))
 
 ;;; ncl-mode-tests.el ends here
