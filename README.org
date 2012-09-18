@@ -1,4 +1,5 @@
-[[https://secure.travis-ci.org/yyr/ncl-mode][https://secure.travis-ci.org/yyr/ncl-mode.png]]
+
+[[https://secure.travis-ci.org/yyr/ncl-mode.png]]
 
 
 Emacs editing mode for Ncar Command Language(NCL).
