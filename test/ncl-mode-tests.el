@@ -96,13 +96,13 @@ The whitespace before and including \"|\" on each line is removed."
    |;;; some else if
    |  ;
    |end if
-   "
+   |"
    "; some if
    |if ( choice  ) then
    |  a@attnames = -9999.0
    |   ;;; some else if
    | ;
    |end if
-   "))
+   |"))
 
 ;;; ncl-mode-tests.el ends here
