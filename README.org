@@ -1,14 +1,14 @@
 Emacs editing mode for Ncar Command Language(NCL).
 [[https://secure.travis-ci.org/yyr/ncl-mode.png]]
 
-* Intro
+** Introduction.
 ncl-mode package contains emacs major mode and other utilities to help write
-ncl scripts
+Ncl scripts
 
-Please not to confuse this mode with [[http://www.ncl.ucar.edu/Applications/Files/ncl.el][other]] package written by NCAR people. you may
-think this provide newer and hopefully better Emacs support for Ncl.
+Please do to confuse this mode with the [[http://www.ncl.ucar.edu/Applications/Files/ncl.el][other]]  written by NCAR people. You may
+think this package newer and hopefully better Emacs support for Ncl.
 
-* Features
+** Features
 - easy code navigation (consistent with other Emacs modes)
 - better indentation
 - proper comment handling
@@ -21,8 +21,13 @@ think this provide newer and hopefully better Emacs support for Ncl.
   website
 - inf-ncl.el mode for running NCL within Emacs.
 
+** Compatibility
+This is know to work on emacs-24.1 and above. But may work with
+emacs-23.3.
 
-* Installation
+This package is *not* compatible below emacs-23.2.
+
+** Installation
 - Download the package from the latest release from [[https://github.com/yyr/ncl-mode/tags][here]] or
   development version from [[https://github.com/yyr/ncl-mode/downloads][here]]
 - unzip/untar put some where in your path (optionally rename it to ncl-mode)
@@ -32,7 +37,7 @@ think this provide newer and hopefully better Emacs support for Ncl.
   ncl-doc-mode, auto-complete, yasnippet and inf-ncl. If you care to
   know what they are, then read on..
 
-* ncl-doc.el
+** ncl-doc.el
 Helps you read NCL documentation for NCAR website.
 
 [[https://raw.github.com/yyr/ncl-mode/master/img/ncl-doc-usage.png]]
@@ -57,11 +62,11 @@ has in its database and takes you to that page.
 To get an idea what ncl-doc does: here I loaded the ncl-doc.el then called
 the function "ncl-doc-query-at-point" and given "add" string.
 
-* inf-ncl.el
+** inf-ncl.el
 Which lets you run NCL within Emacs and interact NCL process from ncl-mode
 buffer.  ac-completion support is also available for this mode.
 
-* ncl-ctags-gen.sh
+** ncl-ctags-gen.sh
 one liner to generate ctags from NCL Source files; uses
 ~exuberant-ctags~
 USAGE:
@@ -69,7 +74,7 @@ USAGE:
 if no arguments supplied it searches for ncl files in current
 directory including sub directories
 
-* Customization:
+** Customization:
 M-x customize-group RET ncl-doc RET
 check out the following variables
  - `ncl-doc-url-base' = defaults to "http://www.ncl.ucar.edu"
@@ -91,8 +96,8 @@ Tip from NCL website FAQ:
 
  - `ncl-doc-minor-mode-hook'
 
-* TODOS
-** NCL MODE
+** TODOS
+*** NCL MODE
 - [X] REWRITE
 - [X] make font lock work better/faster
 - [X] Imenu support
@@ -103,13 +108,13 @@ Tip from NCL website FAQ:
 - [X] fixing indentation
 - [ ] Documentation
 
-** NCL-DOC mode
+*** NCL-DOC mode
 - [X] call browser to look documentation of keyword
 - [ ] reading docs with in emacs
 
-** inf-ncl mode
+*** inf-ncl mode
 - [X] implement
 - [X] test
 
-* License
-All the code written by me is Licensed under GPL v3 or later
+** License
+GPL v3 (or later).
