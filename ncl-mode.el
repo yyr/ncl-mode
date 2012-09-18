@@ -75,7 +75,7 @@
   :type  'regexp
   :group 'ncl-indent)
 
-(defcustom ncl-indented-comment-re ";"
+(defcustom ncl-indented-comment-re ";+"
   "Regexp matching comments to indent as code"
   :type 'integer
   :group 'ncl-indent)
@@ -514,12 +514,11 @@ if comment type \";;;\", \"^;\" this function return 0.
 All other return `comment-column', leaving at least one space after code."
   (save-excursion
     (back-to-indentation)
-    (cond ((looking-at ";;;") 0)
-          ((and (looking-at ";[ \t]+")
+    (cond ((looking-at ";;;+") 0)
+          ((and (looking-at ";[ \t]*[^;]")
                 (bolp); for "^;"
                 0))
-          ((and (looking-at ncl-indented-comment-re)
-                (not (bolp)))
+          ((looking-at ncl-indented-comment-re)
            (ncl-calculate-indent))
           (t (max (if (bolp) 0 (1+ (current-column)))
                   comment-column)))))
