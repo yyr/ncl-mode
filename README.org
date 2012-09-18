@@ -39,6 +39,10 @@ This package is *not* compatible below emacs-23.2.
   ncl-doc-mode, auto-complete, yasnippet and inf-ncl. If you care to
   know what they are, then read on..
 
+** Bug & Feature request
+Please open a issue on [[https://github.com/yyr/ncl-mode/issues][github]], if you have a patch want to contribute please
+drop [[mailto:hi%E2%97%8Eyagnesh.org][me]] a mail (replace unicode character) or preferably make a pull request
+through github interface.
 ** ncl-doc.el
 Helps you read NCL documentation for NCAR website.
 
