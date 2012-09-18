@@ -512,21 +512,22 @@ Used for `comment-indent-function' by ncl mode.
 if comment type \";;;\", \"^;\" this function return 0.
 `ncl-indented-comment-re' (if not trailing code) calls `ncl-calculate-indent'.
 All other return `comment-column', leaving at least one space after code."
-  (cond ((looking-at ";;;") 0)
-        ((save-excursion (looking-at ";")) 0)  ; for "^;"
-        ((and (looking-at ncl-indented-comment-re)
-              (save-excursion
-                (skip-chars-forward " \t")
-                (bolp)))
-         (ncl-calculate-indent))
-        (t (save-excursion
-             (skip-chars-forward " \t")
-             (max (if (bolp) 0 (1+ (current-column)))
+  (save-excursion
+    (back-to-indentation)
+    (cond ((looking-at ";;;") 0)
+          ((and (looking-at ";[ \t]+")
+                (bolp); for "^;"
+                0))
+          ((and (looking-at ncl-indented-comment-re)
+                (not (bolp)))
+           (ncl-calculate-indent))
+          (t (max (if (bolp) 0 (1+ (current-column)))
                   comment-column)))))
+
 
 (defun ncl-indent-line ()
   "Indent current line as ncl code."
-  (interactive "*P")
+  (interactive "*")
   (let ((pos (point-marker))
         indent)
     (back-to-indentation)
