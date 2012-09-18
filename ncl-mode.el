@@ -177,6 +177,23 @@
     ;; (define-key map (kbd "C-M-q") 'ncl-indent-exp)
     (define-key map (kbd "C-j")   'reindent-then-newline-and-indent)
     (define-key map (kbd "C-m")   'newline)
+
+    (easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
+      `("NCL"
+        ("Customization"
+         ,(custom-menu-create 'ncl))
+
+        "--"
+        ["Comment Region" comment-region mark-active]
+        ["Uncomment Region"
+         (comment-region (region-beginning) (region-end) 1)
+         mark-active]
+        ["Indent Region"     indent-region mark-active]
+
+        ["Add Imenu Menu" imenu-add-menubar-index
+         :active   (not (lookup-key (current-local-map) [menu-bar index]))
+         :included (fboundp 'imenu-add-to-menubar)
+         :help "Add an index menu to the menu-bar"]))
     map)
   "Key map for NCL mode.")
 
@@ -199,30 +216,6 @@ variable assignments."
   (interactive)
   (imenu-add-to-menubar "Imenu")
   (redraw-frame (selected-frame)))
-
-;;=================================================================
-;; Menu
-;;=================================================================
-(easy-menu-define ncl-menu ncl-mode-map "Menu for NCL mode."
-  `("NCL"
-    ("Customization"
-     ,(custom-menu-create 'ncl))
-
-    "--"
-    ["Comment Region" comment-region mark-active]
-    ["Uncomment Region"
-     (comment-region (region-beginning) (region-end) 1)
-     mark-active]
-    ["Indent Region"     indent-region mark-active]
-
-    "--"
-    ["Narrow to Subprogram" narrow-to-defun t]
-    ["Widen" widen t]
-
-    ["Add Imenu Menu" imenu-add-menubar-index
-     :active   (not (lookup-key (current-local-map) [menu-bar index]))
-     :included (fboundp 'imenu-add-to-menubar)
-     :help "Add an index menu to the menu-bar"]))
 
 ;;=================================================================
 ;; Indentation
