@@ -217,6 +217,8 @@ variable assignments."
   (imenu-add-to-menubar "Imenu")
   (redraw-frame (selected-frame)))
 
+(add-hook 'ncl-mode-hook 'ncl-add-imenu-menu)
+
 ;;=================================================================
 ;; Indentation
 ;;=================================================================
