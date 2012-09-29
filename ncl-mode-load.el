@@ -75,4 +75,5 @@
 (when (require 'yasnippet nil t)
   (add-to-list 'yas/snippet-dirs (concat ncl-mode-dir "snippets/")))
 
+(provide 'ncl-mode-load)
 ;;; ncl-mode-load.el ends here
