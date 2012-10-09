@@ -244,7 +244,7 @@ variable assignments."
 (defconst ncl-end-re "[ \t]*end[ \t]*$"
   "Regular expression to find end of \"end\" block.")
 
-(defconst ncl-else-like-re "\\_<\\(else *[^if]+\\)\\_>"
+(defconst ncl-else-like-re "else *$"
   "Regexp matching only \"else\".")
 
 (defconst ncl-end-do "[ \t]*end[ ]do"

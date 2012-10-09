@@ -33,7 +33,7 @@ The whitespace before and including \"|\" on each line is removed."
   (ncl-should-indent "  a = 1 + \\\n2 + \\\n4" 0)
   (ncl-should-indent "  a = 1 + \\\n  2 + \\\n4" 2))
 
-(ert-deftest ncl-test-indent-simple ()
+(ert-deftest ncl-test-indent-if ()
   (ncl-should-indent-buffer
    "if (foo)
    |  bar
@@ -44,6 +44,51 @@ The whitespace before and including \"|\" on each line is removed."
    |bar
    |  end if
    |    zot
+   |"))
+
+(ert-deftest ncl-test-indent-if-else ()
+  (ncl-should-indent-buffer
+   "if (foo)
+   |  bar
+   |else
+   |  baz
+   |end if
+   |zot
+   |"
+   "if (foo)
+   |  bar
+   |else
+   |baz
+   |  end if
+   |zot
+   |"
+   ))
+
+(ert-deftest ncl-test-indent-if-elseif-else ()
+  (ncl-should-indent-buffer
+   "if (foo)
+   |  bar
+   |  else if (condition)
+   |    i = \"ok\"
+   |  else
+   |    i = \"Not ok\"
+   |  end if
+   |else
+   |  baz
+   |end if
+   |zot
+   |"
+   "if (foo)
+   |bar
+   |else if (condition)
+   |i = \"ok\"
+   |else
+   |    i = \"Not ok\"
+   |end if
+   |  else
+   |  baz
+   |  end if
+   |zot
    |"))
 
 (ert-deftest ncl-test-indent-multiple-loop ()
@@ -107,6 +152,7 @@ The whitespace before and including \"|\" on each line is removed."
    |  a : b
    |  end getvalues"
    ))
+
 
 (ert-deftest ncl-test-indent-comment-simple ()
   (ncl-should-indent "  a = 1 + 2\n  ; two" 2)
