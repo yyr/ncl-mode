@@ -231,12 +231,12 @@ variable assignments."
 ;;    ;;                 as code          ncl-comment-region
 ;;    default            comment-column
 
-(defconst ncl-block-beg-re (regexp-opt
-                            '("if" "do" "do while"
+(defconst ncl-block-starter-re (regexp-opt
+                            '("begin" "if" "do" "do while"
                               "getvalues" "setvalues") 'symbols)
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
-(defconst ncl-block-end-re (regexp-opt
+(defconst ncl-block-closer-re (regexp-opt
                             '("end if" "end do"
                               "end getvalues" "end setvalues" "end") 'symbols)
   "Regular expression to find end of block.")
@@ -261,7 +261,7 @@ variable assignments."
   (regexp-opt '("function" "procedure") 'paren)
   "Regexp used to locate the start of a \"function/procedure\".")
 
-(defconst ncl-indent-beg-re
+(defconst ncl-indent-starter-re
   (concat "^\\s *" (regexp-opt '("if" "do" "do while"
                                  "begin")) "\\_>")
   "Regexp to match where the indentation gets deeper.")
@@ -427,8 +427,8 @@ or blocks."
         (start (ncl-calculate-indent))
         (down (looking-at
                (if (< n 0)
-                   ncl-block-end-re
-                 ncl-block-beg-re)))
+                   ncl-block-closer-re
+                 ncl-block-starter-re)))
         pos done)
     (while (and (not done) (not (if (< n 0) (bobp) (eobp))))
       (forward-line n)
@@ -436,11 +436,11 @@ or blocks."
        ((looking-at "^\\s *$"))
        ((looking-at "^\\s *;"))
        ((and (> n 0)
-             (looking-at ncl-block-beg-re))
-        (re-search-forward ncl-block-end-re))
+             (looking-at ncl-block-starter-re))
+        (re-search-forward ncl-block-closer-re))
        ((and (< n 0)
-             (looking-at ncl-block-end-re))
-        (re-search-backward ncl-block-beg-re))
+             (looking-at ncl-block-closer-re))
+        (re-search-backward ncl-block-starter-re))
        (t
         (setq pos (current-indentation))
         (cond
@@ -555,7 +555,7 @@ All other return `comment-column', leaving at least one space after code."
         (beginning-of-line)
         (while (and (> count 0)
                     (or (re-search-backward "begin" top-of-window 'move)
-                        (re-search-backward ncl-block-beg-re top-of-window 'move)))
+                        (re-search-backward ncl-block-starter-re top-of-window 'move)))
           (back-to-indentation)
           (setq match-pnt (point))
           (cond ((or (ncl-in-string)
