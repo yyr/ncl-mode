@@ -232,13 +232,13 @@ variable assignments."
 ;;    default            comment-column
 
 (defconst ncl-block-starter-re (regexp-opt
-                            '("begin" "if" "do" "do while"
-                              "getvalues" "setvalues") 'symbols)
+                                '("begin" "if" "do" "do while"
+                                  "getvalues" "setvalues") 'symbols)
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
 (defconst ncl-block-closer-re (regexp-opt
-                            '("end if" "end do"
-                              "end getvalues" "end setvalues" "end") 'symbols)
+                               '("end if" "end do"
+                                 "end getvalues" "end setvalues" "end") 'symbols)
   "Regular expression to find end of block.")
 
 (defconst ncl-end-re "[ \t]*end[ \t]*$"
