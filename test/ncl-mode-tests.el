@@ -46,7 +46,7 @@ The whitespace before and including \"|\" on each line is removed."
    |    zot
    |"))
 
-(ert-deftest ncl-test-multiple-loop-indent ()
+(ert-deftest ncl-test-indent-multiple-loop ()
   (ncl-should-indent-buffer
    "do it = 0, 4, 1
    |  do while ( some_exp )
@@ -61,7 +61,7 @@ The whitespace before and including \"|\" on each line is removed."
    | end do
    |"))
 
-(ert-deftest ncl-test-procedure-indent ()
+(ert-deftest ncl-test-indent-procedure ()
   (ncl-should-indent-buffer
    "undef(\"some_proc\")
    |procedure some_proc(a:numeric, b:numeric)
@@ -83,12 +83,37 @@ The whitespace before and including \"|\" on each line is removed."
    |  end"
    ))
 
-(ert-deftest ncl-test-comment-indent-simple ()
+(ert-deftest ncl-test-indent-setvalues-block ()
+  (ncl-should-indent-buffer
+   "a = res
+   |setvalues a
+   |  a : b
+   |end setvalues"
+   "a = res
+   |  setvalues a
+   |  a : b
+   |  end setvalues"
+   ))
+
+
+(ert-deftest ncl-test-indent-getvalues-block ()
+  (ncl-should-indent-buffer
+   "a = res
+   |getvalues a
+   |  a : b
+   |end getvalues"
+   "a = res
+   |  getvalues a
+   |  a : b
+   |  end getvalues"
+   ))
+
+(ert-deftest ncl-test-indent-comment-simple ()
   (ncl-should-indent "  a = 1 + 2\n  ; two" 2)
   (ncl-should-indent "  a = 1 + 2\n; two" 0)
   (ncl-should-indent "  a = 1 + 2\n  ;;; two" 0))
 
-(ert-deftest ncl-test-comment-indent ()
+(ert-deftest ncl-test-indent-comment ()
   (ncl-should-indent-buffer
    "; some if
    |if ( choice  ) then
