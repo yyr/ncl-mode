@@ -355,6 +355,12 @@ after point."
       nil
     'do))
 
+(defsubst ncl-looking-at-block-closer ()
+  "Return non-nil if point looks at block closer `ncl-block-closer-re'"
+  (when (looking-at ncl-block-closer-re)
+    (if (< 3 (string-width (match-string-no-properties 1)))
+        (substring (match-string-no-properties 1) 4) "")))
+
 (defsubst ncl-looking-at-end ()
   "Return (KIND) of end after the point."
   (cond ((looking-at ncl-end-do)
@@ -367,12 +373,12 @@ after point."
 
 (defsubst ncl-looking-at-only-end ()
   "Return t if only \"end\" present on the line."
-  (when (eq 'end (ncl-looking-at-end))
+  (when (equal "" (ncl-looking-at-block-closer))
     t))
 
 (defsubst ncl-looking-at-end-x ()
   "Return t if \"end\" is not alone (end do end if...)."
-  (when (memq  (ncl-looking-at-end) '(enddo endif))
+  (when (member (ncl-looking-at-block-closer) '("do" "setvalues" "getvalues" "if"))
     t))
 
 (defsubst ncl-present-statement-cont ()
