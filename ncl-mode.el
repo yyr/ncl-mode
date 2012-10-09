@@ -324,6 +324,11 @@ starts after point. "
   (when (looking-at "begin")
     "begin"))
 
+(defsubst ncl-looking-at-block-starter ()
+  "Return non-nil if looking at a block starter"
+  (when (looking-at ncl-block-starter-re)
+    (match-string-no-properties 1)))
+
 (defsubst ncl-looking-at-if ()
   "Return \"if\" and next word (may be \"while\") if a do statement starts
 after point."
@@ -562,9 +567,7 @@ All other return `comment-column', leaving at least one space after code."
                      (ncl-in-comment)))
                 ((setq beg-name
                        (or
-                        (ncl-looking-at-do)
-                        (ncl-looking-at-begin)
-                        (ncl-looking-at-if)
+                        (ncl-looking-at-block-starter)
                         (ncl-looking-at-fun/proc-start)))
                  (setq count (1- count)))
                 ((ncl-looking-at-end)
@@ -601,9 +604,7 @@ All other return `comment-column', leaving at least one space after code."
                 (t (setq icol (current-indentation))
                    (skip-chars-forward " \t")
                    (if (or (ncl-looking-at-fun/proc-start)
-                           (ncl-looking-at-begin)
-                           (ncl-looking-at-if)
-                           (ncl-looking-at-do)
+                           (ncl-looking-at-block-starter)
                            (looking-at ncl-else-like-re))
                        (setq icol (+ icol ncl-block-indent)))
 
