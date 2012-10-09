@@ -232,7 +232,7 @@ variable assignments."
 ;;    default            comment-column
 
 (defconst ncl-block-starter-re (regexp-opt
-                                '("begin" "if" "do" "do while"
+                                '("begin" "if" "do" "do while" "else if"
                                   "getvalues" "setvalues") 'symbols)
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
@@ -244,9 +244,8 @@ variable assignments."
 (defconst ncl-end-re "[ \t]*end[ \t]*$"
   "Regular expression to find end of \"end\" block.")
 
-(defconst ncl-else-like-re
-  (regexp-opt '("else" "else if") 'symbols)
-  "Regexp matching an \"else\" or \"else if\".")
+(defconst ncl-else-like-re "\\_<\\(else *[^if]+\\)\\_>"
+  "Regexp matching only \"else\".")
 
 (defconst ncl-end-do "[ \t]*end[ ]do"
   "Regular expression to find beginning of  \"end do\"")
