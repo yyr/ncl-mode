@@ -232,7 +232,7 @@ variable assignments."
 ;;    default            comment-column
 
 (defconst ncl-block-starter-re
-  "\\_<\\([a-zA-Z][a-zA-Z0-9_]*[ \t]*=[\t ]*create\\|begin\\|do\\(?: while\\)?\\|else if\\|getvalues\\|if\\|setvalues\\)\\_>"
+  "\\_<\\([a-zA-Z][a-zA-Z0-9_]*[ \t]*=[\t ]*create\\|begin\\|do\\(?: while\\)?\\|else[ \t]*if\\|getvalues\\|if\\|setvalues\\)\\_>"
   "Regular expression to find beginning of \"if/do while/do\" block.")
 
 (defconst ncl-block-closer-re (regexp-opt
@@ -377,7 +377,7 @@ after point."
 
 (defsubst ncl-looking-at-end-x ()
   "Return t if \"end\" is not alone (end do end if...)."
-  (when (member (ncl-looking-at-block-closer) '("do" "setvalues" "getvalues" "if"))
+  (when (member (ncl-looking-at-block-closer) '("do" "setvalues" "getvalues" "if" "create"))
     t))
 
 (defsubst ncl-present-statement-cont ()
