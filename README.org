@@ -30,8 +30,7 @@ emacs-23.3.
 This package is *not* compatible below emacs-23.2.
 
 ** Installation
-- Download the package from the latest release from [[https://github.com/yyr/ncl-mode/tags][here]] or
-  development version from [[https://github.com/yyr/ncl-mode/downloads][here]]
+- Download the package from the latest release from [[https://github.com/yyr/ncl-mode/downloads][here]]
 - unzip/untar put some where in your path (optionally rename it to ncl-mode)
 - put the following your .emacs
  : (load "/path/to/downloaded/ncl-mode/ncl-mode-load.el")

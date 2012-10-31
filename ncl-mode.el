@@ -5,6 +5,7 @@
 ;; Author: Yagnesh Raghava Yakkala <yagnesh@live.com>
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <yagnesh@live.com>
+;; Version: 0.98
 ;; Created: Tuesday, July 24 2012
 ;; Keywords: ncl, Major Mode, ncl-mode, atmospheric science.
 
