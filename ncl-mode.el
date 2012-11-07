@@ -89,7 +89,7 @@
 (defvar ncl-var-re
   (concat
    "^[ \t]*"                            ;initial optional space
-   "\\([a-z0-9_]*\\)"                   ;var
+   "\\([a-zA-Z0-9_]*\\)"                   ;var
    "[@]?.*"                             ;optional "@" and space
    "[ \t]*=.*"                          ;and rest
    )
