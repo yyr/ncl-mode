@@ -178,7 +178,7 @@
     ;; (define-key map (kbd "C-M-p") 'ncl-beginning-of-block)
     ;; (define-key map (kbd "C-M-q") 'ncl-indent-exp)
     (define-key map (kbd "C-j")   'reindent-then-newline-and-indent)
-    (define-key map (kbd "C-m")   'newline)
+    (define-key map (kbd "C-m")   'reindent-then-newline-and-indent)
 
     (easy-menu-define ncl-menu map "Menu for NCL mode."
       `("NCL"
