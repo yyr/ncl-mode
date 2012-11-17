@@ -184,7 +184,7 @@ end
 ; Main code for generating "ncl.el"
 ;----------------------------------------------------------------------
 begin
-  emacs_fname = "ncl.el"
+  emacs_fname = "ncl-mode-keywords.el"
 
 ;---Make backup copy of emacs file
   system("/bin/cp " + emacs_fname + " " + emacs_fname + ".bkp")
