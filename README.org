@@ -30,6 +30,11 @@ emacs-23.3.
 This package is *not* compatible below emacs-23.2.
 
 ** Installation
+*** El-get (recommended way)
+If you el-get
+just do = M-x el-get-install ncl-mode =
+
+*** Manual Installation
 - Download the package from the latest release from [[https://github.com/yyr/ncl-mode/downloads][here]]
 - unzip/untar put some where in your path (optionally rename it to ncl-mode)
 - put the following your .emacs

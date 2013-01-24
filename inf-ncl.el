@@ -28,6 +28,11 @@
 ;;  Inferior NCL mode to run NCL interactively with in the
 ;;  Emacs.  built above comint.el.  (see comint.el for more)
 
+;; Why would anyone wants to run ncl within emacs.?
+
+;; Because Its easy to type in Emacs. (hey we have even auto-completion support)
+;; You can send pieces of code from your script to interpretor on fly.
+
 ;; Put the following in the .emacs file
 ;;   (require 'inf-ncl)
 ;; Then call `M-x run-ncl'
