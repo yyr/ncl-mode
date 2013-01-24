@@ -242,7 +242,7 @@ The look up can be customized with `ncl-imenu-generic-expression'"
                                  "end create" "end") 'symbols)
   "Regular expression to find end of block.")
 
-(defconst ncl-end-re "[ \t]*end[ \t]*$"
+(defconst ncl-end-re "[ \t]*end[ \t]*[;.*]?$"
   "Regular expression to find end of \"end\" block.")
 
 (defconst ncl-else-like-re "else *$"
