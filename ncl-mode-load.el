@@ -1,6 +1,6 @@
 ;;; ncl-mode-load.el --- loading script for ncl-mode (and other things)
 
-;; Copyright (C) 2012 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2012, 2013 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
