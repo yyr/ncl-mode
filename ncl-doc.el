@@ -2,10 +2,9 @@
 
 ;; Copyright (C) 2011-2013 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
-;; Author: Yagnesh Raghava Yakkala <yagnesh@live.com>
+;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
-;; Version: 0.95.1
-;; Maintainer: Yagnesh Raghava Yakkala <yagnesh@live.com>
+;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Saturday, September 24 2011
 ;; Keywords: doc,lookup,ncl
 
