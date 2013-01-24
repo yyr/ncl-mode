@@ -31,7 +31,7 @@
 (require 'ncl-mode-keywords)
 
 (defgroup ncl nil
-  "major mode to edit Ncar Command Line(NCL) language "
+  "Major mode to edit Ncar Command Line(NCL) language."
   :link '(custom-group-link :tag "Font Lock Faces group" font-lock-faces)
   :group 'languages)
 
@@ -77,7 +77,7 @@
   :group 'ncl-indent)
 
 (defcustom ncl-indented-comment-re ";+"
-  "Regexp matching comments to indent as code"
+  "Regexp matching comments to indent as code."
   :type 'integer
   :group 'ncl-indent)
 
@@ -213,8 +213,8 @@ variable assignments."
   :group 'ncl)
 
 (defun ncl-add-imenu-menu ()
-  "Add an `imenu' menu to the menubar. The look up can be customized with
-`ncl-imenu-generic-expression'"
+  "Add an `imenu' menu to the menubar.
+The look up can be customized with `ncl-imenu-generic-expression'"
   (interactive)
   (imenu-add-to-menubar "Imenu")
   (redraw-frame (selected-frame)))
@@ -249,13 +249,13 @@ variable assignments."
   "Regexp matching only \"else\".")
 
 (defconst ncl-end-do "[ \t]*end[ ]do"
-  "Regular expression to find beginning of  \"end do\"")
+  "Regular expression to find beginning of  \"end do\".")
 
 (defconst ncl-end-if "[ \t]*end[ ]if"
-  "Regular expression to find beginning of  \"end if\"")
+  "Regular expression to find beginning of  \"end if\".")
 
 (defconst ncl-identifier "[a-zA-Z][a-zA-Z0-9$_]+[ \t]*:"
-  "Regular expression to find Ncl identifiers. ")
+  "Regular expression to find Ncl identifiers.")
 
 (defconst ncl-fun/proc-block-re
   (regexp-opt '("function" "procedure") 'paren)
@@ -268,7 +268,7 @@ variable assignments."
 
 ;;; Inline functions
 (defsubst ncl-in-string ()
-  "Return non-nil if point is inside a string. Checks from `point-min'."
+  "Return non-nil if point is inside a string.  Check from `point-min'."
   (nth 3 (parse-partial-sexp (point-min)
                              (point))))
 
@@ -278,8 +278,8 @@ variable assignments."
                              (point))))
 
 (defsubst ncl-line-continued ()
-  "Return t if the current line is a continued one. This includes
-  comment lines embedded in continued lines, but not the last
+  "Return t if the current line is a continued one.
+This includes comment lines embedded in continued lines, but not the last
   line of a continued statements."
   (save-excursion
     (beginning-of-line)
@@ -312,7 +312,7 @@ variable assignments."
 
 (defsubst ncl-looking-at-fun/proc-start ()
   "Return (KIND NAME) if a fuction/procedure block with name NAME
-starts after point. "
+starts after point."
   (cond
    ((looking-at "\\(function\\)[ \t]+\\(\\sw+\\)\\>")
     (list (match-end 1) (match-end 2)))
