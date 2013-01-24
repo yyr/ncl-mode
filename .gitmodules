@@ -1,3 +1,6 @@
 [submodule "lib/ert"]
 	path = lib/ert
 	url = https://github.com/ohler/ert
+[submodule "doc/eldomain"]
+	path = doc/eldomain
+	url = http://github.com/tkf/sphinx-eldomain.git
