@@ -1,1 +1,1 @@
-../ncl-mode-keywords.el
+../lisp/ncl-mode-keywords.el
