@@ -49,7 +49,9 @@
 (require 'ncl-doc)
 (require 'inf-ncl)
 
-(add-hook 'ncl-mode-hook (lambda () (ncl-doc-minor-mode 1)))
+(dolist (hook '(ncl-mode-hook
+                inf-ncl-mode-hook))
+  (add-hook hook 'ncl-doc-minor-mode))
 (add-hook 'ncl-mode-hook 'inf-ncl-keys)
 
 ;; Auto Complete setup
