@@ -76,11 +76,12 @@ the function "ncl-doc-query-at-point" and given "add" string.
 Which lets you run NCL within Emacs and interact NCL process from ncl-mode
 buffer.  ac-completion support is also available for this mode.
 
-** ncl-ctags-gen.sh
-one liner to generate ctags from NCL Source files; uses
-~exuberant-ctags~
+** Utilities
+*** gen-tags.sh
+One liner to generate ctags from NCL Source files (look into tools directory);
+uses ~exuberant-ctags~
 USAGE:
-: ncl-ctags-gen.sh /path/to/ncl/files
+: gen-tags.sh /path/to/ncl/files
 if no arguments supplied it searches for ncl files in current
 directory including sub directories
 
