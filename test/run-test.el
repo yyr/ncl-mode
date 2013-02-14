@@ -6,7 +6,9 @@
 
 (defvar ncl-test-dir (file-name-directory (or load-file-name
                                               buffer-file-name)))
-(defvar ncl-root-dir (file-truename  (concat ncl-test-dir "..")))
+
+(defvar ncl-root-dir (file-truename
+                      (concat ncl-test-dir "../lisp")))
 
 (setq debug-on-error t)
 ;;; load-path

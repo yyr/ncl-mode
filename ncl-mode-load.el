@@ -37,7 +37,9 @@
 ;; find this file path and it to load-path
 (defconst ncl-mode-dir (file-name-directory
                         (or load-file-name buffer-file-name)))
-(add-to-list 'load-path ncl-mode-dir)
+
+(add-to-list 'load-path (file-name-directory
+                         (concat ncl-mode-dir "lisp")))
 
 
 ;;; General autoload ncl mode
