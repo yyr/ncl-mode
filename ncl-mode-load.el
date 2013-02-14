@@ -38,7 +38,7 @@
 (defconst ncl-mode-dir (file-name-directory
                         (or load-file-name buffer-file-name)))
 
-(add-to-list 'load-path (file-name-directory
+(add-to-list 'load-path (file-truename
                          (concat ncl-mode-dir "lisp")))
 
 
