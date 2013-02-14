@@ -1,5 +1,4 @@
-https://travis-ci.org/yyr/ncl-mode.png?branch=master
-
+Travis status:  [[https://travis-ci.org/yyr/ncl-mode.png?branch%3Dmaster][https://travis-ci.org/yyr/ncl-mode.png?branch=master]]
 
 Emacs editing mode for Ncar Command Language(NCL).
 ** Introduction.
