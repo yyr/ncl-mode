@@ -372,8 +372,17 @@ after point."
 
 (defsubst ncl-looking-at-end-x ()
   "Return t if \"end\" is not alone (end do end if...)."
-  (when (member (ncl-looking-at-block-closer) '("do" "setvalues" "getvalues" "if" "create"))
-    t))
+  (let ((counter 0))
+    ;; look for multiple end-x and send the counter.
+    (while (member (ncl-looking-at-block-closer)
+                   '("do" "setvalues" "getvalues" "if" "create"))
+      (goto-char (match-end 1))
+      (skip-chars-forward " \t")
+      (setq counter
+            (1+ counter)))
+    (if (zerop counter)
+        nil
+      counter)))
 
 (defsubst ncl-present-statement-cont ()
   "Return continuation properties of present statement.
@@ -598,7 +607,7 @@ All other return `comment-column', leaving at least one space after code."
 (defun ncl-calculate-indent ()
   "Calculate the indent column based on previous statements."
   (interactive)
-  (let (icol cont (pnt (point)))
+  (let (icol ec cont (pnt (point)))
     (save-excursion
       (back-to-indentation)
       (if (looking-at ncl-zero-indent-re)
@@ -629,8 +638,10 @@ All other return `comment-column', leaving at least one space after code."
                          ((and (skip-chars-forward " \t")
                                (or
                                 (looking-at ncl-else-like-re)
-                                (ncl-looking-at-end-x)))
-                          (setq icol (- icol ncl-block-indent)))
+                                (setq ec (ncl-looking-at-end-x))))
+                          (setq icol (if ec
+                                         (- icol (* ec ncl-block-indent))
+                                       (- icol ncl-block-indent))))
                          (t
                           (setq icol icol))))))))
     icol))
