@@ -64,12 +64,6 @@
   :type 'integer
   :group 'ncl-indent)
 
-(defcustom ncl-continuation-indent 8
-  "Extra indentation applied to continuation lines."
-  :type  'integer
-  :safe  'integerp
-  :group 'ncl-indent)
-
 (defcustom ncl-zero-indent-re
   "\\_<\\(begin\\|end[ \t]*$\\|function\\|local\\|procedure\\|undef\\)\\_>"
   "Extra indentation applied to continuation lines."
@@ -399,6 +393,20 @@ Comment lines embedded amongst continued lines return 'middle."
           ((and pcont       cont)       'middle)
           (t (error "The impossible occurred")))))
 
+(defsubst ncl-continuation-indent ()
+  "Calculate and return indentation width of a continuation line."
+  (save-excursion
+    (back-to-indentation)
+    (let ((ind (current-column))
+          bpos)
+      (or (re-search-forward
+           ".*= *" (line-end-position) t)  ; look for "= "?
+          (re-search-forward
+           "[A-Z0-9_= \t]+(/?" (line-end-position) t) ; look for "(/"
+          )
+      (setq bpos (current-column))
+      (- bpos ind))))
+
 ;;; functions
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
@@ -604,7 +612,7 @@ All other return `comment-column', leaving at least one space after code."
 
           (cond ((eq cont 'begin)
                  (setq icol (+ (current-indentation)
-                               ncl-continuation-indent)))
+                               (ncl-continuation-indent))))
                 ((eq cont 'middle) (setq icol (current-indentation)))
 
                 (t (setq icol (current-indentation))
