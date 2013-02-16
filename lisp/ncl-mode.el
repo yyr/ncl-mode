@@ -397,15 +397,14 @@ Comment lines embedded amongst continued lines return 'middle."
   "Calculate and return indentation width of a continuation line."
   (save-excursion
     (back-to-indentation)
-    (let ((ind (current-column))
-          bpos)
+    (let (bpos)
       (or (re-search-forward
            ".*= *" (line-end-position) t)  ; look for "= "?
           (re-search-forward
            "[A-Z0-9_= \t]+(/?" (line-end-position) t) ; look for "(/"
           )
       (setq bpos (current-column))
-      (- bpos ind))))
+      bpos)))
 
 ;;; functions
 (defun ncl-previous-statement ()
@@ -611,8 +610,7 @@ All other return `comment-column', leaving at least one space after code."
               (ncl-previous-statement-uncont))
 
           (cond ((eq cont 'begin)
-                 (setq icol (+ (current-indentation)
-                               (ncl-continuation-indent))))
+                 (setq icol (ncl-continuation-indent)))
                 ((eq cont 'middle) (setq icol (current-indentation)))
 
                 (t (setq icol (current-indentation))
