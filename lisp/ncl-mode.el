@@ -546,7 +546,7 @@ All other return `comment-column', leaving at least one space after code."
   (save-excursion
     (back-to-indentation)
     (cond ((looking-at ";;;+") 0)
-          ((and (looking-at ";[ \t]*[^;]")
+          ((and (looking-at ";[ \t]*[^;]*")
                 (bolp); for "^;"
                 0))
           ((looking-at ncl-indented-comment-re)
