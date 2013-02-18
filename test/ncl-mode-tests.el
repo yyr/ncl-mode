@@ -28,6 +28,33 @@ The whitespace before and including \"|\" on each line is removed."
 ;;; tests
 
 ;;; indentation
+(ert-deftest ncl-test-file-beginning ()
+  (ncl-should-indent "   a = 1" 0)
+  (ncl-should-indent ";\n   a = 1" 0)
+  (ncl-should-indent ";\n\n    a = 1" 0))
+
+(ert-deftest ncl-test-indent-comment-simple ()
+  (ncl-should-indent "  a = 1 + 2\n  ; two" 2)
+  (ncl-should-indent "  a = 1 + 2\n; two" 0)
+  (ncl-should-indent "  a = 1 + 2\n  ;;; two" 0))
+
+(ert-deftest ncl-test-indent-comment ()
+  (ncl-should-indent-buffer
+   "; some if
+   |if ( choice  ) then
+   |  a@attnames = -9999.0
+   |;;; some else if
+   |  ;
+   |end if
+   |"
+   "; some if
+   |if ( choice  ) then
+   |  a@attnames = -9999.0
+   |   ;;; some else if
+   | ;
+   |end if
+   |"))
+
 (ert-deftest ncl-test-indent-continued-lines ()
   (ncl-should-indent "a = 1 + \\\n2" 4)
   (ncl-should-indent "  a = 1 + \\\n2 + \\\n4" 0)
@@ -152,28 +179,5 @@ The whitespace before and including \"|\" on each line is removed."
    |  a : b
    |  end getvalues"
    ))
-
-
-(ert-deftest ncl-test-indent-comment-simple ()
-  (ncl-should-indent "  a = 1 + 2\n  ; two" 2)
-  (ncl-should-indent "  a = 1 + 2\n; two" 0)
-  (ncl-should-indent "  a = 1 + 2\n  ;;; two" 0))
-
-(ert-deftest ncl-test-indent-comment ()
-  (ncl-should-indent-buffer
-   "; some if
-   |if ( choice  ) then
-   |  a@attnames = -9999.0
-   |;;; some else if
-   |  ;
-   |end if
-   |"
-   "; some if
-   |if ( choice  ) then
-   |  a@attnames = -9999.0
-   |   ;;; some else if
-   | ;
-   |end if
-   |"))
 
 ;;; ncl-mode-tests.el ends here
