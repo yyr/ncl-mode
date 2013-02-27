@@ -408,11 +408,11 @@ Comment lines embedded amongst continued lines return 'middle."
     (back-to-indentation)
     (let (bpos)
       (or (re-search-forward
-           ".*= (/?" (line-end-position) t)  ; look for "= (/?"
+           "=[A-Za-z_ \t]*([/ ]?" (line-end-position) t)  ; look for "= (/?"
           (re-search-forward
-           ".*= *" (line-end-position) t)  ; else look for only =
+           "= *" (line-end-position) t)  ; else look for only =
           (re-search-forward
-           "[A-Z0-9_= \t]+(/?" (line-end-position) t) ; if not look for "(/"
+           "([/ ]*" (line-end-position) t) ; if not look for "(/"
           )
       (setq bpos (current-column))
       bpos)))
