@@ -89,6 +89,37 @@
    )
   "Regexp for matching variable.")
 
+;;; SMIE
+
+(defcustom ncl-use-smie (if (require 'smie nil t) t nil)
+  "Whether to use the SMIE code for navigation and indentation.")
+
+(defcustom ncl-smie-indent-offset 2
+  "offset for ncl indentation.")
+
+(defconst ncl-smie-grammar
+  (smie-prec2->grammar
+   (smie-bnf->prec2
+    '((exp) (id)
+      (cmd ("if" exp "then" exp "end if")
+           ("if" exp "then" exp "else"    exp "end if")
+           ("if" exp "then" exp "else if" exp "end if" "end if")
+           ("if" exp "then" exp "else if" exp "else" exp "end if" "end if")
+           ("do" exp "end do")
+           ("do while" exp "end do")
+           (id "=" exp)
+           ())
+      (typedecls )))))
+
+(defconst ncl-smie-operators-re (regexp-opt ncl-key-operators)
+  "Operators.")
+
+;; '(("BEGIN" . ("begin"))
+;;   ("END"   . ("end"))
+;;   ("OP"    . ("="  "*" ":=" ".le." ".lt." ".ge." ".gt."))
+;;   )
+
+
 (defconst ncl-font-lock-keywords
   (eval-when-compile            ; for  faster loading (is it working?)
     `(;; ncl major keywords
