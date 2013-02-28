@@ -1,0 +1,22 @@
+#+TODO: TODO NEXT | DONE
+
+* ncl-mode
+- [X] rewrite
+- [X] make font lock work better/faster
+- [X] Imenu support
+  - Imenu can directly be used by keyboard (may be with ido or directly)
+  - see function: ncl-add-imenu-menu
+- [ ] easy menu
+- [ ] fixing commenting system
+- [X] fixing indentation
+- [ ] Documentation
+
+* ncl-doc mode
+- [X] call browser to look documentation of keyword
+- [ ] reading docs with in emacs
+
+* inf-ncl mode
+- [X] implement
+- [X] test
+
+* TODO Documentation
