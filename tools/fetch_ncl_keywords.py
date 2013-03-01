@@ -59,6 +59,7 @@ class NclKeywordFetcher(object):
         self.down_from_web = down_from_web
         self.ncl_functions = self.ncl_procs_and_funcs()
         self.ncl_resources = self.ncl_resources()
+        self.ncl_resources = self.ncl_keywords()
 
     def ncl_procs_and_funcs(self):
         """ Fetch and save ncl procedures/function names.
@@ -75,8 +76,8 @@ class NclKeywordFetcher(object):
                 ["wrfcontrib" , "wrf_contributed functions"                        , "/Document/Functions/WRF_contributed/"]  ,
                 ["windrose"   , "wind_rose functions"                              , "/Document/Functions/Wind_rose/"]        ,
                 ["gsn"        , "gsn csm plot templates and special gsn functions" , "/Document/Graphics/Interfaces/"]]
-        page = get_save_page()
-        return functions
+        page = get_save_page(url)
+        return
 
     def ncl_resources(self):
         """ Fetch and save ncl resources.
@@ -98,12 +99,11 @@ class KeywordWriter(object):
     """
     def __init__(self,elisp_file):
         self.elisp_file = elisp_file
-        self.elisp_file_lines = open(elisp_file).read()
-        self.update_elisp_file()
+        # self.elisp_file_lines = open(elisp_file).read()
+        self.fetch_keywords()
 
-    def elisp_lines(self):
-        fetcher = NclKeywordFetcher()
-        fetcher.get_ncl_keywords()
+    def fetch_keywords(self):
+        return NclKeywordFetcher()
 
     def update_elisp_file(self):
         pass
