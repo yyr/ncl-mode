@@ -59,8 +59,8 @@ class NclKeywordFetcher(object):
         self.down_from_web = down_from_web
         self.ncl_functions = self.ncl_procs_and_funcs()
         self.ncl_resources = self.ncl_resources()
-        self.ncl_resources = self.ncl_keywords()
-        self.ncl_resources = self.ncl_operators()
+        self.ncl_keywords = self.ncl_keywords()
+        self.ncl_operators = self.ncl_operators()
 
     def ncl_procs_and_funcs(self):
         """ Fetch and save ncl procedures/function names.
@@ -83,8 +83,19 @@ class NclKeywordFetcher(object):
     def ncl_resources(self):
         """ Fetch and return ncl resources.
         """
+        resources = []
         url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
         page = get_save_page(url)
+        soup = BeautifulSoup(page)
+        page_chunk = soup.find('div', attrs = {'id':'general_main'})
+        reses = page_chunk.findAll('dt')
+        for res in reses:
+            try:
+                resources.append(res.strong.get_text())
+            except AttributeError:
+                next
+
+        return resources
 
     def ncl_keywords(self):
         """ Fetch and return ncl keywords
