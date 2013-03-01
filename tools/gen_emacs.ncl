@@ -3,9 +3,9 @@ load "gen_editor_utils.ncl"
 ;----------------------------------------------------------------------
 ; This function returns the line number of the first missing line.
 ;----------------------------------------------------------------------
-  undef("get_next_line_num")
-  function get_next_line_num(lines)
-  local ii
+undef("get_next_line_num")
+function get_next_line_num(lines)
+local ii
 begin
   ii = ind(ismissing(lines))
   if(all(ismissing(ii))) then
