@@ -52,13 +52,18 @@ def get_save_page(url,local_file = ''):
             sys.exit()
 
 
-class KeywordFetcher(object):
+class NclKeywordFetcher(object):
     """Fetches and stores ncl keywords.
     """
-    def __init__(self):
-        pass
+    def __init__(self, down_from_web = False):
+        self.down_from_web = down_from_web
+        self.ncl_functions = self.ncl_procs_and_funcs()
+        self.ncl_resources = self.ncl_resources()
 
-    def get_ncl_procs_and_funcs(self):
+    def ncl_procs_and_funcs(self):
+        """ Fetch and save ncl procedures/function names.
+        """
+        url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
         cats = [["builtin"    , "ncl built-in functions"                           , "/Document/Functions/Built-in/"]         ,
                 ["contrib"    , "contributed functions"                            , "/Document/Functions/Contributed/"]      ,
                 ["diag"       , "diagnostics functions"                            , "/Document/Functions/Diagnostics/" ]     ,
@@ -70,19 +75,22 @@ class KeywordFetcher(object):
                 ["wrfcontrib" , "wrf_contributed functions"                        , "/Document/Functions/WRF_contributed/"]  ,
                 ["windrose"   , "wind_rose functions"                              , "/Document/Functions/Wind_rose/"]        ,
                 ["gsn"        , "gsn csm plot templates and special gsn functions" , "/Document/Graphics/Interfaces/"]]
-        pass
+        page = get_save_page()
+        return functions
 
+    def ncl_resources(self):
+        """ Fetch and save ncl resources.
+        """
+        url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
+        page = get_save_page(url)
 
-    def get_ncl_resources(self):
-        pass
+    def ncl_keywords(self):
+        url   = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
+        page = get_save_page(url)
 
-    def get_ncl_keywords(self):
-        pass
-
-    def get_ncl_operators(self):
+    def ncl_operators(self):
         operators = ["(/","/)","\ ",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
-        pass
 
 
 class KeywordWriter(object):
@@ -94,10 +102,12 @@ class KeywordWriter(object):
         self.update_elisp_file()
 
     def elisp_lines(self):
-        pass
+        fetcher = NclKeywordFetcher()
+        fetcher.get_ncl_keywords()
 
     def update_elisp_file(self):
         pass
+
 
 def main():
     elisp_file = os.path.join(file_path, "../lisp/ncl-mode-keywords.el")
