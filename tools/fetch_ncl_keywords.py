@@ -100,9 +100,19 @@ class NclKeywordFetcher(object):
     def ncl_keywords(self):
         """ Fetch and return ncl keywords
         """
+        keywords = []
         url   = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
         page = get_save_page(url)
+        soup = BeautifulSoup(page)
 
+        page_chunk = soup.find('pre')
+        aas = page_chunk.findAll('a')
+        for a in aas:
+            print(a.get_text())
+            keywords.append(a.get_text())
+
+
+        return keywords
 
     def ncl_operators(self):
         """Return ncl operators list. Ncl documentation doesn't have a special
