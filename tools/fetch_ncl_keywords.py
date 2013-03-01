@@ -60,6 +60,7 @@ class NclKeywordFetcher(object):
         self.ncl_functions = self.ncl_procs_and_funcs()
         self.ncl_resources = self.ncl_resources()
         self.ncl_resources = self.ncl_keywords()
+        self.ncl_resources = self.ncl_operators()
 
     def ncl_procs_and_funcs(self):
         """ Fetch and save ncl procedures/function names.
@@ -80,18 +81,25 @@ class NclKeywordFetcher(object):
         return
 
     def ncl_resources(self):
-        """ Fetch and save ncl resources.
+        """ Fetch and return ncl resources.
         """
         url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
         page = get_save_page(url)
 
     def ncl_keywords(self):
+        """ Fetch and return ncl keywords
+        """
         url   = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
         page = get_save_page(url)
 
+
     def ncl_operators(self):
+        """Return ncl operators list. Ncl documentation doesn't have a special
+        page. so manually typed.
+        """
         operators = ["(/","/)","\ ",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
+        return operators
 
 
 class KeywordWriter(object):
