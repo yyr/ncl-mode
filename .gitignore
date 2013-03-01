@@ -3,3 +3,5 @@
 *.bkp
 *.new
 tmp*
+
+data/*.shtml
