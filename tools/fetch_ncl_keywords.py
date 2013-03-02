@@ -12,6 +12,7 @@ import sys
 import os
 import pickle
 import inspect
+import string
 import urllib2
 from bs4 import BeautifulSoup
 
@@ -19,14 +20,16 @@ file_path = os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()
 DATA_DIR = os.path.join(file_path,'../data')
 base_url = "http://www.ncl.ucar.edu/Document/"
 
-def get_save_page(url,local_file = ''):
+def get_save_page(url,local_file = None):
     """fetch given url and save it to data directory.
     """
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
 
-    local_file = os.path.join(DATA_DIR , url.split('/')[-1] )
-    print("Fetching.. " + url)
+    if local_file is None:
+        local_file = url.split('/')[-1]
+
+    local_file = os.path.join(DATA_DIR ,  local_file)
 
     if os.path.exists(local_file):
         fh = open(local_file, "rb")
@@ -35,6 +38,7 @@ def get_save_page(url,local_file = ''):
         return page
 
     else:
+        print("Fetching.. '" + url + "' saving as " + local_file)
         fh = open(local_file, "wb")
         user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
         r = urllib2.Request(url=url,headers={'User-Agent' : user_agent})
@@ -57,15 +61,16 @@ class NclKeywordFetcher(object):
     """
     def __init__(self, down_from_web = False):
         self.down_from_web = down_from_web
-        self.ncl_functions = self.ncl_procs_and_funcs()
+        self.ncl_functions = self.ncl_functions()
         self.ncl_resources = self.ncl_resources()
         self.ncl_keywords = self.ncl_keywords()
         self.ncl_operators = self.ncl_operators()
 
-    def ncl_procs_and_funcs(self):
+    def ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
         """
-        url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
+        # url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
+        url_base = "http://www.ncl.ucar.edu/"
         cats = [["builtin"    , "ncl built-in functions"                           , "/Document/Functions/Built-in/"]         ,
                 ["contrib"    , "contributed functions"                            , "/Document/Functions/Contributed/"]      ,
                 ["diag"       , "diagnostics functions"                            , "/Document/Functions/Diagnostics/" ]     ,
@@ -77,7 +82,18 @@ class NclKeywordFetcher(object):
                 ["wrfcontrib" , "wrf_contributed functions"                        , "/Document/Functions/WRF_contributed/"]  ,
                 ["windrose"   , "wind_rose functions"                              , "/Document/Functions/Wind_rose/"]        ,
                 ["gsn"        , "gsn csm plot templates and special gsn functions" , "/Document/Graphics/Interfaces/"]]
-        page = get_save_page(url)
+        for cat in cats:
+            url = url_base + cat[2]
+            page = get_save_page(url, cat[0] + ".shtml")
+            soup = BeautifulSoup(page)
+            page_chunk = soup.find('div', attrs = {'id':'general_main'})
+            tds = soup.findAll('td', attrs = {'valign':'top'})
+            var_name = 'ncl_fun_' + cat[0]
+            print(var_name)
+            vars(self)[var_name] = []
+            for td in tds:
+                vars(self)[var_name].append(string.strip(td.get_text(),'\n'))
+
         return
 
     def ncl_resources(self):
@@ -108,9 +124,7 @@ class NclKeywordFetcher(object):
         page_chunk = soup.find('pre')
         aas = page_chunk.findAll('a')
         for a in aas:
-            print(a.get_text())
             keywords.append(a.get_text())
-
 
         return keywords
 
@@ -129,7 +143,7 @@ class KeywordWriter(object):
     def __init__(self,elisp_file):
         self.elisp_file = elisp_file
         # self.elisp_file_lines = open(elisp_file).read()
-        self.fetch_keywords()
+        self.ncl_keywords = self.fetch_keywords()
 
     def fetch_keywords(self):
         return NclKeywordFetcher()
