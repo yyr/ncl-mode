@@ -82,15 +82,27 @@ class NclKeywordFetcher(object):
                 ["wrfcontrib" , "wrf_contributed functions"                        , "/Document/Functions/WRF_contributed/"]  ,
                 ["windrose"   , "wind_rose functions"                              , "/Document/Functions/Wind_rose/"]        ,
                 ["gsn"        , "gsn csm plot templates and special gsn functions" , "/Document/Graphics/Interfaces/"]]
+
+        # process and get keywords
         for cat in cats:
+            var_name = 'ncl_fun_' + cat[0]
+            vars(self)[var_name] = []
+
             url = url_base + cat[2]
             page = get_save_page(url, cat[0] + ".shtml")
             soup = BeautifulSoup(page)
+            if cat[0] == "gsn":
+                page_chunk = soup.find('div', attrs = {'id':'general_main'})
+                reses = page_chunk.findAll('strong')
+                for res in reses:
+                    try:
+                        vars(self)[var_name].append(res.get_text())
+                        # resources.append(string.strip(td.get_text(),'\n'))
+                    except AttributeError:
+                        continue
+                continue
             page_chunk = soup.find('div', attrs = {'id':'general_main'})
             tds = soup.findAll('td', attrs = {'valign':'top'})
-            var_name = 'ncl_fun_' + cat[0]
-            print(var_name)
-            vars(self)[var_name] = []
             for td in tds:
                 vars(self)[var_name].append(string.strip(td.get_text(),'\n'))
 
@@ -109,7 +121,7 @@ class NclKeywordFetcher(object):
             try:
                 resources.append(res.strong.get_text())
             except AttributeError:
-                next
+                continue
 
         return resources
 
