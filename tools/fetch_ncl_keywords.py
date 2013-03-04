@@ -61,12 +61,16 @@ class NclKeywordFetcher(object):
     """
     def __init__(self, down_from_web = False):
         self.down_from_web = down_from_web
-        self.ncl_functions = self.ncl_functions()
-        self.ncl_resources = self.ncl_resources()
-        self.ncl_keywords = self.ncl_keywords()
-        self.ncl_operators = self.ncl_operators()
 
-    def ncl_functions(self):
+    def parse_for_keywords(self):
+        """Parse and Ncl keywords.
+        """
+        self.ncl_functions = self.parse_ncl_functions()
+        self.ncl_resources = self.parse_ncl_resources()
+        self.ncl_keywords = self.parse_ncl_keywords()
+        self.ncl_operators = self.parse_ncl_operators()
+
+    def parse_ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
         """
         # url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
@@ -108,7 +112,7 @@ class NclKeywordFetcher(object):
 
         return
 
-    def ncl_resources(self):
+    def parse_ncl_resources(self):
         """ Fetch and return ncl resources.
         """
         resources = []
@@ -125,7 +129,7 @@ class NclKeywordFetcher(object):
 
         return resources
 
-    def ncl_keywords(self):
+    def parse_ncl_keywords(self):
         """ Fetch and return ncl keywords
         """
         keywords = []
@@ -140,7 +144,7 @@ class NclKeywordFetcher(object):
 
         return keywords
 
-    def ncl_operators(self):
+    def parse_ncl_operators(self):
         """Return ncl operators list. Ncl documentation doesn't have a special
         page. so manually typed.
         """
