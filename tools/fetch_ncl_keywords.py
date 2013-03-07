@@ -62,13 +62,13 @@ class NclKeywordFetcher(object):
     def __init__(self, down_from_web = False):
         self.down_from_web = down_from_web
 
-    def parse_for_keywords(self):
+    def parse_keywords(self):
         """Parse and Ncl keywords.
         """
-        self.ncl_functions = self.parse_ncl_functions()
-        self.ncl_resources = self.parse_ncl_resources()
-        self.ncl_keywords = self.parse_ncl_keywords()
-        self.ncl_operators = self.parse_ncl_operators()
+        self.ncl_key_resources = self.parse_ncl_resources()
+        self.ncl_key_keywords = self.parse_ncl_keywords()
+        self.ncl_key_operators = self.parse_ncl_operators()
+        self.parse_ncl_functions()
 
     def parse_ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
@@ -89,7 +89,7 @@ class NclKeywordFetcher(object):
 
         # process and get keywords
         for cat in cats:
-            var_name = 'ncl_fun_' + cat[0]
+            var_name = 'ncl_key_' + cat[0]
             vars(self)[var_name] = []
 
             url = url_base + cat[2]
