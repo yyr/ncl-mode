@@ -148,7 +148,7 @@ class NclKeywordFetcher(object):
         """Return ncl operators list. Ncl documentation doesn't have a special
         page. so manually typed.
         """
-        operators = ["(/","/)","\ ",".eq.",".ne.",".lt.",".le.",".gt.",
+        operators = ["(/","/)","\\\\",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
         return operators
 
