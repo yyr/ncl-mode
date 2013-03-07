@@ -153,6 +153,21 @@ class NclKeywordFetcher(object):
         return operators
 
 
+    def keys2defvar(self):
+        """Generate all elisp defvar definitions from keys.
+        """
+        import re
+        import string
+        el_str = ""
+        for key in self.__dict__.keys():
+            if re.match('ncl_*', key):
+                dv = string.replace("(defvar %s '(" % key,"_","-")
+                k = eval('self.%s' % key) # all keywords
+                dv = dv + '"' + '" "'.join(map(str,k)) +'"' + '))'
+                el_str = el_str + dv + "\n"
+
+        return el_str
+
 class KeywordWriter(object):
     """update to ncl-keyword
     """
