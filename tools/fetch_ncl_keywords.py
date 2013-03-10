@@ -55,7 +55,6 @@ def get_save_page(url,local_file = None):
             print('Generic exception: ' + traceback.format_exc())
             sys.exit()
 
-
 class NclKeywordFetcher(object):
     """Fetches and stores ncl keywords.
     """
@@ -65,6 +64,7 @@ class NclKeywordFetcher(object):
     def parse_keywords(self):
         """Parse and Ncl keywords.
         """
+        self.ncl_keys = [{}]
         self.ncl_key_resources = self.parse_ncl_resources()
         self.ncl_key_keywords = self.parse_ncl_keywords()
         self.ncl_key_operators = self.parse_ncl_operators()
@@ -116,6 +116,7 @@ class NclKeywordFetcher(object):
         """ Fetch and return ncl resources.
         """
         resources = []
+        doc = "Ncl resources."
         url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
         page = get_save_page(url)
         soup = BeautifulSoup(page)
@@ -157,7 +158,7 @@ class NclKeywordFetcher(object):
         """Generate all elisp defvar definitions from keys.
         """
         import re
-        import string
+        self.parse_keywords()
         el_str = ""
         for key in self.__dict__.keys():
             if re.match('ncl_*', key):
@@ -168,28 +169,8 @@ class NclKeywordFetcher(object):
 
         return el_str
 
-class KeywordWriter(object):
-    """update to ncl-keyword
-    """
-    def __init__(self,elisp_file):
-        self.elisp_file = elisp_file
-        # self.elisp_file_lines = open(elisp_file).read()
-        self.ncl_keywords = self.fetch_keywords()
-
-    def fetch_keywords(self):
-        return NclKeywordFetcher()
-
-    def update_elisp_file(self):
-        pass
-
-
 def main():
-    elisp_file = os.path.join(file_path, "../lisp/ncl-mode-keywords.el")
-    if os.path.exists(elisp_file):
-        elf = KeywordWriter(elisp_file)
-    else:
-        print(elisp_file + " is not available.")
-        sys.exit(2)
+    pass
 
 if __name__ == '__main__':
     main()
