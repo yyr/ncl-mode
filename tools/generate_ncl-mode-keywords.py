@@ -62,7 +62,7 @@ class KeywordWriter(object):
 """ % {'year':dt.datetime.now().year, 'datestring': dt.datetime.now().strftime('%Y-%m-%d')}
 
         footer = """
-(provide 'ncl-mode-keywords.el)
+(provide 'ncl-mode-keywords)
 ;;; ncl-mode-keywords.el ends here
         """
 
