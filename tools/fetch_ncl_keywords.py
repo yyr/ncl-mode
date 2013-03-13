@@ -60,14 +60,18 @@ class NclKeywordFetcher(object):
     """
     def __init__(self, down_from_web = False):
         self.down_from_web = down_from_web
+        self.ncl_keys = {}
 
     def parse_keywords(self):
         """Parse and Ncl keywords.
+        ncl_keys = { 'key_type' : ['name' , 'doc' 'base_url', [list,of,keywords]]
+                     'key_type2' : ['name' , 'doc' 'base_url', [list,of,keywords]]
+                     ...
+                     }
         """
-        self.ncl_keys = [{}]
-        self.ncl_key_resources = self.parse_ncl_resources()
-        self.ncl_key_keywords = self.parse_ncl_keywords()
-        self.ncl_key_operators = self.parse_ncl_operators()
+        self.ncl_keys['resources'] = self.parse_ncl_resources()
+        self.ncl_keys['keywords']  = self.parse_ncl_keywords()
+        self.ncl_keys['operators'] = self.parse_ncl_operators()
         self.parse_ncl_functions()
 
     def parse_ncl_functions(self):
@@ -75,22 +79,22 @@ class NclKeywordFetcher(object):
         """
         # url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
         url_base = "http://www.ncl.ucar.edu/"
-        cats = [["builtin"    , "ncl built-in functions"                           , "/Document/Functions/Built-in/"]         ,
-                ["contrib"    , "contributed functions"                            , "/Document/Functions/Contributed/"]      ,
-                ["diag"       , "diagnostics functions"                            , "/Document/Functions/Diagnostics/" ]     ,
-                ["pop"        , "pop_remap functions"                              , "/Document/Functions/Pop_remap/"]        ,
-                ["shea"       , "shea_util functions"                              , "/Document/Functions/Shea_util/"]        ,
-                ["skewt"      , "skewt functions"                                  , "/Document/Functions/Skewt_func/"]       ,
-                ["user"       , "user_contributed functions"                       , "/Document/Functions/User_contributed/"] ,
-                ["wrfarw"     , "wrf_arw functions"                                , "/Document/Functions/WRF_arw/"]          ,
-                ["wrfcontrib" , "wrf_contributed functions"                        , "/Document/Functions/WRF_contributed/"]  ,
-                ["windrose"   , "wind_rose functions"                              , "/Document/Functions/Wind_rose/"]        ,
-                ["gsn"        , "gsn csm plot templates and special gsn functions" , "/Document/Graphics/Interfaces/"]]
+        cats = [["builtin"    , "built-in functions."                           , "/Document/Functions/Built-in/"]         ,
+                ["contrib"    , "contributed functions."                            , "/Document/Functions/Contributed/"]      ,
+                ["diag"       , "diagnostics functions."                            , "/Document/Functions/Diagnostics/" ]     ,
+                ["pop"        , "pop_remap functions."                              , "/Document/Functions/Pop_remap/"]        ,
+                ["shea"       , "shea_util functions."                              , "/Document/Functions/Shea_util/"]        ,
+                ["skewt"      , "skewt functions."                                  , "/Document/Functions/Skewt_func/"]       ,
+                ["user"       , "user_contributed functions."                       , "/Document/Functions/User_contributed/"] ,
+                ["wrfarw"     , "wrf_arw functions."                                , "/Document/Functions/WRF_arw/"]          ,
+                ["wrfcontrib" , "wrf_contributed functions."                        , "/Document/Functions/WRF_contributed/"]  ,
+                ["windrose"   , "wind_rose functions."                              , "/Document/Functions/Wind_rose/"]        ,
+                ["gsn"        , "gsn csm plot templates and special gsn functions." , "/Document/Graphics/Interfaces/"]]
 
         # process and get keywords
         for cat in cats:
             var_name = 'ncl_key_' + cat[0]
-            vars(self)[var_name] = []
+            var_name = []
 
             url = url_base + cat[2]
             page = get_save_page(url, cat[0] + ".shtml")
@@ -100,16 +104,21 @@ class NclKeywordFetcher(object):
                 reses = page_chunk.findAll('strong')
                 for res in reses:
                     try:
-                        vars(self)[var_name].append(res.get_text())
+                        var_name.append(res.get_text())
                         # resources.append(string.strip(td.get_text(),'\n'))
                     except AttributeError:
                         continue
+
+                self.ncl_keys[cat[0]] = ['ncl_key_' + cat[0] , 'Ncl ' + cat[1] , url ,var_name]
                 continue
+
             page_chunk = soup.find('div', attrs = {'id':'general_main'})
             tds = soup.findAll('td', attrs = {'valign':'top'})
             for td in tds:
-                vars(self)[var_name].append(string.strip(td.get_text(),'\n'))
+                var_name.append(string.strip(td.get_text(),'\n'))
 
+
+            self.ncl_keys[cat[0]] = ['ncl_key_' + cat[0] , 'Ncl ' + cat[1] , url , var_name]
         return
 
     def parse_ncl_resources(self):
@@ -128,13 +137,14 @@ class NclKeywordFetcher(object):
             except AttributeError:
                 continue
 
-        return resources
+        return ['ncl_key_resources', doc, url + '#', resources]
 
     def parse_ncl_keywords(self):
         """ Fetch and return ncl keywords
         """
         keywords = []
-        url   = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
+        url  = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
+        doc  = 'Reserved Keywords in ncl.'
         page = get_save_page(url)
         soup = BeautifulSoup(page)
 
@@ -143,15 +153,17 @@ class NclKeywordFetcher(object):
         for a in aas:
             keywords.append(a.get_text())
 
-        return keywords
+        return ['ncl_keywords',doc, url, keywords]
 
     def parse_ncl_operators(self):
         """Return ncl operators list. Ncl documentation doesn't have a special
         page. so manually typed.
         """
+        doc = 'Operators in NCL.'
+        url = 'No specific url.'
         operators = ["(/","/)","\\\\",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
-        return operators
+        return ['ncl_operators',doc, url, operators]
 
 
     def keys2defvar(self):
@@ -160,12 +172,11 @@ class NclKeywordFetcher(object):
         import re
         self.parse_keywords()
         el_str = ""
-        for key in self.__dict__.keys():
-            if re.match('ncl_key_.*', key):
-                dv = string.replace("(defvar %s '(" % key,"_","-")
-                k = eval('self.%s' % key) # all keywords
-                dv = dv + '"' + '" "'.join(map(str,k)) +'"' + '))'
-                el_str = el_str + dv + "\n"
+        for key in self.ncl_keys:
+            dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0],"_","-")
+            k = self.ncl_keys[key][3]
+            dv = dv + '"' + '" "'.join(map(str,k)) +'"' + ') "' + self.ncl_keys[key][1] + '")'
+            el_str = el_str + dv + "\n"
 
         return el_str
 
