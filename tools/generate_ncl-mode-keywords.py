@@ -63,8 +63,7 @@ class KeywordWriter(object):
 
         footer = """
 (provide 'ncl-mode-keywords)
-;;; ncl-mode-keywords.el ends here
-        """
+;;; ncl-mode-keywords.el ends here"""
 
         fetcher = fetch_ncl_keywords.NclKeywordFetcher()
         defvars = fetcher.keys2defvar()
