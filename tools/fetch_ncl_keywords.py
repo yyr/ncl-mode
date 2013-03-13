@@ -153,7 +153,7 @@ class NclKeywordFetcher(object):
         for a in aas:
             keywords.append(a.get_text())
 
-        return ['ncl_keywords',doc, url, keywords]
+        return ['ncl_key_keywords',doc, url, keywords]
 
     def parse_ncl_operators(self):
         """Return ncl operators list. Ncl documentation doesn't have a special
@@ -163,7 +163,7 @@ class NclKeywordFetcher(object):
         url = 'No specific url.'
         operators = ["(/","/)","\\\\",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
-        return ['ncl_operators',doc, url, operators]
+        return ['ncl_key_operators',doc, url, operators]
 
 
     def keys2defvar(self):

@@ -28,8 +28,7 @@ class KeywordWriter(object):
     def write_el_file(self,defvars=None):
         """
         """
-        header = """
-;;; ncl-mode-keywords.el
+        header = """;;; ncl-mode-keywords.el
 
 ;; Copyright (C) 2012-%(year)s Yagnesh Raghava Yakkala <http://yagnesh.org>
 
