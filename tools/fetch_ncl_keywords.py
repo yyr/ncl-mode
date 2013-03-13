@@ -161,7 +161,7 @@ class NclKeywordFetcher(object):
         self.parse_keywords()
         el_str = ""
         for key in self.__dict__.keys():
-            if re.match('ncl_*', key):
+            if re.match('ncl_key_.*', key):
                 dv = string.replace("(defvar %s '(" % key,"_","-")
                 k = eval('self.%s' % key) # all keywords
                 dv = dv + '"' + '" "'.join(map(str,k)) +'"' + '))'
