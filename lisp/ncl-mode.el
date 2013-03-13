@@ -93,8 +93,7 @@
   (eval-when-compile            ; for  faster loading (is it working?)
     `(;; ncl major keywords
       (,(concat
-         "\\<" (regexp-opt
-                (append ncl-key-keywords '("True" "False")) 'paren) "\\>")
+         "\\<" (regexp-opt ncl-key-keywords) "\\>")
        (1 font-lock-keyword-face))
 
       ;; operators
