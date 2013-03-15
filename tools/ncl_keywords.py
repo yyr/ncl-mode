@@ -168,7 +168,7 @@ class NclKeywords(object):
             except AttributeError:
                 continue
 
-        return ['ncl_key_resources', doc, url + '#', resources]
+        return ['ncl_key_resources', doc, url, resources]
 
     def parse_ncl_keywords(self):
         """ Fetch and return ncl keywords
@@ -195,6 +195,21 @@ class NclKeywords(object):
         operators = ["(/","/)","\\\\",".eq.",".ne.",".lt.",".le.",".gt.",
                      ".ge.",".and.",".or.",".not.",".xor."]
         return ['ncl_key_operators',doc, url, operators]
+
+
+    def fetch_doc_pages(self):
+        """Fetches ncl associated documentation pages."""
+        for key in self.ncl_keys:
+            print('group:# ' + key )
+            if key == 'resources':
+                get_save_page(self.ncl_keys[key][2])
+                continue
+
+            if key == 'keywords' or key == 'operators':
+                continue
+
+            for word in self.ncl_keys[key][3]:
+                get_save_page(word + ": " + self.ncl_keys[key][2] + word + ".shtml" )
 
 
     def keys2defvar(self):
