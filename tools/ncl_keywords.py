@@ -236,14 +236,31 @@ class KeywordWriter(object):
         fh = open(self.elisp_file,"w")
         fh.write(header + defvars +footer)
 
-def main():
-    elisp_file = os.path.join(file_path, "../lisp/ncl-mode-keywords.el")
-    if os.path.exists(elisp_file):
+
+def arg_parse(el_fname='ncl-mode-keywords.el',
+              update_lisp_file=False,
+              list_keywords=False):
+    if update_lisp_file:
         writer = KeywordWriter(elisp_file)
         writer.write_el_file()
+    elif list_keywords:
+        pass
+
+
+def main(args=None):
+    import argparse
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,description=__doc__)
+    parser.add_argument( '--list-keywords','-l',
+                         action="store_true",default=False)
+    parser.add_argument('--update-lisp-file',
+                        action="store_true", default=False )
+    parser.add_argument('--el-fname', const='el-fname',
+                        action='store_const')
+    if len(sys.argv) == 1:
+        parser.print_help()
     else:
-        print(elisp_file + " is not available.")
-        sys.exit(2)
+        arg_parse(**vars(parser.parse_args(args)))
 
 if __name__ == '__main__':
     main()
