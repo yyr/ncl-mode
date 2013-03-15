@@ -231,8 +231,9 @@ class NclKeywords(object):
 
 
 def arg_parse(el_fname,
-              update_lisp_file=False,
-              update_ncl_dictionary=False,
+              update_lisp_file=None,
+              update_ncl_dict=False,
+              dict_file_name=None,
               list_keywords=False):
     if update_lisp_file:
         writer = NclKeywords(el_fname=el_fname)
@@ -245,14 +246,18 @@ def main(args=None):
     import argparse
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,description=__doc__)
-    parser.add_argument( '--list-keywords','-l',
+    parser.add_argument('-l', '--list-keywords',
+                         help='Print all ncl keywords',
                          action="store_true",default=False)
-    parser.add_argument('--update-lisp-file', '-u',
-                        action="store_true", default=False )
-    parser.add_argument('--update-ncl-dictionary',
-                        action="store_true", default=False )
-    parser.add_argument('--elisp-file-name', const='el-fname',dest='el_fname',
-                        action='store_const',default='ncl-mode-keywords.el')
+    parser.add_argument('-u', '--update-lisp-file',
+                        help='Update elisp file with parsed keywords',
+                        action="store_true", default=False)
+    parser.add_argument('--update-ncl-dict', help='Update ncl-mode dictionary',
+                        action="store_true", default=False)
+    parser.add_argument('--elisp-file-name', dest='el_fname',
+                        action='store',default='ncl-mode-keywords.el')
+    parser.add_argument('--dict-file-name',
+                        action="store", default='ncl-mode')
     if len(sys.argv) == 1:
         parser.print_help()
     else:
