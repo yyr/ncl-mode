@@ -56,11 +56,13 @@ def get_save_page(url,local_file = None):
             print('Generic exception: ' + traceback.format_exc())
             sys.exit()
 
-class NclKeywordFetcher(object):
+class NclKeywords(object):
     """Fetches and stores ncl keywords.
     """
-    def __init__(self, down_from_web = False):
+    def __init__(self, down_from_web = False,
+                 el_fname='ncl-mode-keywords.el'):
         self.down_from_web = down_from_web
+        self.el_fname = el_fname
         self.ncl_keys = {}
 
     def parse_keywords(self):
@@ -181,14 +183,6 @@ class NclKeywordFetcher(object):
 
         return el_str
 
-class KeywordWriter(object):
-    """update to ncl-keyword
-    """
-    def __init__(self,elisp_file):
-        self.elisp_file = elisp_file
-        # self.elisp_file_lines = open(elisp_file).read()
-        # self.ncl_keywords = self.fetch_keywords()
-
     def fetch_keywords(self):
         return NclKeywordFetcher()
 
@@ -231,17 +225,17 @@ class KeywordWriter(object):
 (provide 'ncl-mode-keywords)
 ;;; ncl-mode-keywords.el ends here"""
 
-        fetcher = NclKeywordFetcher()
-        defvars = fetcher.keys2defvar()
-        fh = open(self.elisp_file,"w")
-        fh.write(header + defvars +footer)
+        defvars = self.keys2defvar()
+        fh = open(self.el_fname,"w")
+        return fh.write(header + defvars +footer)
 
 
-def arg_parse(el_fname='ncl-mode-keywords.el',
+def arg_parse(el_fname,
               update_lisp_file=False,
+              update_ncl_dictionary=False,
               list_keywords=False):
     if update_lisp_file:
-        writer = KeywordWriter(elisp_file)
+        writer = NclKeywords(el_fname=el_fname)
         writer.write_el_file()
     elif list_keywords:
         pass
@@ -253,14 +247,17 @@ def main(args=None):
         formatter_class=argparse.RawTextHelpFormatter,description=__doc__)
     parser.add_argument( '--list-keywords','-l',
                          action="store_true",default=False)
-    parser.add_argument('--update-lisp-file',
+    parser.add_argument('--update-lisp-file', '-u',
                         action="store_true", default=False )
-    parser.add_argument('--el-fname', const='el-fname',
-                        action='store_const')
+    parser.add_argument('--update-ncl-dictionary',
+                        action="store_true", default=False )
+    parser.add_argument('--elisp-file-name', const='el-fname',dest='el_fname',
+                        action='store_const',default='ncl-mode-keywords.el')
     if len(sys.argv) == 1:
         parser.print_help()
     else:
         arg_parse(**vars(parser.parse_args(args)))
+
 
 if __name__ == '__main__':
     main()
