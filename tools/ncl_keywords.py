@@ -60,10 +60,13 @@ class NclKeywords(object):
     """Fetches and stores ncl keywords.
     """
     def __init__(self, down_from_web = False,
-                 el_fname='ncl-mode-keywords.el'):
+                 el_fname='ncl-mode-keywords.el',
+                 dict_file_name = None):
         self.down_from_web = down_from_web
         self.el_fname = el_fname
-        self.ncl_keys = {}
+        self.dict_file_name = dict_file_name
+        self.ncl_keywords_p = os.path.join(DATA_DIR,"ncl_keywords.p")
+        self.parse_keywords()
 
     def parse_keywords(self):
         """Parse and Ncl keywords.
@@ -72,10 +75,26 @@ class NclKeywords(object):
                      ...
                      }
         """
-        self.ncl_keys['resources'] = self.parse_ncl_resources()
-        self.ncl_keys['keywords']  = self.parse_ncl_keywords()
-        self.ncl_keys['operators'] = self.parse_ncl_operators()
-        self.parse_ncl_functions()
+        import pickle
+        if not os.path.exists(self.ncl_keywords_p):
+            self.ncl_keys = {}
+            self.ncl_keys['resources'] = self.parse_ncl_resources()
+            self.ncl_keys['keywords']  = self.parse_ncl_keywords()
+            self.ncl_keys['operators'] = self.parse_ncl_operators()
+            self.parse_ncl_functions()
+            pickle.dump(self.ncl_keys,open(self.ncl_keywords_p,'wb'))
+            return
+
+        self.ncl_keys = pickle.load(open(self.ncl_keywords_p,'rb'))
+        return
+
+
+    def list_keywords(self):
+        self.all_keys = []
+        for key in self.ncl_keys:
+            self.all_keys = self.all_keys + self.ncl_keys[key][3]
+        print('\n'.join(sorted(self.all_keys)))
+        # print(tuple(self.all_keys))
 
     def parse_ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
@@ -173,7 +192,6 @@ class NclKeywords(object):
         """Generate all elisp defvar definitions from keys.
         """
         import re
-        self.parse_keywords()
         el_str = ""
         for key in self.ncl_keys:
             dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0],"_","-")
@@ -235,12 +253,11 @@ def arg_parse(el_fname,
               update_ncl_dict=False,
               dict_file_name=None,
               list_keywords=False):
+    writer = NclKeywords(el_fname=el_fname)
     if update_lisp_file:
-        writer = NclKeywords(el_fname=el_fname)
         writer.write_el_file()
     elif list_keywords:
-        pass
-
+        writer.list_keywords()
 
 def main(args=None):
     import argparse
