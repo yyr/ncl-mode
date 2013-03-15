@@ -209,7 +209,7 @@ class NclKeywords(object):
                 continue
 
             for word in self.ncl_keys[key][3]:
-                get_save_page(word + ": " + self.ncl_keys[key][2] + word + ".shtml" )
+                get_save_page(self.ncl_keys[key][2] + word + ".shtml" )
 
 
     def keys2defvar(self):
