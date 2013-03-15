@@ -210,9 +210,6 @@ class NclKeywords(object):
 
         return el_str
 
-    def fetch_keywords(self):
-        return NclKeywordFetcher()
-
     def write_el_file(self,defvars=None):
         """
         """
@@ -255,7 +252,6 @@ class NclKeywords(object):
         defvars = self.keys2defvar()
         fh = open(self.el_fname,"wb")
         return fh.write(header + defvars +footer)
-
 
 def arg_parse(el_fname,
               dict_file_name,
