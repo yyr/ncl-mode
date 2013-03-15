@@ -92,9 +92,18 @@ class NclKeywords(object):
     def list_keywords(self):
         self.all_keys = []
         for key in self.ncl_keys:
+            if key == 'operators':
+                self.all_keys = self.all_keys + self.ncl_keys[key][3][3:]
+                continue        # dont print "(/" "/)" "\\"
             self.all_keys = self.all_keys + self.ncl_keys[key][3]
-        print('\n'.join(sorted(self.all_keys)))
-        # print(tuple(self.all_keys))
+
+        return '\n'.join(sorted(self.all_keys))
+
+
+    def update_ncl_dict(self):
+        fh = open(self.dict_file_name,"wb")
+        return fh.write(self.list_keywords())
+
 
     def parse_ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
@@ -244,20 +253,22 @@ class NclKeywords(object):
 ;;; ncl-mode-keywords.el ends here"""
 
         defvars = self.keys2defvar()
-        fh = open(self.el_fname,"w")
+        fh = open(self.el_fname,"wb")
         return fh.write(header + defvars +footer)
 
 
 def arg_parse(el_fname,
+              dict_file_name,
               update_lisp_file=None,
               update_ncl_dict=False,
-              dict_file_name=None,
               list_keywords=False):
-    writer = NclKeywords(el_fname=el_fname)
+    writer = NclKeywords(el_fname=el_fname,dict_file_name=dict_file_name)
     if update_lisp_file:
         writer.write_el_file()
     elif list_keywords:
-        writer.list_keywords()
+        print(writer.list_keywords())
+    elif update_ncl_dict:
+        writer.update_ncl_dict()
 
 def main(args=None):
     import argparse
