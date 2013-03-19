@@ -3,3 +3,6 @@
 *.bkp
 *.new
 tmp*
+*.pyc
+
+data/*.shtml

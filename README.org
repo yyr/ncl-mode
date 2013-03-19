@@ -105,25 +105,8 @@ Tip from NCL website FAQ:
 
  - `ncl-doc-minor-mode-hook'
 
-** TODOS
-*** NCL MODE
-- [X] REWRITE
-- [X] make font lock work better/faster
-- [X] Imenu support
-  - Imenu can directly be used by keyboard (may be with ido or directly)
-  - see function: ncl-add-imenu-menu
-- [ ] easy menu
-- [ ] fixing commenting system
-- [X] fixing indentation
-- [ ] Documentation
-
-*** NCL-DOC mode
-- [X] call browser to look documentation of keyword
-- [ ] reading docs with in emacs
-
-*** inf-ncl mode
-- [X] implement
-- [X] test
+** Todos
+See todo.org file.
 
 ** License
 GPL v3 (or later).
