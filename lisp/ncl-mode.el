@@ -107,9 +107,7 @@
            ("if" exp "then" exp "else if" exp "else" exp "end if" "end if")
            ("do" exp "end do")
            ("do while" exp "end do")
-           (id "=" exp)
-           ())
-      (typedecls )))))
+           (id "=" exp))))))
 
 (defconst ncl-smie-operators-re (regexp-opt ncl-key-operators)
   "Operators.")
