@@ -414,9 +414,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                      cur-window-conf)
 
                 ;; make fit to screen
-                (shrink-window-if-larger-than-buffer (get-buffer-window tmpbuf))
-                )))))))))
-
+                (shrink-window-if-larger-than-buffer (get-buffer-window tmpbuf)))))))))))
 
 ;;;###autoload
 (defun ncl-doc-query-open (KEY)
@@ -426,8 +424,7 @@ and call browser with corresponding URL"
    (list
     (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
-               "Query: " ncl-doc-key-all
-               nil nil nil nil))))
+               "Query: " ncl-doc-key-all))))
   (let ((url (ncl-doc-construct-url KEY)))
     (progn
       (message "Browsing: \"%s\"" url)
