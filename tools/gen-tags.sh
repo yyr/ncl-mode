@@ -21,7 +21,6 @@ xargs -0 -I {} -t ctags -e -a --verbose=yes  --langdef=ncl \
     --regex-ncl='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/' {}
 }
 
-rm TAGS
 tag_gen ${1:-"."}
 
 # gen-tags.sh ends here
