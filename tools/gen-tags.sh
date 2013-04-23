@@ -15,11 +15,13 @@
 
 function tag_gen()
 {
-    ctags-exuberant -e -a --verbose=yes  --langdef=ncl \
-        --langmap=ncl:.ncl --regex-ncl='/^[[:space:]]*function[[:space:]]+([a-zA-Z0-9_]+)[:blank:]*.*/\1/f,function/' \
-        --regex-ncl='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/' `find ${1:-"."} -type f -name "*.ncl"`
+find ${1:-"."} -type f -name "*.ncl" -print0 | \
+xargs -0 -I {} -t ctags -e -a --verbose=yes  --langdef=ncl \
+    --langmap=ncl:.ncl --regex-ncl='/^[[:space:]]*function[[:space:]]+([a-zA-Z0-9_]+)[:blank:]*.*/\1/f,function/' \
+    --regex-ncl='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/' {}
 }
 
+rm TAGS
 tag_gen ${1:-"."}
 
 # gen-tags.sh ends here
