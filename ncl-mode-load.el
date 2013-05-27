@@ -6,11 +6,11 @@
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Sunday, June 24 2012
-;; Keywords: run, ncl, inferior, shell
+;; Keywords: ncl
 
 ;; This file is NOT part of GNU Emacs.
 
-;; ncl-doc.el is free software: you can redistribute it and/or modify
+;; ncl-mode-load.el is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
