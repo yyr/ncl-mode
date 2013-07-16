@@ -85,7 +85,11 @@
 (defconst inf-ncl-error-regexp-alist
   '())
 
-(defvar inf-ncl-ncarg-root (getenv "NCARG_ROOT")
+(defvar inf-ncl-ncarg-root (if (getenv "NCARG_ROOT")
+                               (getenv "NCARG_ROOT")
+                             (progn
+                               (message "ncl-mode: Warning, ncarg_root is not set. falling back to home directory")
+                               (getenv "HOME")))
   "NCARG_ROOT from envronemt")
 
 (defvar inf-ncl-lib-root
