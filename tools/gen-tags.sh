@@ -9,16 +9,19 @@
 # Description:
 # Generates TAGS file for ncl source files;
 # -e option is to produce emacs format
-# NOTE: may fail if the filename has spaces
+#
 
 # USAGE: ctags-gen.sh /path/to/ncl/files
 
+fun_regex='/^[[:space:]]*function[[:space:]]+([a-zA-Z0-9_]+)[:blank:]*.*/\1/f,function/'
+proc_regex='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/'
+
 function tag_gen()
 {
-find ${1:-"."} -type f -name "*.ncl" -print0 | \
-xargs -0 -I {} -t ctags -e -a --verbose=yes  --langdef=ncl \
-    --langmap=ncl:.ncl --regex-ncl='/^[[:space:]]*function[[:space:]]+([a-zA-Z0-9_]+)[:blank:]*.*/\1/f,function/' \
-    --regex-ncl='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/' {}
+    find ${1:-"."} -type f -name "*.ncl" -print0 |          \
+        xargs -0 -I {} -t ctags -e -a --verbose=yes         \
+        --langdef=ncl --langmap=ncl:.ncl                    \
+        --regex-ncl=$fun_regex --regex-ncl=$proc_regex {}
 }
 
 tag_gen ${1:-"."}
