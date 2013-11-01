@@ -197,9 +197,9 @@
 ;;=================================================================
 ;;; imenu support for ncl-mode
 (defcustom ncl-imenu-generic-expression
-  `(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*" 1)
+  '(("functions" "^[[:blank:]]*function[[:blank:]]+\\(.*\\)(.*" 1)
     ("procedures" "^[[:blank:]]*procedure[[:blank:]]+\\(.*\\)(.*" 1)
-    ,(list "variables" "^[ \t]*\\([a-z0-9_]*\\)[ \t]*=.*" 1))
+    ("variables" "^[[:blank:]]*\\([[:alnum:]_]+\\)[[:blank:]]*=.*" 1))
   "Generic expression for matching functions, procedure and
 variable assignments."
   :type 'string

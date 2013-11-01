@@ -13,8 +13,9 @@
 
 # USAGE: ctags-gen.sh /path/to/ncl/files
 
-fun_regex='/^[[:space:]]*function[[:space:]]+([a-zA-Z0-9_]+)[:blank:]*.*/\1/f,function/'
-proc_regex='/^[[:space:]]*procedure[[:space:]]+([a-zA-Z0-9_]+)[:blank:].*/\1/p,procedure/'
+fun_regex='/^[[:space:]]*function[[:space:]]+([[:alnum:]_]+)[:blank:]*.*/\1/f,function/'
+proc_regex='/^[[:space:]]*procedure[[:space:]]+([[:alnum:]_]+)[:blank:].*/\1/p,procedure/'
+# vars_regex='/^[[:space:]]*([[:alnum:]_]+)[:blank:]*=.*/\1/p,variables/'
 
 function tag_gen()
 {
