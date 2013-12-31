@@ -90,45 +90,44 @@
   "Regexp for matching variable.")
 
 (defconst ncl-font-lock-keywords
-  (eval-when-compile            ; for  faster loading (is it working?)
-    `(;; ncl major keywords
-      (,(concat
-         "\\<" (regexp-opt ncl-key-keywords 'paren) "\\>")
-       (1 font-lock-keyword-face))
+  `(;; ncl major keywords
+    (,(concat
+       "\\<" (regexp-opt ncl-key-keywords 'paren) "\\>")
+     (1 font-lock-keyword-face))
 
-      ;; operators
-      (,(concat
-         "\\(" (regexp-opt ncl-key-operators 'paren) "\\)")
-       (1 font-lock-type-face))
+    ;; operators
+    (,(concat
+       "\\(" (regexp-opt ncl-key-operators 'paren) "\\)")
+     (1 font-lock-type-face))
 
-      ;;"ncl built-in functions",
-      (,(concat
-         "\\<" (regexp-opt ncl-key-builtin 'paren) "\\>")
-       (1 font-lock-builtin-face))
+    ;;"ncl built-in functions",
+    (,(concat
+       "\\<" (regexp-opt ncl-key-builtin 'paren) "\\>")
+     (1 font-lock-builtin-face))
 
-      ;; contrib functions
-      (,(concat
-         "\\<" (regexp-opt
-                (append ncl-key-contrib ncl-key-shea ncl-key-pop
-                        ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
-                        ncl-key-wrfcontrib ncl-key-windrose
-                        ) 'paren) "\\>")
-       (1 font-lock-function-name-face))
+    ;; contrib functions
+    (,(concat
+       "\\<" (regexp-opt
+              (append ncl-key-contrib ncl-key-shea ncl-key-pop
+                      ncl-key-skewt ncl-key-diag ncl-key-user ncl-key-wrfarw
+                      ncl-key-wrfcontrib ncl-key-windrose
+                      ) 'paren) "\\>")
+     (1 font-lock-function-name-face))
 
-      ;; ncl gsn function-face
-      (,(concat
-         "\\<" (regexp-opt ncl-key-gsn 'paren) "\\>")
-       (1 font-lock-variable-name-face))
+    ;; ncl gsn function-face
+    (,(concat
+       "\\<" (regexp-opt ncl-key-gsn 'paren) "\\>")
+     (1 font-lock-variable-name-face))
 
-      ;; ncl resources
-      (,(concat
-         "\\<" (regexp-opt ncl-key-resources t) "\\>")
-       (1 font-lock-constant-face))
+    ;; ncl resources
+    (,(concat
+       "\\<" (regexp-opt ncl-key-resources t) "\\>")
+     (1 font-lock-constant-face))
 
-      ;; variable face seq`ncl-var-re'
-      (,ncl-var-re (1 font-lock-variable-name-face))
-      ("\\<\\([[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)\\)\\>"
-       (2 font-lock-function-name-face))))
+    ;; variable face seq`ncl-var-re'
+    (,ncl-var-re (1 font-lock-variable-name-face))
+    ("\\<\\([[:blank:]]*function[[:blank:]]+\\(.*\\)(.*)\\)\\>"
+     (2 font-lock-function-name-face)))
   "Ncl font lock key words.")
 
 ;;; syntax table
