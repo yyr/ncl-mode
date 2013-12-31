@@ -39,8 +39,6 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'cl))
 (require 'ncl-mode)
 (require 'comint)
 
