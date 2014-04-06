@@ -20,7 +20,7 @@ proc_regex='/^[[:space:]]*procedure[[:space:]]+([[:alnum:]_]+)[:blank:].*/\1/p,p
 function tag_gen()
 {
     find ${1:-"."} -type f -name "*.ncl" -print0 |          \
-        xargs -0 -I {} -t ctags -e -a --verbose=yes         \
+        xargs -0 -I {} -t ctags-exuberant -e -a --verbose=yes         \
         --langdef=ncl --langmap=ncl:.ncl                    \
         --regex-ncl=$fun_regex --regex-ncl=$proc_regex {}
 }
