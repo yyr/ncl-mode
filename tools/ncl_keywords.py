@@ -20,6 +20,7 @@ from bs4 import BeautifulSoup
 file_path = os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])
 DATA_DIR = os.path.join(file_path,'../data')
 base_url = "http://www.ncl.ucar.edu/Document/"
+force_download=False
 
 def get_save_page(url,local_file = None):
     """fetch given url and save it to data directory.
@@ -32,7 +33,7 @@ def get_save_page(url,local_file = None):
 
     local_file = os.path.join(DATA_DIR ,  local_file)
 
-    if os.path.exists(local_file):
+    if os.path.exists(local_file) and not force_download:
         fh = open(local_file, "rb")
         print(local_file + " is already exists, skipping ..")
         page = fh.read()
