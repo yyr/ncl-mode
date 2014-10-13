@@ -1,5 +1,5 @@
 .. |travis| image:: https://travis-ci.org/yyr/ncl-mode.svg?branch=master
-            :target: https://travis-ci.org/ncl-mode/ncl-mode
+            :target: https://travis-ci.org/yyr/ncl-mode
             :alt: Test status
 
 =================
