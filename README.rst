@@ -2,9 +2,13 @@
             :target: https://travis-ci.org/yyr/ncl-mode
             :alt: Test status
 
-=================
+.. |license| image:: https://img.shields.io/badge/license-GPL_3-green.svg?dummy
+             :target: https://github.com/yyr/ncl-mode/blob/master/COPYING
+             :alt: License GPL 3
+
+===========================
 Ncl-mode |travis|
-=================
+===========================
 
 Emacs editing mode for Ncar Command Language(NCL).
 
@@ -178,14 +182,8 @@ Tip from NCL website FAQ:
 
 Todos
 -----
-
 See todo.org file.
-
 
 License
 -------
-
-GPL v3 (or later).
-
-.. |travis| image::
-.. || image::
+GPL v3 (or later). |license|
