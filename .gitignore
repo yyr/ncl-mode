@@ -7,4 +7,4 @@ tmp*
 
 data/*.shtml
 /.cask/
-/snippets/ncl-mode/.yas-compiled-snippets.el
+.yas-compiled-snippets.el

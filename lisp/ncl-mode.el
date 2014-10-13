@@ -1,4 +1,4 @@
-;;; ncl-mode.el -- Major Mode for editing NCL scripts
+;;; ncl-mode.el --- Major Mode for editing NCL scripts
 
 ;; Copyright (C) 2012, 2013 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
