@@ -6,3 +6,5 @@ tmp*
 *.pyc
 
 data/*.shtml
+/.cask/
+/snippets/ncl-mode/.yas-compiled-snippets.el
