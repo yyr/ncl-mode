@@ -215,6 +215,7 @@ choose the interpreter"
 ;;;###autoload
 (eval-after-load 'auto-complete
   '(progn
+     (require 'find-func)
      (defun ac-ncl-mode-setup ()
        (setq ac-sources
              (append '(ac-source-yasnippet

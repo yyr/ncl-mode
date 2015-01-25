@@ -669,15 +669,18 @@ All other return `comment-column', leaving at least one space after code."
 
 ;;;###autoload
 (eval-after-load 'yasnippet
-  '(add-to-list 'yas-snippet-dirs
-                (concat (file-name-as-directory
-                         (file-name-directory
-                          (find-library-name "ncl-mode")))
-                        "snippets/")))
+  '(progn
+     (require 'find-func)
+     (add-to-list 'yas-snippet-dirs
+                  (concat (file-name-as-directory
+                           (file-name-directory
+                            (find-library-name "ncl-mode")))
+                          "snippets/"))))
 
 ;;;###autoload
 (eval-after-load 'auto-complete
   '(progn
+    (require 'find-func)
      (defun ac-ncl-mode-setup ()
        (setq ac-sources
              (append '(ac-source-yasnippet
@@ -689,6 +692,7 @@ All other return `comment-column', leaving at least one space after code."
                            (file-name-directory
                             (find-library-name "ncl-mode")))
                           "dict/"))))
+
 
 (provide 'ncl-mode)
 ;;; ncl-mode.el ends here
