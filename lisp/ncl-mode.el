@@ -5,6 +5,7 @@
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
+;; Package-Requires: Package-Requires: ((emacs "24"))
 ;; Version: 0.98
 ;; Created: Tuesday, July 24 2012
 ;; Keywords: ncl, Major Mode, ncl-mode, atmospheric science.
@@ -665,6 +666,29 @@ All other return `comment-column', leaving at least one space after code."
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist (cons (purecopy "\\.ncl\\'") 'ncl-mode))
+
+;;;###autoload
+(eval-after-load 'yasnippet
+  '(add-to-list 'yas-snippet-dirs
+                (concat (file-name-as-directory
+                         (file-name-directory
+                          (find-library-name "ncl-mode")))
+                        "snippets/")))
+
+;;;###autoload
+(eval-after-load 'auto-complete
+  '(progn
+     (defun ac-ncl-mode-setup ()
+       (setq ac-sources
+             (append '(ac-source-yasnippet
+                       ac-source-words-in-buffer) ac-sources)))
+     (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup)
+     (add-to-list 'ac-modes 'ncl-mode)
+     (add-to-list 'ac-dictionary-directories
+                  (concat (file-name-as-directory
+                           (file-name-directory
+                            (find-library-name "ncl-mode")))
+                          "dict/"))))
 
 (provide 'ncl-mode)
 ;;; ncl-mode.el ends here

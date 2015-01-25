@@ -5,6 +5,7 @@
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
+;; Package-Requires: Package-Requires: ((ncl-mode "0.98"))
 ;; Created: Saturday, September 24 2011
 ;; Keywords: doc,lookup,ncl
 
@@ -429,6 +430,16 @@ and call browser with corresponding URL"
     (progn
       (message "Browsing: \"%s\"" url)
       (browse-url url))))
+
+;;;###autoload
+(eval-after-load 'ncl-mode
+  ;; load the keys for ncl
+  '(add-hook 'ncl-mode-hook 'ncl-doc-minor-mode))
+
+;;;###autoload
+(eval-after-load 'inf-ncl
+  ;; load the keys for ncl
+  '(add-hook 'ncl-mode-hook 'ncl-doc-minor-mode))
 
 (provide 'ncl-doc)
 ;;; ncl-doc.el ends here

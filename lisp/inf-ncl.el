@@ -212,5 +212,20 @@ choose the interpreter"
   ;; load the keys for ncl
   '(add-hook 'ncl-mode-hook 'inf-ncl-keys))
 
+;;;###autoload
+(eval-after-load 'auto-complete
+  '(progn
+     (defun ac-ncl-mode-setup ()
+       (setq ac-sources
+             (append '(ac-source-yasnippet
+                       ac-source-words-in-buffer) ac-sources)))
+     (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup)
+     (add-to-list 'ac-modes 'ncl-mode)
+     (add-to-list 'ac-dictionary-directories
+                  (concat (file-name-as-directory
+                           (file-name-directory
+                            (find-library-name "ncl-mode")))
+                          "dict/"))))
+
 (provide 'inf-ncl)
 ;;; inf-ncl.el ends here
