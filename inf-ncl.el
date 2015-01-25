@@ -216,18 +216,10 @@ choose the interpreter"
 ;;;###autoload
 (eval-after-load 'auto-complete
   '(progn
-     (require 'find-func)
-     (defun ac-ncl-mode-setup ()
-       (setq ac-sources
-             (append '(ac-source-yasnippet
-                       ac-source-words-in-buffer) ac-sources)))
-     (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup)
-     (add-to-list 'ac-modes 'ncl-mode)
+     (add-to-list 'ac-modes 'inf-ncl-mode)
      (add-to-list 'ac-dictionary-directories
-                  (concat (file-name-as-directory
-                           (file-name-directory
-                            (find-library-name "ncl-mode")))
-                          "dict/"))))
+                  (expand-file-name "dict" ncl-dir))))
+
 
 (provide 'inf-ncl)
 ;;; inf-ncl.el ends here
