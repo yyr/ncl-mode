@@ -129,6 +129,7 @@ The following commands are available:
 ;; Functions
 ;;=================================================================
 
+;;;###autoload
 (defun inf-ncl-keys ()
   "Key for inferior mode interaction from ncl buffer."
   ;; keys for communication from ncl mode buffer

@@ -667,6 +667,7 @@ All other return `comment-column', leaving at least one space after code."
 ;;;###autoload
 (add-to-list 'auto-mode-alist (cons (purecopy "\\.ncl\\'") 'ncl-mode))
 
+;;;###autoload
 (defconst ncl-dir
   (file-name-directory (or load-file-name
                            (buffer-file-name)))
