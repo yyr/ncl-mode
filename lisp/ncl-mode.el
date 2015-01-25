@@ -667,31 +667,24 @@ All other return `comment-column', leaving at least one space after code."
 ;;;###autoload
 (add-to-list 'auto-mode-alist (cons (purecopy "\\.ncl\\'") 'ncl-mode))
 
+(defconst ncl-dir
+  (file-name-directory (or load-file-name
+                           (buffer-file-name)))
+  "The directory in which `ncl-mode' is found.")
+
 ;;;###autoload
 (eval-after-load 'yasnippet
-  '(progn
-     (require 'find-func)
-     (add-to-list 'yas-snippet-dirs
-                  (concat (file-name-as-directory
-                           (file-name-directory
-                            (find-library-name "ncl-mode")))
-                          "snippets/"))))
+  '(eval-after-load 'ncl-mode
+     '(add-to-list 'yas-snippet-dirs
+                   (expand-file-name "snippets/" ncl-dir))))
 
 ;;;###autoload
 (eval-after-load 'auto-complete
-  '(progn
-    (require 'find-func)
-     (defun ac-ncl-mode-setup ()
-       (setq ac-sources
-             (append '(ac-source-yasnippet
-                       ac-source-words-in-buffer) ac-sources)))
-     (add-hook 'ncl-mode-hook 'ac-ncl-mode-setup)
-     (add-to-list 'ac-modes 'ncl-mode)
-     (add-to-list 'ac-dictionary-directories
-                  (concat (file-name-as-directory
-                           (file-name-directory
-                            (find-library-name "ncl-mode")))
-                          "dict/"))))
+  '(eval-after-load 'ncl-mode
+     '(progn
+        (add-to-list 'ac-modes 'ncl-mode)
+        (add-to-list 'ac-dictionary-directories
+                     (expand-file-name "dict" ncl-dir)))))
 
 
 (provide 'ncl-mode)
