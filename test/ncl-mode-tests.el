@@ -4,6 +4,7 @@
 ;; based on ruby-mode tests
 
 (require 'ncl-mode)
+(require 'ert)
 
 (defun ncl-should-indent (content column)
   "Assert indentation COLUMN on the last line of CONTENT."
@@ -24,7 +25,6 @@ The whitespace before and including \"|\" on each line is removed."
              (indent-region (point-min) (point-max))
              (should (string= (fix-indent expected) (buffer-string))))))
 
-
 ;;; indentation
 (ert-deftest ncl-test-file-beginning ()
   (ncl-should-indent "   a = 1" 0)
@@ -41,8 +41,7 @@ The whitespace before and including \"|\" on each line is removed."
   (ncl-should-indent "if () then\n    " 2)
   (ncl-should-indent "if () then\n    foo = bar" 2)
   (ncl-should-indent "if () then\nfoo = bar" 2)
-  (ncl-should-indent "if () then\n    foo = bar\nend if" 2)
-  )
+  (ncl-should-indent "if () then\n    foo = bar\nend if" 2))
 
 (ert-deftest ncl-test-indent-comment ()
   (ncl-should-indent-buffer
