@@ -1,10 +1,11 @@
 ;;; inf-ncl.el --- Inferior NCL mode
 
-;; Copyright (C) 2012, 2013 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2012, 2015 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
+;; Package-Requires: ((ncl-mode "0.99a"))
 ;; Created: 2012-06-21
 ;; Keywords: run, ncl, inferior, shell
 

@@ -1,11 +1,11 @@
 ;;; ncl-doc.el --- NCL doc lookup helper
 
-;; Copyright (C) 2011-2013 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2011-2015 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
 ;; Maintainer: Yagnesh Raghava Yakkala <hi@yagnesh.org>
-;; Package-Requires: Package-Requires: ((ncl-mode "0.98"))
+;; Package-Requires: ((ncl-mode "0.99a"))
 ;; Created: Saturday, September 24 2011
 ;; Keywords: doc,lookup,ncl
 
