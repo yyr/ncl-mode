@@ -214,6 +214,12 @@ choose the interpreter"
   '(add-hook 'ncl-mode-hook 'inf-ncl-keys))
 
 ;;;###autoload
+(defconst ncl-dir
+  (file-name-directory (or load-file-name
+                           (buffer-file-name)))
+  "The directory in which `ncl-mode' is found.")
+
+;;;###autoload
 (eval-after-load 'auto-complete
   '(progn
      (add-to-list 'ac-modes 'inf-ncl-mode)
