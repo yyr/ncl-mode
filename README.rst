@@ -51,6 +51,7 @@ MELPA
 sources. Just do
 
      .. code::
+
         M-x package-install RET ncl-mode RET
 
 El-get (recommended way)
@@ -59,6 +60,7 @@ El-get (recommended way)
 If you ``el-get`` just do
 
      .. code::
+
         M-x el-get-install ncl-mode
 
 
