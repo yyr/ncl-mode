@@ -1,4 +1,5 @@
 language: emacs-lisp
+
 before_install:
   - git submodule update --init
   - if [ "$EMACS" = 'emacs-snapshot' ]; then
@@ -7,7 +8,12 @@ before_install:
       sudo apt-get install -qq
           emacs-snapshot-el emacs-snapshot-gtk emacs-snapshot;
     fi
+
 env:
   - EMACS=emacs-snapshot
+
 script:
   ${EMACS} -batch -Q -l test/run-test.el
+
+notifications:
+  email: false
