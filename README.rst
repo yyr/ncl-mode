@@ -40,19 +40,25 @@ Features
 
 Compatibility
 -------------
-
-This is know to work on emacs-24.1 and above. But may work with
-emacs-23.3.
-
-This package is **not** compatible below emacs-23.2.
+Emacs-24.1 or above.
 
 Installation
 ------------
 
+MELPA
+~~~~~
+``ncl-mode`` can be installed from MELPA. If you have already set melpa in your
+sources. Just do
+
+     .. code:: M-x package-install RET ncl-mode RET
+
 El-get (recommended way)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you el-get just do = M-x el-get-install ncl-mode =
+If you ``el-get`` just do
+
+     .. code:: M-x el-get-install ncl-mode
+
 
 Manual Installation
 ~~~~~~~~~~~~~~~~~~~
@@ -61,7 +67,7 @@ Manual Installation
    `here <https://github.com/yyr/ncl-mode/downloads>`__
 -  unzip/untar put some where in your path (optionally rename it to
    ncl-mode)
--  put the following your .emacs
+-  put the following your ``.emacs``
 
    .. code:: example
 
