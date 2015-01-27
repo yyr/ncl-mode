@@ -50,14 +50,16 @@ MELPA
 ``ncl-mode`` can be installed from MELPA. If you have already set melpa in your
 sources. Just do
 
-     .. code:: M-x package-install RET ncl-mode RET
+     .. code::
+        M-x package-install RET ncl-mode RET
 
 El-get (recommended way)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you ``el-get`` just do
 
-     .. code:: M-x el-get-install ncl-mode
+     .. code::
+        M-x el-get-install ncl-mode
 
 
 Manual Installation
@@ -137,7 +139,7 @@ Utilities
 gen-tags.sh
 ~~~~~~~~~~~
 
-One liner to generate ctags from NCL Source files (look into tools
+One linper to generate ctags from NCL Source files (look into tools
 directory); uses USAGE:
 
 .. code:: example
