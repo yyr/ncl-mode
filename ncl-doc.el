@@ -147,19 +147,19 @@
     (make-directory ncl-doc-cache-dir)))
 
 ;;; search functions
-(defun ncl-doc-keys-search-cat (CAT TERM)
+(defun ncl-doc-keys-search-cat (cat term)
   "Search all CAT for a TERM."
-  (let ((cat-keys CAT))
+  (let ((cat-keys cat))
     (remove nil
             (mapcar (lambda (x)
-                      (if (string-match TERM x)
+                      (if (string-match term x)
                           x))
                     cat-keys))))
 
-(defun ncl-doc-keys-search (TERM)
+(defun ncl-doc-keys-search (term)
   "Take a search TERM, Return an alist with all matched items.
 Here alist is category and matched keywords."
-  (let* ((st TERM)
+  (let* ((st term)
          (cats  (mapcar (lambda (x)
                           (car x))
                         ncl-doc-url-alist))
@@ -168,13 +168,13 @@ Here alist is category and matched keywords."
                        cats)))
     (mapcar (lambda (cat)
               (let ((klst (symbol-value (intern cat))))
-                (ncl-doc-keys-search-cat klst TERM)))
+                (ncl-doc-keys-search-cat klst term)))
             cats)))
 
 ;;; URL construction function
-(defun ncl-doc-construct-url (KWORD)
+(defun ncl-doc-construct-url (kword)
   "Construct a url from the KWORD."
-  (let ((kwd KWORD)
+  (let ((kwd kword)
         ;; cats: all categories in the ncl-doc-url-alist
         (cats (mapcar (lambda (cat)
                         (car cat))
@@ -418,7 +418,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                 (shrink-window-if-larger-than-buffer (get-buffer-window tmpbuf)))))))))))
 
 ;;;###autoload
-(defun ncl-doc-query-open (KEY)
+(defun ncl-doc-query-open (key)
   "Query for a keyword from the database with completion support
 and call browser with corresponding URL"
   (interactive
@@ -426,7 +426,7 @@ and call browser with corresponding URL"
     (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
                "Query: " ncl-doc-key-all))))
-  (let ((url (ncl-doc-construct-url KEY)))
+  (let ((url (ncl-doc-construct-url key)))
     (progn
       (message "Browsing: \"%s\"" url)
       (browse-url url))))
