@@ -313,12 +313,12 @@ starts after point."
     (list (match-end 1) (match-end 2)))))
 
 (defsubst ncl-looking-at-begin ()
-  "Return \"begin\" if a begin statement starts after point"
+  "Return \"begin\" if a begin statement starts after point."
   (when (looking-at "begin")
     "begin"))
 
 (defsubst ncl-looking-at-block-starter ()
-  "Return non-nil if looking at a block starter"
+  "Return non-nil if looking at a block starter."
   (when (looking-at ncl-block-starter-re)
     (match-string-no-properties 1)))
 
@@ -342,14 +342,14 @@ after point."
     nil))
 
 (defsubst ncl-looking-at-only-do ()
-  "Return 'do if the statement starts with only do"
+  "Return 'do if the statement starts with only do."
   (if (and (ncl-looking-at-do)
            (equal "while" (cadr (ncl-looking-at-do))))
       nil
     'do))
 
 (defsubst ncl-looking-at-block-closer ()
-  "Return non-nil if point looks at block closer `ncl-block-closer-re'"
+  "Return non-nil if point looks at block closer `ncl-block-closer-re'."
   (when (looking-at ncl-block-closer-re)
     (if (< 3 (string-width (match-string-no-properties 1)))
         (substring (match-string-no-properties 1) 4) "")))
@@ -420,7 +420,7 @@ Comment lines embedded amongst continued lines return 'middle."
 (defun ncl-previous-statement ()
   "Move point to beginning of the previous statement.
 If no previous statement is found (i.e. if called from the first statement in
-buffer), move to the start of the buffer and return nil. "
+buffer), move to the start of the buffer and return nil."
   (interactive)
   (let (not-first-statement)
     (beginning-of-line)
@@ -429,8 +429,9 @@ buffer), move to the start of the buffer and return nil. "
     not-first-statement))
 
 (defun ncl-previous-statement-uncont ()
-  "Same as ncl-previous-statement. But if previous statement is
-  continued, moves point to first line of the continued statement"
+  "Same as ncl-previous-statement.
+But if previous statement is
+continued, moves point to first line of the continued statement"
   (interactive)
   (ncl-previous-statement)
   (while (not (memq (ncl-present-statement-cont) '(single begin)))

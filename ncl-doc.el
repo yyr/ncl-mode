@@ -89,7 +89,7 @@
   :type 'string)
 
 (defcustom ncl-doc-mode-hook nil        ; major mode hook
-  "Hook runs after enabling the ncl-doc-mode major mode."
+  "Hook runs after enabling the `ncl-doc-mode' major mode."
   :group 'ncl-doc)
 
 (defcustom ncl-doc-minor-mode-hook nil
@@ -205,7 +205,7 @@ Here alist is category and matched keywords."
     (define-key map (kbd "C-c C-p") 'ncl-doc-query-at-point)
     (define-key map (kbd "C-c C-o") 'ncl-doc-query-open)
     map)
-  "Key bindings `ncl-doc-minor-mode'.")
+  "Key bindings function `ncl-doc-minor-mode'.")
 
 ;;;###autoload
 (define-minor-mode ncl-doc-minor-mode
@@ -241,7 +241,7 @@ see the functions `ncl-doc-query-open' and `ncl-doc-query-at-point'
     (define-key map " "        'ncl-doc-browse-url)
     (define-key map "f"        'ncl-doc-browse-url)
     (define-key map "q"        'ncl-doc-quit-window)
-    (define-key map "q"        'ncl-doc-exit-window)
+    (define-key map "Q"        'ncl-doc-exit-window)
     (define-key map "n"        'ncl-doc-move-next-line)
     (define-key map "p"        'ncl-doc-move-prev-line)
     (define-key map "s" 'ncl-doc-query-at-point)
@@ -312,9 +312,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 ;;=================================================================
 ;;;###autoload
 (defun ncl-doc-query-at-point ()
-  "Ask for keyword while picking up one at point if available and
-call the browser if the keyword match with any of ncl inbuilt.
-For completion support call `ncl-doc-query-open'"
+  "Ask for a keyword to search and match inbuilt function."
   (interactive)
   (let* ((default-word (thing-at-point 'symbol))
          (default-prompt
@@ -332,7 +330,7 @@ For completion support call `ncl-doc-query-open'"
     (if (= 0 (string-width default-query)) ;protect if the user input is empty
         (set 'default-query default-word)) ;then it should be default word only
 
-    (if (string= ""default-query)
+    (if (string= "" default-query)
         (message "default-query is nothing "))
 
     (let ((url (ncl-doc-construct-url default-query)))
@@ -418,15 +416,15 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                 (shrink-window-if-larger-than-buffer (get-buffer-window tmpbuf)))))))))))
 
 ;;;###autoload
-(defun ncl-doc-query-open (key)
-  "Query for a keyword from the database with completion support
-and call browser with corresponding URL"
+(defun ncl-doc-query-open (keyword)
+  "Queries for a KEYWORD and search the database for it to gather
+its documentation url. Then calls web browser to open that url."
   (interactive
    (list
     (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
                "Query: " ncl-doc-key-all))))
-  (let ((url (ncl-doc-construct-url key)))
+  (let ((url (ncl-doc-construct-url keyword)))
     (progn
       (message "Browsing: \"%s\"" url)
       (browse-url url))))

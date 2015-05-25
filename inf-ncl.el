@@ -31,7 +31,7 @@
 
 ;; Why would anyone wants to run ncl within emacs.?
 
-;; Because Its easy to type in Emacs. (hey we have even auto-completion support)
+;; Because Its easy to type in Emacs.  (hey we have even auto-completion support)
 ;; You can send pieces of code from your script to interpretor on fly.
 
 ;; Put the following in the .emacs file
@@ -62,7 +62,7 @@
   :group 'inf-ncl)
 
 (defcustom inf-ncl-mode-hook nil
-  "*Hook for customising inf-ncl mode."
+  "*Hook for customising `inf-ncl' mode."
   :group 'inf-ncl)
 
 ;;=================================================================
@@ -89,11 +89,11 @@
                              (progn
                                (message "ncl-mode: Warning, ncarg_root is not set. falling back to home directory")
                                (getenv "HOME")))
-  "NCARG_ROOT from envronemt")
+  "NCARG_ROOT from envronemt.")
 
 (defvar inf-ncl-lib-root
   (concat (directory-file-name inf-ncl-ncarg-root) "/lib/ncarg/nclscripts/")
-  "Ncl builtin library root")
+  "Ncl builtin library root.")
 
 (defvar inf-ncl-prev-dir/file nil
   "Catches the last loaded library or file.")
@@ -142,16 +142,17 @@ The following commands are available:
   (define-key ncl-mode-map "\C-c\C-n" 'run-ncl))
 
 (defun inf-ncl-proc ()
-  "Returns current inferior process."
+  "Return current inferior process."
   (or (get-buffer-process (if (eq major-mode 'inf-ncl-mode)
                               (current-buffer)
                             inf-ncl-buffer))
-      (error "No ncl process is running. Start one \"M-x run-ncl\" ")))
+      (error "No ncl process is running.  Start one \"M-x run-ncl\" ")))
 
 ;; FIXME seems not working (bug in comint-mode?)
 ;;;###autoload
 (defun inf-ncl-load-file (fn)
-  "Load ncl library into inferior process."
+  "Load ncl library into inferior process.
+Argument FN ."
   (interactive (comint-source-default inf-ncl-prev-dir/file 'ncl-mode))
   (comint-check-source fn)              ;checks if the buffer needs to be saved
   (setq inf-ncl-prev-dir/file (cons (file-name-directory fn)
@@ -162,11 +163,11 @@ The following commands are available:
 
 ;;;###autoload
 (defun inf-ncl-switch-to-ncl (eob-p)
-  "Switch to inferior process. with EOB-P go to the end of the buffer."
+  "Switch to inferior process.  with EOB-P go to the end of the buffer."
   (interactive "P")
   (if (get-buffer inf-ncl-buffer)
       (pop-to-buffer inf-ncl-buffer)
-    (error "No inferior process is running."))
+    (error "No inferior process is running"))
   (cond (eob-p
          (push-mark)
          (goto-char (point-max)))))
@@ -174,7 +175,7 @@ The following commands are available:
 ;;;###autoload
 (defun inf-ncl-send-line (switch)
   "Send a line to inferior process. With prefix SWITCH switches
-  to the process buffer"
+to the process buffer."
   (interactive "P")
   (let ((ln (buffer-substring-no-properties
              (line-beginning-position) (line-end-position))))
