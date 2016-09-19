@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2012, 2013 Yagnesh Raghava Yakkala. http://yagnesh.org
+# Copyright (C) 2012-2016 Yagnesh Raghava Yakkala. http://yagnesh.org
 #    File: gen-tags.sh
 # Created: Monday, October 24 2011
 # License: GPL v3 or later.  <http://www.gnu.org/licenses/gpl.html>
