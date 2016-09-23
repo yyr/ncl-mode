@@ -54,12 +54,18 @@
                  ncl-all-keywords))
     (sorted t)))
 
-
 ;;;###autoload
 (add-hook 'ncl-mode-hook
           (lambda ()
             (set (make-local-variable 'company-backends)
                  '(company-ncl-mode))))
+
+;;;###autoload
+(add-hook 'inf-ncl-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 '(company-ncl-mode))))
+
 
 (provide 'company-ncl-mode)
 ;;; company-ncl-mode.el ends here
