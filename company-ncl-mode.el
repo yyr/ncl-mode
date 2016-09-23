@@ -47,7 +47,7 @@
   (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'company-ncl-mode))
-    (prefix (and (eq major-mode 'ncl-mode)
+    (prefix (and (member major-mode '(ncl-mode inf-ncl-mode))
                  (company-grab-symbol)))
     (candidates (cl-remove-if-not
                  (lambda (c) (company-ncl-fuzzy-match arg c))
