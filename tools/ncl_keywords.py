@@ -3,26 +3,27 @@
 Download and collect Ncl keywords from Ncl website
 '''
 
-DATE     = "Friday, February 15 2013"
-AUTHOR   = "Yagnesh Raghava Yakkala"
-WEBSITE  = "http://yagnesh.org/yyr/ncl-mode"
-LICENSE  = "GPL v3 or later"
+DATE = "Friday, February 15 2013"
+AUTHOR = "Yagnesh Raghava Yakkala"
+WEBSITE = "http://yagnesh.org/yyr/ncl-mode"
+LICENSE = "GPL v3 or later"
 
 import sys
 import os
-import pickle
 import inspect
 import string
 import urllib2
 import datetime as dt
 from bs4 import BeautifulSoup
 
-file_path = os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])
-DATA_DIR = os.path.join(file_path,'../data')
+file_path = os.path.abspath(
+    os.path.split(inspect.getfile(inspect.currentframe()))[0])
+DATA_DIR = os.path.join(file_path, '../data')
 base_url = "http://www.ncl.ucar.edu/Document/"
-force_download=False
+force_download = False
 
-def get_save_page(url,local_file = None):
+
+def get_save_page(url, local_file=None):
     """fetch given url and save it to data directory.
     """
     if not os.path.exists(DATA_DIR):
@@ -31,7 +32,7 @@ def get_save_page(url,local_file = None):
     if local_file is None:
         local_file = url.split('/')[-1]
 
-    local_file = os.path.join(DATA_DIR ,  local_file)
+    local_file = os.path.join(DATA_DIR,  local_file)
 
     if os.path.exists(local_file) and not force_download:
         fh = open(local_file, "rb")
@@ -43,7 +44,7 @@ def get_save_page(url,local_file = None):
         print("Fetching.. '" + url + "' saving as " + local_file)
         fh = open(local_file, "wb")
         user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-        r = urllib2.Request(url=url,headers={'User-Agent' : user_agent})
+        r = urllib2.Request(url=url, headers={'User-Agent': user_agent})
         try:
             oh = urllib2.urlopen(r)
             page = oh.read()
@@ -57,16 +58,17 @@ def get_save_page(url,local_file = None):
             print('Generic exception: ' + traceback.format_exc())
             sys.exit()
 
+
 class NclKeywords(object):
     """Fetches and stores ncl keywords.
     """
-    def __init__(self, down_from_web = False,
+    def __init__(self, down_from_web=False,
                  el_fname='ncl-mode-keywords.el',
-                 dict_file_name = None):
+                 dict_file_name=None):
         self.down_from_web = down_from_web
         self.el_fname = el_fname
         self.dict_file_name = dict_file_name
-        self.ncl_keywords_p = os.path.join(DATA_DIR,"ncl_keywords.p")
+        self.ncl_keywords_p = os.path.join(DATA_DIR, "ncl_keywords.p")
         self.parse_keywords()
 
     def parse_keywords(self):
@@ -80,15 +82,14 @@ class NclKeywords(object):
         if not os.path.exists(self.ncl_keywords_p):
             self.ncl_keys = {}
             self.ncl_keys['resources'] = self.parse_ncl_resources()
-            self.ncl_keys['keywords']  = self.parse_ncl_keywords()
+            self.ncl_keys['keywords'] = self.parse_ncl_keywords()
             self.ncl_keys['operators'] = self.parse_ncl_operators()
             self.parse_ncl_functions()
-            pickle.dump(self.ncl_keys,open(self.ncl_keywords_p,'wb'))
+            pickle.dump(self.ncl_keys, open(self.ncl_keywords_p, 'wb'))
             return
 
-        self.ncl_keys = pickle.load(open(self.ncl_keywords_p,'rb'))
+        self.ncl_keys = pickle.load(open(self.ncl_keywords_p, 'rb'))
         return
-
 
     def list_keywords(self):
         self.all_keys = []
@@ -100,11 +101,9 @@ class NclKeywords(object):
 
         return '\n'.join(sorted(self.all_keys))
 
-
     def update_ncl_dict(self):
-        fh = open(self.dict_file_name,"wb")
+        fh = open(self.dict_file_name, "wb")
         return fh.write(self.list_keywords())
-
 
     def parse_ncl_functions(self):
         """ Fetch and save ncl procedures/function names.
@@ -132,7 +131,7 @@ class NclKeywords(object):
             page = get_save_page(url, cat[0] + ".shtml")
             soup = BeautifulSoup(page)
             if cat[0] == "gsn":
-                page_chunk = soup.find('div', attrs = {'id':'general_main'})
+                page_chunk = soup.find('div', attrs={'id': 'general_main'})
                 reses = page_chunk.findAll('strong')
                 for res in reses:
                     try:
@@ -141,16 +140,17 @@ class NclKeywords(object):
                     except AttributeError:
                         continue
 
-                self.ncl_keys[cat[0]] = ['ncl_key_' + cat[0] , 'Ncl ' + cat[1] , url ,var_name]
+                self.ncl_keys[cat[0]] = [
+                    'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name]
                 continue
 
-            page_chunk = soup.find('div', attrs = {'id':'general_main'})
-            tds = soup.findAll('td', attrs = {'valign':'top'})
+            page_chunk = soup.find('div', attrs={'id': 'general_main'})
+            tds = soup.findAll('td', attrs={'valign': 'top'})
             for td in tds:
-                var_name.append(string.strip(td.get_text(),'\n'))
+                var_name.append(string.strip(td.get_text(), '\n'))
 
-
-            self.ncl_keys[cat[0]] = ['ncl_key_' + cat[0] , 'Ncl ' + cat[1] , url , var_name]
+            self.ncl_keys[cat[0]] = [
+                'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name]
         return
 
     def parse_ncl_resources(self):
@@ -161,7 +161,7 @@ class NclKeywords(object):
         url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
         page = get_save_page(url)
         soup = BeautifulSoup(page)
-        page_chunk = soup.find('div', attrs = {'id':'general_main'})
+        page_chunk = soup.find('div', attrs={'id': 'general_main'})
         reses = page_chunk.findAll('dt')
         for res in reses:
             try:
@@ -175,8 +175,8 @@ class NclKeywords(object):
         """ Fetch and return ncl keywords
         """
         keywords = []
-        url  = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
-        doc  = 'Reserved Keywords in ncl.'
+        url = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
+        doc = 'Reserved Keywords in ncl.'
         page = get_save_page(url)
         soup = BeautifulSoup(page)
 
@@ -185,7 +185,7 @@ class NclKeywords(object):
         for a in aas:
             keywords.append(a.get_text())
 
-        return ['ncl_key_keywords',doc, url, keywords]
+        return ['ncl_key_keywords', doc, url, keywords]
 
     def parse_ncl_operators(self):
         """Return ncl operators list. Ncl documentation doesn't have a special
@@ -193,15 +193,14 @@ class NclKeywords(object):
         """
         doc = 'Operators in NCL.'
         url = 'No specific url.'
-        operators = ["(/","/)","\\\\",".eq.",".ne.",".lt.",".le.",".gt.",
-                     ".ge.",".and.",".or.",".not.",".xor."]
-        return ['ncl_key_operators',doc, url, operators]
-
+        operators = ["(/", "/)", "\\\\", ".eq.", ".ne.", ".lt.", ".le.",
+                     ".gt.", ".ge.", ".and.", ".or.", ".not.", ".xor."]
+        return ['ncl_key_operators', doc, url, operators]
 
     def fetch_doc_pages(self):
         """Fetches ncl associated documentation pages."""
         for key in self.ncl_keys:
-            print('group:# ' + key )
+            print('group:# ' + key)
             if key == 'resources':
                 get_save_page(self.ncl_keys[key][2])
                 continue
@@ -210,23 +209,23 @@ class NclKeywords(object):
                 continue
 
             for word in self.ncl_keys[key][3]:
-                get_save_page(self.ncl_keys[key][2] + word + ".shtml" )
-
+                get_save_page(self.ncl_keys[key][2] + word + ".shtml")
 
     def keys2defvar(self):
         """Generate all elisp defvar definitions from keys.
         """
-        import re
         el_str = ""
         for key in self.ncl_keys:
-            dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0],"_","-")
+            dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0],
+                                "_", "-")
             k = self.ncl_keys[key][3]
-            dv = dv + '"' + '" "'.join(map(str,k)) +'"' + ') "' + self.ncl_keys[key][1] + '")'
+            dv = dv + '"' + '" "'.join(map(str, k)) + '"' + ') "' +\
+                self.ncl_keys[key][1] + '")'
             el_str = el_str + dv + "\n"
 
         return el_str
 
-    def write_el_file(self,defvars=None):
+    def write_el_file(self, defvars=None):
         """
         """
         header = """;;; ncl-mode-keywords.el
@@ -259,22 +258,24 @@ class NclKeywords(object):
 
 ;;; Code:
 
-""" % {'year':dt.datetime.now().year, 'datestring': dt.datetime.now().strftime('%Y-%m-%d')}
+""" % {'year': dt.datetime.now().year, 'datestring':
+       dt.datetime.now().strftime('%Y-%m-%d')}
 
         footer = """
 (provide 'ncl-mode-keywords)
 ;;; ncl-mode-keywords.el ends here"""
 
         defvars = self.keys2defvar()
-        fh = open(self.el_fname,"wb")
-        return fh.write(header + defvars +footer)
+        fh = open(self.el_fname, "wb")
+        return fh.write(header + defvars + footer)
+
 
 def arg_parse(el_fname,
               dict_file_name,
               update_lisp_file=None,
               update_ncl_dict=False,
               list_keywords=False):
-    writer = NclKeywords(el_fname=el_fname,dict_file_name=dict_file_name)
+    writer = NclKeywords(el_fname=el_fname, dict_file_name=dict_file_name)
     if update_lisp_file:
         writer.write_el_file()
     elif list_keywords:
@@ -282,20 +283,21 @@ def arg_parse(el_fname,
     elif update_ncl_dict:
         writer.update_ncl_dict()
 
+
 def main(args=None):
     import argparse
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawTextHelpFormatter,description=__doc__)
+        formatter_class=argparse.RawTextHelpFormatter, description=__doc__)
     parser.add_argument('-l', '--list-keywords',
-                         help='Print all ncl keywords',
-                         action="store_true",default=False)
+                        help='Print all ncl keywords',
+                        action="store_true", default=False)
     parser.add_argument('-u', '--update-lisp-file',
                         help='Update elisp file with parsed keywords',
                         action="store_true", default=False)
     parser.add_argument('--update-ncl-dict', help='Update ncl-mode dictionary',
                         action="store_true", default=False)
     parser.add_argument('--elisp-file-name', dest='el_fname',
-                        action='store',default='ncl-mode-keywords.el')
+                        action='store', default='ncl-mode-keywords.el')
     parser.add_argument('--dict-file-name',
                         action="store", default='ncl-mode')
     if len(sys.argv) == 1:
