@@ -21,7 +21,7 @@ file_path = os.path.abspath(
     os.path.split(inspect.getfile(inspect.currentframe()))[0])
 DATA_DIR = os.path.join(file_path, '../data')
 base_url = "http://www.ncl.ucar.edu/Document/"
-force_download = True
+force_download = False
 
 
 def get_save_page(url, local_file=None):
@@ -145,7 +145,7 @@ class NclKeywords(object):
 
             url = url_base + cat[2]
             page = get_save_page(url, cat[0] + ".shtml")
-            soup = BeautifulSoup(page)
+            soup = BeautifulSoup(page, "lxml")
             if cat[0] == "gsn":
                 page_chunk = soup.find('div', attrs={'id': 'general_main'})
                 reses = page_chunk.findAll('strong')
@@ -178,7 +178,7 @@ class NclKeywords(object):
         doc = "Ncl resources."
         url = "http://www.ncl.ucar.edu/Document/Graphics/Resources/list_alpha_res.shtml"
         page = get_save_page(url)
-        soup = BeautifulSoup(page)
+        soup = BeautifulSoup(page, "lxml")
         page_chunk = soup.find('div', attrs={'id': 'general_main'})
         reses = page_chunk.findAll('dt')
         for res in reses:
@@ -196,7 +196,7 @@ class NclKeywords(object):
         url = "http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/NclKeywords.shtml"
         doc = 'Reserved Keywords in ncl.'
         page = get_save_page(url)
-        soup = BeautifulSoup(page)
+        soup = BeautifulSoup(page, "lxml")
 
         page_chunk = soup.find('pre')
         aas = page_chunk.findAll('a')
