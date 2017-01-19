@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+import datetime as dt
+import inspect
+import os
+import string
+import sys
+import urllib2
+
+from bs4 import BeautifulSoup
+
 '''
 Download and collect Ncl keywords from Ncl website
 '''
@@ -8,19 +17,11 @@ AUTHOR = "Yagnesh Raghava Yakkala"
 WEBSITE = "http://yagnesh.org/yyr/ncl-mode"
 LICENSE = "GPL v3 or later"
 
-import sys
-import os
-import inspect
-import string
-import urllib2
-import datetime as dt
-from bs4 import BeautifulSoup
-
 file_path = os.path.abspath(
     os.path.split(inspect.getfile(inspect.currentframe()))[0])
 DATA_DIR = os.path.join(file_path, '../data')
 base_url = "http://www.ncl.ucar.edu/Document/"
-force_download = False
+force_download = True
 
 
 def get_save_page(url, local_file=None):
@@ -32,7 +33,7 @@ def get_save_page(url, local_file=None):
     if local_file is None:
         local_file = url.split('/')[-1]
 
-    local_file = os.path.join(DATA_DIR,  local_file)
+    local_file = os.path.join(DATA_DIR, local_file)
 
     if os.path.exists(local_file) and not force_download:
         fh = open(local_file, "rb")
@@ -62,7 +63,9 @@ def get_save_page(url, local_file=None):
 class NclKeywords(object):
     """Fetches and stores ncl keywords.
     """
-    def __init__(self, down_from_web=False,
+
+    def __init__(self,
+                 down_from_web=False,
                  el_fname='ncl-mode-keywords.el',
                  dict_file_name=None):
         self.down_from_web = down_from_web
@@ -73,8 +76,9 @@ class NclKeywords(object):
 
     def parse_keywords(self):
         """Parse and Ncl keywords.
-        ncl_keys = { 'key_type' : ['name' , 'doc' 'base_url', [list,of,keywords]]
-                     'key_type2' : ['name' , 'doc' 'base_url', [list,of,keywords]]
+        ncl_keys = {
+        'key_type'  : ['name' , 'doc' 'base_url', [list, of, keywords]]
+        'key_type2' : ['name' , 'doc' 'base_url', [list, of, keywords]]
                      ...
                      }
         """
@@ -96,7 +100,7 @@ class NclKeywords(object):
         for key in self.ncl_keys:
             if key == 'operators':
                 self.all_keys = self.all_keys + self.ncl_keys[key][3][3:]
-                continue        # dont print "(/" "/)" "\\"
+                continue  # dont print "(/" "/)" "\\"
             self.all_keys = self.all_keys + self.ncl_keys[key][3]
 
         return '\n'.join(sorted(self.all_keys))
@@ -110,17 +114,29 @@ class NclKeywords(object):
         """
         # url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
         url_base = "http://www.ncl.ucar.edu/"
-        cats = [["builtin"    , "built-in functions."                           , "/Document/Functions/Built-in/"]         ,
-                ["contrib"    , "contributed functions."                            , "/Document/Functions/Contributed/"]      ,
-                ["diag"       , "diagnostics functions."                            , "/Document/Functions/Diagnostics/" ]     ,
-                ["pop"        , "pop_remap functions."                              , "/Document/Functions/Pop_remap/"]        ,
-                ["shea"       , "shea_util functions."                              , "/Document/Functions/Shea_util/"]        ,
-                ["skewt"      , "skewt functions."                                  , "/Document/Functions/Skewt_func/"]       ,
-                ["user"       , "user_contributed functions."                       , "/Document/Functions/User_contributed/"] ,
-                ["wrfarw"     , "wrf_arw functions."                                , "/Document/Functions/WRF_arw/"]          ,
-                ["wrfcontrib" , "wrf_contributed functions."                        , "/Document/Functions/WRF_contributed/"]  ,
-                ["windrose"   , "wind_rose functions."                              , "/Document/Functions/Wind_rose/"]        ,
-                ["gsn"        , "gsn csm plot templates and special gsn functions." , "/Document/Graphics/Interfaces/"]]
+        cats = [[
+            "builtin", "built-in functions.", "/Document/Functions/Built-in/"
+        ], [
+            "contrib", "contributed functions.",
+            "/Document/Functions/Contributed/"
+        ], [
+            "diag", "diagnostics functions.",
+            "/Document/Functions/Diagnostics/"
+        ], ["pop", "pop_remap functions.", "/Document/Functions/Pop_remap/"], [
+            "shea", "shea_util functions.", "/Document/Functions/Shea_util/"
+        ], ["skewt", "skewt functions.", "/Document/Functions/Skewt_func/"], [
+            "user", "user_contributed functions.",
+            "/Document/Functions/User_contributed/"
+        ], ["wrfarw", "wrf_arw functions.", "/Document/Functions/WRF_arw/"], [
+            "wrfcontrib", "wrf_contributed functions.",
+            "/Document/Functions/WRF_contributed/"
+        ], [
+            "windrose", "wind_rose functions.",
+            "/Document/Functions/Wind_rose/"
+        ], [
+            "gsn", "gsn csm plot templates and special gsn functions.",
+            "/Document/Graphics/Interfaces/"
+        ]]
 
         # process and get keywords
         for cat in cats:
@@ -141,7 +157,8 @@ class NclKeywords(object):
                         continue
 
                 self.ncl_keys[cat[0]] = [
-                    'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name]
+                    'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name
+                ]
                 continue
 
             page_chunk = soup.find('div', attrs={'id': 'general_main'})
@@ -150,7 +167,8 @@ class NclKeywords(object):
                 var_name.append(string.strip(td.get_text(), '\n'))
 
             self.ncl_keys[cat[0]] = [
-                'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name]
+                'ncl_key_' + cat[0], 'Ncl ' + cat[1], url, var_name
+            ]
         return
 
     def parse_ncl_resources(self):
@@ -193,8 +211,10 @@ class NclKeywords(object):
         """
         doc = 'Operators in NCL.'
         url = 'No specific url.'
-        operators = ["(/", "/)", "\\\\", ".eq.", ".ne.", ".lt.", ".le.",
-                     ".gt.", ".ge.", ".and.", ".or.", ".not.", ".xor."]
+        operators = [
+            "(/", "/)", "\\\\", ".eq.", ".ne.", ".lt.", ".le.", ".gt.", ".ge.",
+            ".and.", ".or.", ".not.", ".xor."
+        ]
         return ['ncl_key_operators', doc, url, operators]
 
     def fetch_doc_pages(self):
@@ -216,8 +236,8 @@ class NclKeywords(object):
         """
         el_str = ""
         for key in self.ncl_keys:
-            dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0],
-                                "_", "-")
+            dv = string.replace("(defvar %s '(" % self.ncl_keys[key][0], "_",
+                                "-")
             k = self.ncl_keys[key][3]
             dv = dv + '"' + '" "'.join(map(str, k)) + '"' + ') "' +\
                 self.ncl_keys[key][1] + '")'
@@ -258,8 +278,10 @@ class NclKeywords(object):
 
 ;;; Code:
 
-""" % {'year': dt.datetime.now().year, 'datestring':
-       dt.datetime.now().strftime('%Y-%m-%d')}
+""" % {
+            'year': dt.datetime.now().year,
+            'datestring': dt.datetime.now().strftime('%Y-%m-%d')
+        }
 
         footer = """
 (provide 'ncl-mode-keywords)
@@ -288,18 +310,29 @@ def main(args=None):
     import argparse
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter, description=__doc__)
-    parser.add_argument('-l', '--list-keywords',
-                        help='Print all ncl keywords',
-                        action="store_true", default=False)
-    parser.add_argument('-u', '--update-lisp-file',
-                        help='Update elisp file with parsed keywords',
-                        action="store_true", default=False)
-    parser.add_argument('--update-ncl-dict', help='Update ncl-mode dictionary',
-                        action="store_true", default=False)
-    parser.add_argument('--elisp-file-name', dest='el_fname',
-                        action='store', default='ncl-mode-keywords.el')
-    parser.add_argument('--dict-file-name',
-                        action="store", default='ncl-mode')
+    parser.add_argument(
+        '-l',
+        '--list-keywords',
+        help='Print all ncl keywords',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '-u',
+        '--update-lisp-file',
+        help='Update elisp file with parsed keywords',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--update-ncl-dict',
+        help='Update ncl-mode dictionary',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--elisp-file-name',
+        dest='el_fname',
+        action='store',
+        default='ncl-mode-keywords.el')
+    parser.add_argument('--dict-file-name', action="store", default='ncl-mode')
     if len(sys.argv) == 1:
         parser.print_help()
     else:
