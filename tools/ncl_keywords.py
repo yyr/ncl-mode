@@ -72,6 +72,32 @@ class NclKeywords(object):
         self.el_fname = el_fname
         self.dict_file_name = dict_file_name
         self.ncl_keywords_p = os.path.join(DATA_DIR, "ncl_keywords.p")
+        self.url_base = "http://www.ncl.ucar.edu/"
+
+        self.fun_cats = [[
+            "builtin", "built-in functions.", "/Document/Functions/Built-in/"
+        ], [
+            "contrib", "contributed functions.",
+            "/Document/Functions/Contributed/"
+        ], [
+            "diag", "diagnostics functions.",
+            "/Document/Functions/Diagnostics/"
+        ], ["pop", "pop_remap functions.", "/Document/Functions/Pop_remap/"], [
+            "shea", "shea_util functions.", "/Document/Functions/Shea_util/"
+        ], ["skewt", "skewt functions.", "/Document/Functions/Skewt_func/"], [
+            "user", "user_contributed functions.",
+            "/Document/Functions/User_contributed/"
+        ], ["wrfarw", "wrf_arw functions.", "/Document/Functions/WRF_arw/"], [
+            "wrfcontrib", "wrf_contributed functions.",
+            "/Document/Functions/WRF_contributed/"
+        ], [
+            "windrose", "wind_rose functions.",
+            "/Document/Functions/Wind_rose/"
+        ], [
+            "gsn", "gsn csm plot templates and special gsn functions.",
+            "/Document/Graphics/Interfaces/"
+        ]]
+
         self.parse_keywords()
 
     def parse_keywords(self):
@@ -105,6 +131,24 @@ class NclKeywords(object):
 
         return '\n'.join(sorted(self.all_keys))
 
+    def get_all_functions(self):
+        types = []
+        funand_docurl = {}
+        for cat in self.fun_cats:
+            types.append(cat[0])
+
+        for key in self.ncl_keys:
+            if key in types:
+                for f in self.ncl_keys[key][3]:
+                    funand_docurl[f] = self.url_base + \
+                        self.ncl_keys[key][2] + f + ".shtml"
+
+        return funand_docurl
+
+    def list_functions(self):
+        funcs = self.get_all_functions()
+        print('\n'.join(sorted(funcs.keys())))
+
     def update_ncl_dict(self):
         fh = open(self.dict_file_name, "wb")
         return fh.write(self.list_keywords())
@@ -113,37 +157,13 @@ class NclKeywords(object):
         """ Fetch and save ncl procedures/function names.
         """
         # url = "http://www.ncl.ucar.edu/Document/Functions/list_alpha_browse.shtml"
-        url_base = "http://www.ncl.ucar.edu/"
-        cats = [[
-            "builtin", "built-in functions.", "/Document/Functions/Built-in/"
-        ], [
-            "contrib", "contributed functions.",
-            "/Document/Functions/Contributed/"
-        ], [
-            "diag", "diagnostics functions.",
-            "/Document/Functions/Diagnostics/"
-        ], ["pop", "pop_remap functions.", "/Document/Functions/Pop_remap/"], [
-            "shea", "shea_util functions.", "/Document/Functions/Shea_util/"
-        ], ["skewt", "skewt functions.", "/Document/Functions/Skewt_func/"], [
-            "user", "user_contributed functions.",
-            "/Document/Functions/User_contributed/"
-        ], ["wrfarw", "wrf_arw functions.", "/Document/Functions/WRF_arw/"], [
-            "wrfcontrib", "wrf_contributed functions.",
-            "/Document/Functions/WRF_contributed/"
-        ], [
-            "windrose", "wind_rose functions.",
-            "/Document/Functions/Wind_rose/"
-        ], [
-            "gsn", "gsn csm plot templates and special gsn functions.",
-            "/Document/Graphics/Interfaces/"
-        ]]
 
         # process and get keywords
-        for cat in cats:
+        for cat in self.fun_cats:
             var_name = 'ncl_key_' + cat[0]
             var_name = []
 
-            url = url_base + cat[2]
+            url = self.url_base + cat[2]
             page = get_save_page(url, cat[0] + ".shtml")
             soup = BeautifulSoup(page, "lxml")
             if cat[0] == "gsn":
@@ -296,12 +316,15 @@ def arg_parse(el_fname,
               dict_file_name,
               update_lisp_file=None,
               update_ncl_dict=False,
-              list_keywords=False):
+              list_keywords=False,
+              list_functions=False):
     writer = NclKeywords(el_fname=el_fname, dict_file_name=dict_file_name)
     if update_lisp_file:
         writer.write_el_file()
     elif list_keywords:
         print(writer.list_keywords())
+    elif list_functions:
+        print(writer.list_functions())
     elif update_ncl_dict:
         writer.update_ncl_dict()
 
@@ -313,6 +336,12 @@ def main(args=None):
     parser.add_argument(
         '-l',
         '--list-keywords',
+        help='Print all ncl keywords',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '-lf',
+        '--list-functions',
         help='Print all ncl keywords',
         action="store_true",
         default=False)
