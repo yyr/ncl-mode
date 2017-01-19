@@ -813,9 +813,6 @@ get_r2d
 get_script_name
 get_script_prefix_name
 get_sphere_radius
-get_unique_difference
-get_unique_intersection
-get_unique_union
 get_unique_values
 getbitsone
 getenv
@@ -1869,6 +1866,7 @@ sigma2hybrid
 sign_f90
 sign_matlab
 simpeq
+simple_legend
 simpne
 sin
 sindex_yrmo
@@ -2596,6 +2594,9 @@ vcZeroFLabelSide
 vcZeroFLabelString
 vcZeroFLabelTextDirection
 vcZeroFLabelZone
+venn2_difference
+venn2_intersection
+venn2_union
 vfCopyData
 vfDataArray
 vfExchangeDimensions
