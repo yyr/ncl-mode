@@ -140,8 +140,7 @@ class NclKeywords(object):
         for key in self.ncl_keys:
             if key in types:
                 for f in self.ncl_keys[key][3]:
-                    funand_docurl[f] = self.url_base + \
-                        self.ncl_keys[key][2] + f + ".shtml"
+                    funand_docurl[f] = self.ncl_keys[key][2] + f + ".shtml"
 
         return funand_docurl
 
