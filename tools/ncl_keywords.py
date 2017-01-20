@@ -38,23 +38,23 @@ def get_save_page(url, local_file=None):
 
     if os.path.exists(local_file) and not force_download:
         fh = open(local_file, "rb")
-        # print(local_file + " is already exists, skipping ..")
+        print(local_file + " is already exists, skipping ..")
         page = fh.read()
         return page
 
     else:
         print("Fetching.. '" + url + "' saving as " + local_file)
-        fh = open(local_file, "wb")
         user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
         r = urllib2.Request(url=url, headers={'User-Agent': user_agent})
         try:
             oh = urllib2.urlopen(r)
             page = oh.read()
+            fh = open(local_file, "wb")
             fh.write(page)
             return page
         except urllib2.URLError, e:
             print("URLError: %s" % e)
-            sys.exit()
+            return None
         except Exception:
             import traceback
             print('Generic exception: ' + traceback.format_exc())
@@ -155,6 +155,8 @@ class NclKeywords(object):
     def get_fun_doc(self, func_name):
         funcs = self.ncl_functions
         page = get_save_page(funcs[func_name], func_name + ".shtml")
+        if page is None:
+            return None
         soup = BeautifulSoup(page.decode('utf-8', 'ignore'), "lxml")
         return soup
 
@@ -197,6 +199,9 @@ class NclKeywords(object):
 
     def write_snippet(self, func_name):
         soup = self.get_fun_doc(func_name)
+        if soup is None:
+            print('FAILED to write snippet for: ' + func_name)
+            return None
         pc = soup.find('pre')
         snippet = self.make_snippet(func_name, pc.get_text())
         self.write_snippet_to_file(func_name, snippet)
