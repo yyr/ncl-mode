@@ -20,7 +20,7 @@ LICENSE = "GPL v3 or later"
 file_path = os.path.abspath(
     os.path.split(inspect.getfile(inspect.currentframe()))[0])
 DATA_DIR = os.path.join(file_path, '../data')
-SNIPPETS_DIR = os.path.join(file_path, '../snippets/ncl-mode')
+SNIPPETS_DIR = os.path.join(file_path, '../snippets_generated/ncl-mode')
 base_url = "http://www.ncl.ucar.edu/Document/"
 force_download = False
 
@@ -101,7 +101,6 @@ class NclKeywords(object):
 
         self.parse_keywords()
         self.ncl_functions = self.get_all_functions()
-        self.write_snippet('nngetwts')
 
     def parse_keywords(self):
         """Parse and Ncl keywords.
@@ -175,16 +174,19 @@ class NclKeywords(object):
         arg_formatted = ""
 
         for c, line in enumerate(args.split('\n')):
-            arg = "${%i:\"%s\"\}" % (c, "".join(line.split()))
-            arg_formatted = arg_formatted + arg.strip()  # arguments
+            arg = "${%i:\"%s\"}" % (c + 1, "".join(line.split()))
+            arg = arg.replace(",", "")
+            arg_formatted = arg_formatted + ", " + arg.strip()  # arguments
 
         fun_snip = fun_name + "(" + arg_formatted + ")" + "$0"
         snippet = header + fun_snip
         return snippet
 
     def write_snippet_to_file(self, fun_name, snippet):
-        fname = os.path.join(SNIPPETS_DIR, fun_name + ".yasnippet")
+        f = fun_name + ".yasnippet"
+        fname = os.path.join(SNIPPETS_DIR, f)
         fh = open(fname, "wb")
+        print("writing snippet to file: " + f)
         fh.write(snippet)
 
     def write_snippet(self, func_name):
@@ -192,6 +194,12 @@ class NclKeywords(object):
         pc = soup.find('pre')
         snippet = self.make_snippet(func_name, pc.get_text())
         self.write_snippet_to_file(func_name, snippet)
+        return
+
+    def write_snippets(self):
+        for fun in self.ncl_functions.keys():
+            if fun is not None:
+                self.write_snippet(fun)
         return
 
     def update_ncl_dict(self):
@@ -362,7 +370,8 @@ def arg_parse(el_fname,
               update_lisp_file=None,
               update_ncl_dict=False,
               list_keywords=False,
-              list_functions=False):
+              list_functions=False,
+              write_snippets=False):
     writer = NclKeywords(el_fname=el_fname, dict_file_name=dict_file_name)
     if update_lisp_file:
         writer.write_el_file()
@@ -372,6 +381,9 @@ def arg_parse(el_fname,
         print(writer.list_functions())
     elif update_ncl_dict:
         writer.update_ncl_dict()
+    elif write_snippets:
+        writer.write_snippets()
+    return
 
 
 def main(args=None):
@@ -387,7 +399,7 @@ def main(args=None):
     parser.add_argument(
         '-lf',
         '--list-functions',
-        help='Print all ncl keywords',
+        help='Print all ncl functions',
         action="store_true",
         default=False)
     parser.add_argument(
@@ -399,6 +411,11 @@ def main(args=None):
     parser.add_argument(
         '--update-ncl-dict',
         help='Update ncl-mode dictionary',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--write-snippets',
+        help='create function snippets and write them in snippets folder',
         action="store_true",
         default=False)
     parser.add_argument(
