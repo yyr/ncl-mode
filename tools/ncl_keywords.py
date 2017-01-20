@@ -20,6 +20,7 @@ LICENSE = "GPL v3 or later"
 file_path = os.path.abspath(
     os.path.split(inspect.getfile(inspect.currentframe()))[0])
 DATA_DIR = os.path.join(file_path, '../data')
+SNIPPETS_DIR = os.path.join(file_path, '../snippets/ncl-mode')
 base_url = "http://www.ncl.ucar.edu/Document/"
 force_download = False
 
@@ -37,7 +38,7 @@ def get_save_page(url, local_file=None):
 
     if os.path.exists(local_file) and not force_download:
         fh = open(local_file, "rb")
-        print(local_file + " is already exists, skipping ..")
+        # print(local_file + " is already exists, skipping ..")
         page = fh.read()
         return page
 
@@ -99,6 +100,8 @@ class NclKeywords(object):
         ]]
 
         self.parse_keywords()
+        self.ncl_functions = self.get_all_functions()
+        self.write_snippet('nngetwts')
 
     def parse_keywords(self):
         """Parse and Ncl keywords.
@@ -145,8 +148,51 @@ class NclKeywords(object):
         return funand_docurl
 
     def list_functions(self):
-        funcs = self.get_all_functions()
+        funcs = self.ncl_functions
         print('\n'.join(sorted(funcs.keys())))
+        return
+
+    # snippets making
+    def get_fun_doc(self, func_name):
+        funcs = self.ncl_functions
+        page = get_save_page(funcs[func_name], func_name + ".shtml")
+        soup = BeautifulSoup(page.decode('utf-8', 'ignore'), "lxml")
+        return soup
+
+    def snippet_header(self, snipname, snipkey):
+        header = '''# -*- mode: snippet -*-\n# name: %(snipname)s
+# key: %(snipkey)s\n# --\n''' % {
+            'snipname': snipname,
+            'snipkey': snipkey
+        }
+        return header
+
+    def make_snippet(self, fun_name, prototype):
+        header = self.snippet_header(fun_name, fun_name)
+        args = prototype[prototype.find("(") + 1:prototype.find(
+            ")")]  # between the parens
+        args = args.strip()  # encode('latin1')
+        arg_formatted = ""
+
+        for c, line in enumerate(args.split('\n')):
+            arg = "${%i:\"%s\"\}" % (c, "".join(line.split()))
+            arg_formatted = arg_formatted + arg.strip()  # arguments
+
+        fun_snip = fun_name + "(" + arg_formatted + ")" + "$0"
+        snippet = header + fun_snip
+        return snippet
+
+    def write_snippet_to_file(self, fun_name, snippet):
+        fname = os.path.join(SNIPPETS_DIR, fun_name + ".yasnippet")
+        fh = open(fname, "wb")
+        fh.write(snippet)
+
+    def write_snippet(self, func_name):
+        soup = self.get_fun_doc(func_name)
+        pc = soup.find('pre')
+        snippet = self.make_snippet(func_name, pc.get_text())
+        self.write_snippet_to_file(func_name, snippet)
+        return
 
     def update_ncl_dict(self):
         fh = open(self.dict_file_name, "wb")
