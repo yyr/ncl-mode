@@ -1,6 +1,6 @@
 ;;; inf-ncl.el --- Inferior NCL mode
 
-;; Copyright (C) 2012-2016 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2012-2017 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
