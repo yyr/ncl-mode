@@ -176,13 +176,19 @@ class NclKeywords(object):
         for c, line in enumerate(args.split('\n')):
             arg = "${%i:\"%s\"}" % (c + 1, "".join(line.split()))
             arg = arg.replace(",", "")
-            arg_formatted = arg_formatted + ", " + arg.strip()  # arguments
+            if c == 0:
+                arg_formatted = "" + arg.strip()  # arguments
+            else:
+                arg_formatted = arg_formatted + ", " + arg.strip()  # arguments
 
         fun_snip = fun_name + "(" + arg_formatted + ")" + "$0"
         snippet = header + fun_snip
         return snippet
 
     def write_snippet_to_file(self, fun_name, snippet):
+        if not os.path.exists(SNIPPETS_DIR):
+            os.makedirs(SNIPPETS_DIR)
+
         f = fun_name + ".yasnippet"
         fname = os.path.join(SNIPPETS_DIR, f)
         fh = open(fname, "wb")
