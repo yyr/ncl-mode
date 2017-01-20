@@ -54,6 +54,17 @@ def get_save_page(url, local_file=None):
             return page
         except urllib2.URLError, e:
             print("URLError: %s" % e)
+            r = urllib2.Request(
+                url=url.replace(".shtml", "-1.shtml"),
+                headers={'User-Agent': user_agent})
+            try:
+                oh = urllib2.urlopen(r)
+                page = oh.read()
+                fh = open(local_file, "wb")
+                fh.write(page)
+                return page
+            except urllib2.URLError, e:
+                return None
             return None
         except Exception:
             import traceback
