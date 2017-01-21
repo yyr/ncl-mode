@@ -6,7 +6,7 @@
 - [X] Imenu support
   - Imenu can directly be used by keyboard (may be with ido or directly)
   - see function: ncl-add-imenu-menu
-- [ ] easy menu
+- [X] easy menu
 - [ ] fixing commenting system
 - [X] fixing indentation
 - [ ] Documentation

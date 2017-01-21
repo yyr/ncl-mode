@@ -12,31 +12,29 @@ Ncl-mode |travis|
 
 Emacs editing mode for Ncar Command Language(NCL).
 
-Introduction.
--------------
+What's is it?.
+--------------
 
-ncl-mode package contains emacs major mode and other utilities to help
-write Ncl scripts
-
-Please do to confuse this mode with the
-`other <http://www.ncl.ucar.edu/Applications/Files/ncl.el>`__ written by
-NCAR people. You may think this package newer and hopefully better Emacs
-support for Ncl.
+ncl-mode is a package for emacs which contains an emacs major mode for NCL and
+number of other utilities to help write NCL scripts easily.
 
 Features
 --------
-
--  Easy code navigation (consistent with other Emacs modes)
--  Better indentation
--  Proper comment handling
--  Imenu support (my favorite)
--  Menu support
--  Snippets for yasnippet
--  auto-complete support
--  ctags support (ctags generation script included)
--  ncl-doc-mode minor mode for browsing/searching NCL documentation from
-   NCAR website
--  inf-ncl.el mode for running NCL within Emacs.
+- Syntax highlighting (including all function in the latest NCL release).
+- Proper indentation.
+- auto-complete and company-mode support for auto completion.
+- inferior ncl mode for running NCL within the Emacs (for testing scripts
+  while writing).
+- Proper comment handling.
+- Imenu support code navigation with in the file.
+- TAGS file support for code navigation across files (consistent with other
+  Emacs modes).
+- Snippets for each NCL function (more than 1300 snippets). You will never
+  need to remember the arguments for any certain function.
+- ctags support (ctags generation script included).
+- ncl-doc-mode minor mode for browsing/searching NCL documentation from NCAR
+  website (my favorite).
+- Menu support.
 
 Compatibility
 -------------
@@ -45,8 +43,8 @@ Emacs-24.1 or above.
 Installation
 ------------
 
-MELPA
-~~~~~
+MELPA (recommended way)
+~~~~~~~~~~~~~~~~~~~~~~~
 ``ncl-mode`` can be installed from MELPA. If you have already set melpa in your
 sources. Just do
 
@@ -54,10 +52,10 @@ sources. Just do
 
         M-x package-install RET ncl-mode RET
 
-El-get (recommended way)
-~~~~~~~~~~~~~~~~~~~~~~~~
+El-get
+~~~~~~
 
-If you ``el-get`` just do
+If you use ``el-get``, then just do
 
      .. code::
 
@@ -75,14 +73,12 @@ Manual Installation
 
    .. code:: example
 
-       (load "/path/to/downloaded/ncl-mode/ncl-mode-load.el")
+       (load "/path/to/downloaded/ncl-mode/ncl-mode.el")
+       (load "/path/to/downloaded/ncl-mode/ncl-doc.el")
+       (load "/path/to/downloaded/ncl-mode/inf-ncl.el")
 
--  That' it. It will take care of all the needed set up for ncl-mode,
-   ncl-doc-mode, auto-complete, yasnippet and inf-ncl. If you care to
-   know what they are, then read on..
-
-Bug & Feature request
----------------------
+Bug & Feature requests
+----------------------
 
 Please open a issue on
 `github <https://github.com/yyr/ncl-mode/issues>`__, if you have a patch
@@ -94,10 +90,6 @@ ncl-doc.el
 ----------
 
 Helps you read NCL documentation for NCAR website.
-
-.. image:: https://raw.github.com/yyr/ncl-mode/master/img/ncl-doc-usage.png
-   :align: center
-
 
 Usage:
 ------
@@ -121,19 +113,21 @@ This function does few things.
 M-x ncl-doc-query-open ( C-c C-o )
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use this function you lets you choose from the all keywords ncl-doc has
-in its database and takes you to that page.
+Use this function you lets you choose from the all keywords ncl-doc has in its
+database and takes you to documentation page of that keyword.
 
 To get an idea what ncl-doc does: here I loaded the ncl-doc.el then
 called the function "ncl-doc-query-at-point" and given "add" string.
+
+.. image:: https://raw.github.com/yyr/ncl-mode/master/img/ncl-doc-usage.png
+   :align: center
 
 
 inf-ncl.el
 ----------
 
-Which lets you run NCL within Emacs and interact NCL process from
-ncl-mode buffer. ac-completion support is also available for this mode.
-
+Which lets you run NCL within Emacs and interact NCL process from ncl-mode
+buffer. auto-complete support is also available for this mode.
 
 Utilities
 ---------
@@ -182,13 +176,9 @@ Tip from NCL website FAQ:
 
      wget -r -l0  -p -np -nH -k http://www.ncl.ucar.edu/Document/
 
-
-
     This will create a directory called "Document", and in that directory,
     you can open the "index.shtml" file with your web browser and have
     access to all the files locally.
-
--  `ncl-doc-minor-mode-hook'
 
 Todos
 -----
@@ -197,3 +187,6 @@ See todo.org file.
 License
 -------
 GPL v3 (or later). |license|
+
+NOTE: Please don't confuse this package with the `old less featured another mode
+<http://www.ncl.ucar.edu/Applications/Files/ncl.el>`__ written by NCAR people.
