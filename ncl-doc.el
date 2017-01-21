@@ -335,7 +335,7 @@ Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
 
     (let ((url (ncl-doc-construct-url default-query)))
       ;; if url is a keyword tell that there is no url for that
-      (if (string= url "keyword")       ; if its a ncl keyword its in the ref manual
+      (if (string= url "keyword") ; if its a ncl keyword its in the ref manual
           (message "\"%s\" is a NCL builtin keyword and has no specific page to look at
 Consult User Manual Here: http://www.ncl.ucar.edu/Document/Manuals/Ref_Manual/"
                    default-query)
@@ -423,7 +423,7 @@ its documentation url. Then calls web browser to open that url."
    (list
     (let ((initial (thing-at-point 'symbol)))
       (funcall ncl-doc-completing-read
-               "Query: " ncl-doc-key-all))))
+               "Query: " ncl-doc-key-all nil nil initial t))))
   (let ((url (ncl-doc-construct-url keyword)))
     (progn
       (message "Browsing: \"%s\"" url)

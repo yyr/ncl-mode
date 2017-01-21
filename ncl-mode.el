@@ -677,8 +677,11 @@ All other return `comment-column', leaving at least one space after code."
 ;;;###autoload
 (eval-after-load 'yasnippet
   '(eval-after-load 'ncl-mode
-     '(add-to-list 'yas-snippet-dirs
-                   (expand-file-name "snippets/" ncl-dir))))
+     '(progn
+        (add-to-list 'yas-snippet-dirs
+                     (expand-file-name "snippets/" ncl-dir))
+        (add-to-list 'yas-snippet-dirs
+                     (expand-file-name "snippets_generated/" ncl-dir)))))
 
 ;;;###autoload
 (eval-after-load 'auto-complete
