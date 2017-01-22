@@ -26,15 +26,15 @@ Features
 - inferior ncl mode for running NCL within the Emacs (for testing scripts
   while writing).
 - Proper comment handling.
-- Imenu support code navigation with in the file.
+- Imenu support for code navigation with in the file.
 - TAGS file support for code navigation across files (consistent with other
   Emacs modes).
 - Snippets for each NCL function (more than 1300 snippets). You will never
   need to remember the arguments for any certain function.
 - ctags support (ctags generation script included).
-- ncl-doc-mode minor mode for browsing/searching NCL documentation from NCAR
+- ncl-doc minor mode for browsing/searching NCL documentation from NCAR
   website (my favorite).
-- Menu support.
+- Menu support (for emacs beginners).
 
 Compatibility
 -------------
