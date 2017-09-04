@@ -59,15 +59,16 @@
 ;;;###autoload
 (add-hook 'ncl-mode-hook
           (lambda ()
-            (set (make-local-variable 'company-backends)
-                 '(company-ncl-mode))))
+            (setq-local company-backends
+                        '((company-ncl-mode company-dabbrev company-etags
+                           company-gtags company-files)))))
 
 ;;;###autoload
 (add-hook 'inf-ncl-mode-hook
           (lambda ()
-            (set (make-local-variable 'company-backends)
-                 '(company-ncl-mode))))
-
+            (setq-local company-backends
+                        '((company-ncl-mode company-dabbrev company-etags
+                                            company-gtags company-files)))))
 
 (provide 'company-ncl-mode)
 ;;; company-ncl-mode.el ends here
