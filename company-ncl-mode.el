@@ -1,6 +1,6 @@
 ;;; company-ncl-mode.el --- company-mode completion backend for ncl-mode  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2012-2017 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2012-2018 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala. http://yagnesh.org
 ;; Created: Thursday, September 22 2016

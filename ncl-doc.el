@@ -1,6 +1,6 @@
 ;;; ncl-doc.el --- NCL doc lookup helper
 
-;; Copyright (C) 2011-2017 Yagnesh Raghava Yakkala <http://yagnesh.org>
+;; Copyright (C) 2011-2018 Yagnesh Raghava Yakkala <http://yagnesh.org>
 
 ;; Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; URL: https://github.com/yyr/ncl-mode
